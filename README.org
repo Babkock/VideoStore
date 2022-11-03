@@ -1,0 +1,6 @@
+#+TITLE: Video Store
+#+AUTHOR: Tanner Babcock
+#+EMAIL: babkock@protonmail.com
+#+DESCRIPTION: My final project for my data structures class.
+
+This is a graphical application that simulates the point-of-sale of old-time video stores. It is my final project for [[https://gitlab.com/tbhomework/cis152][Data Structures]].
