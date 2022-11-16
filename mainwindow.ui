@@ -6,16 +6,133 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>318</width>
+    <height>412</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QCheckBox" name="checkDebug">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>370</y>
+      <width>211</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Print Debug Messages</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonCheckOut">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>70</y>
+      <width>221</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>Select films for rent or purchase to check out.</string>
+    </property>
+    <property name="toolTipDuration">
+     <number>50</number>
+    </property>
+    <property name="text">
+     <string>Check Out Films</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonRentals">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>140</y>
+      <width>221</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Rentals</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonPurchases">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>210</y>
+      <width>221</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Purchases</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>20</y>
+      <width>171</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>22</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Video Store</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonReset">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>280</y>
+      <width>221</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>Resets the database of films.</string>
+    </property>
+    <property name="toolTipDuration">
+     <number>50</number>
+    </property>
+    <property name="whatsThis">
+     <string>Resets the database of films.</string>
+    </property>
+    <property name="text">
+     <string>Reset Database</string>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>

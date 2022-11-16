@@ -11,12 +11,15 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += main.cpp mainwindow.cpp \
-    film.cpp
+    film.cpp \
+    rentalswindow.cpp
 
 HEADERS += mainwindow.h \
-    film.h
+    film.h \
+    rentalswindow.h
 
-FORMS += mainwindow.ui
+FORMS += mainwindow.ui \
+    rentalswindow.ui
 
 TRANSLATIONS += VideoStore_en_US.ts
 CONFIG += lrelease
