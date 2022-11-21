@@ -1,16 +1,23 @@
+/* mainwindow.h
+ * Tanner Babcock
+ * CIS 152 - Data Structures
+ * Final Project: Video Store
+ * November - December 2022
+ * https://github.com/Babkock/VideoStore
+*/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include "purchaseswindow.h"
 #include "rentalswindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -28,11 +35,11 @@ private slots:
     void on_buttonReset_clicked(void);
     /* user toggled "Print Debug Messages" on top menu */
     void on_checkDebug_toggled(bool checked);
-
 private:
     Ui::MainWindow *ui;
     RentalsWindow *rentals;
     PurchasesWindow *purchases;
     bool debugMode;
 };
+
 #endif // MAINWINDOW_H

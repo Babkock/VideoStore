@@ -1,4 +1,12 @@
+/* mainwindow.cpp
+ * Tanner Babcock
+ * CIS 152 - Data Structures
+ * Final Project: Video Store
+ * November - December 2022
+ * https://github.com/Babkock/VideoStore
+*/
 #include "mainwindow.h"
+#include "purchaseswindow.h"
 #include "rentalswindow.h"
 #include "ui_mainwindow.h"
 
@@ -7,23 +15,27 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
     rentals = new RentalsWindow();
+    purchases = new PurchasesWindow();
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
+    connect(purchases, SIGNAL(closing()), this, SLOT(show()));
 }
 
 MainWindow::~MainWindow(void) {
+    delete purchases;
     delete rentals;
     delete ui;
 }
 
-/* user clicked "Rentals" from top menu */
+/* user clicked "Rentals" button from top menu */
 void MainWindow::on_buttonRentals_clicked(void) {
     hide();
     rentals->show();
 }
 
-/* user clicked "Purchases" from top menu */
+/* user clicked "Purchases" button from top menu */
 void MainWindow::on_buttonPurchases_clicked(void) {
-
+    hide();
+    purchases->show();
 }
 
 /* user clicked "Check Out Films" from top menu */

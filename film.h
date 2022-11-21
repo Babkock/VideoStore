@@ -1,3 +1,10 @@
+/* film.h
+ * Tanner Babcock
+ * CIS 152 - Data Structures
+ * Final Project: Video Store
+ * November - December 2022
+ * https://github.com/Babkock/VideoStore
+*/
 #ifndef FILM_H
 #define FILM_H
 

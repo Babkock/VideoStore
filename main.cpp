@@ -1,5 +1,11 @@
+/* main.cpp
+ * Tanner Babcock
+ * CIS 152 - Data Structures
+ * Final Project: Video Store
+ * November - December 2022
+ * https://github.com/Babkock/VideoStore
+*/
 #include "mainwindow.h"
-
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>

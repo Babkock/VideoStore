@@ -1,3 +1,10 @@
+/* rentalswindow.cpp
+ * Tanner Babcock
+ * CIS 152 - Data Structures
+ * Final Project: Video Store
+ * November - December 2022
+ * https://github.com/Babkock/VideoStore
+*/
 #include "rentalswindow.h"
 #include "ui_rentalswindow.h"
 
@@ -61,4 +68,12 @@ bool RentalsWindow::getDebugMode(void) {
 
 void RentalsWindow::setDebugMode(bool d) {
     debugMode = d;
+}
+
+QString RentalsWindow::getQuery(void) {
+    return query;
+}
+
+void RentalsWindow::setQuery(QString q) {
+    query = q;
 }

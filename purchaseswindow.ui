@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RentalsWindow</class>
- <widget class="QMainWindow" name="RentalsWindow">
+ <class>PurchasesWindow</class>
+ <widget class="QMainWindow" name="PurchasesWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>353</width>
-    <height>485</height>
+    <height>484</height>
    </rect>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>353</width>
-    <height>485</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -38,7 +32,7 @@
      <string>Video Store</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="rentalAddNew">
+   <widget class="QPushButton" name="purchaseAddNew">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -53,28 +47,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Add Film for Rent</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="rentalFilmTitle">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>230</y>
-      <width>291</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Title of Film Here</string>
-    </property>
-    <property name="maxLength">
-     <number>50</number>
+     <string>Add Film for Purchase</string>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -96,7 +69,7 @@
       <x>160</x>
       <y>180</y>
       <width>31</width>
-      <height>19</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -108,7 +81,25 @@
      <string>or</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="rentalEdit">
+   <widget class="QLineEdit" name="purchaseFilmTitle">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>230</y>
+      <width>291</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Title of Film Here</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="purchaseEdit">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -130,16 +121,16 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>370</y>
+      <y>380</y>
       <width>331</width>
-      <height>31</height>
+      <height>16</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="rentalReturn">
+   <widget class="QPushButton" name="purchaseReturn">
     <property name="geometry">
      <rect>
       <x>40</x>
