@@ -59,7 +59,8 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
 
 /* user clicked "Return" button from Rentals window */
 void RentalsWindow::on_rentalReturn_clicked(void) {
-
+    emit closing();
+    this->close();
 }
 
 bool RentalsWindow::getDebugMode(void) {

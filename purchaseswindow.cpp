@@ -11,7 +11,8 @@
 
 PurchasesWindow::PurchasesWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::PurchasesWindow) {
+    ui(new Ui::PurchasesWindow),
+    query((QString)"Title of Film Here") {
     ui->setupUi(this);
 }
 
@@ -59,7 +60,8 @@ void PurchasesWindow::on_purchaseEdit_clicked(void) {
 
 /* user clicked "Return" button from Purchases */
 void PurchasesWindow::on_purchaseReturn_clicked(void) {
-
+    emit closing();
+    this->close();
 }
 
 bool PurchasesWindow::getDebugMode(void) {
