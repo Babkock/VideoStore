@@ -19,12 +19,23 @@ class Film : public QObject {
 private:
     QString title;
     QString director;
-    quint32 year;
+    int year;
     double price;
     QDateTime added;
 public:
     explicit Film(QObject *parent = nullptr);
     Film(const char *t, const char *d, unsigned int y, double p);
+    QString getTitle(void);
+    void setTitle(QString t);
+    QString getDirector(void);
+    void setDirector(QString d);
+    int getYear(void);
+    void setYear(int y);
+    double getPrice(void);
+    void setPrice(double p);
+    QDateTime getAdded(void);
+    void setAdded(QDateTime a);
+    void print(void);
 signals:
 
 };
