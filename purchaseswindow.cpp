@@ -8,6 +8,7 @@
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
 #include "ui_purchaseswindow.h"
+#include <iostream>
 
 PurchasesWindow::PurchasesWindow(QWidget *parent) :
     QMainWindow(parent),

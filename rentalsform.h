@@ -1,6 +1,7 @@
 #ifndef RENTALSFORM_H
 #define RENTALSFORM_H
 
+#include "film.h"
 #include <QWidget>
 
 namespace Ui {
@@ -14,6 +15,10 @@ public:
     ~RentalsForm(void);
     bool getDebugMode(void);
     void setDebugMode(bool d);
+    bool getNew(void);
+    void setNew(bool n);
+    Film *getFilm(void);
+    void setFilm(const Film &f);
     int getQuantity(void);
     void setQuantity(int q);
     int getAvailable(void);
@@ -64,7 +69,8 @@ private slots:
 private:
     Ui::RentalsForm *ui;
     bool debugMode;
-    Film *film;
+    bool newFilm;
+    FilmRent *film;
     int quantity;
     int available;
     QString lastRentedTo;

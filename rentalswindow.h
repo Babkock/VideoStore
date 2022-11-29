@@ -8,6 +8,7 @@
 #ifndef RENTALSWINDOW_H
 #define RENTALSWINDOW_H
 
+#include "film.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 

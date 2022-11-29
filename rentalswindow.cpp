@@ -7,6 +7,7 @@
 */
 #include "rentalswindow.h"
 #include "ui_rentalswindow.h"
+#include <iostream>
 
 RentalsWindow::RentalsWindow(QWidget *parent) :
     QMainWindow(parent),

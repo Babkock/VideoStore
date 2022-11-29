@@ -9,6 +9,12 @@
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
 #include "ui_mainwindow.h"
+#include <iostream>
+#include <cstdlib>
+#include <QSqlDatabase>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

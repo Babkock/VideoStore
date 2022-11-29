@@ -1,5 +1,11 @@
 #include "rentalsform.h"
 #include "ui_rentalsform.h"
+#include <iostream>
+#include <cstdlib>
+#include <QSqlDatabase>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
 
 RentalsForm::RentalsForm(QWidget *parent) :
     QWidget(parent),
@@ -19,6 +25,26 @@ void RentalsForm::setDebugMode(bool d) {
 
 bool RentalsForm::getDebugMode(void) {
     return debugMode;
+}
+
+void RentalsForm::setNew(bool n) {
+    newFilm = n;
+}
+
+bool RentalsForm::getNew(void) {
+    return newFilm;
+}
+
+void RentalsForm::setFilm(const Film &f) {
+    film->setTitle(f.getTitle());
+    film->setDirector(f.getDirector());
+    film->setYear(f.getYear());
+    film->setPrice(f.getPrice());
+    film->setAdded(f.getAdded());
+}
+
+Film *RentalsForm::getFilm(void) {
+    return new Film(film->getTitle(), film->getDirector(), film->getYear(), film->getPrice());
 }
 
 void RentalsForm::setQuantity(int q) {
