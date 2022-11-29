@@ -37,6 +37,7 @@ public:
     Film(const char *t, const char *d);
     Film(const QString &t, const QString &d, unsigned int y);
     Film(const char *t, const char *d, unsigned int y);
+    Film(const QString &t, const QString &d, unsigned int y, double p);
     Film(const char *t, const char *d, unsigned int y, double p);
     QString getTitle(void);
     void setTitle(const QString &t);
@@ -44,8 +45,8 @@ public:
     QString getDirector(void);
     void setDirector(const QString &d);
     void setDirector(const char *t);
-    int getYear(void);
-    void setYear(int y);
+    unsigned int getYear(void);
+    void setYear(unsigned int y);
     double getPrice(void);
     void setPrice(double p);
     QDateTime getAdded(void);
@@ -62,10 +63,12 @@ private:
     QString lastRentedTo;
     QDateTime lastRented;
 public:
+    /*
     explicit FilmRent(QObject *parent = nullptr);
     explicit FilmRent(Film f, QObject *parent = nullptr);
     explicit FilmRent(const QString &t, const QString &d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
     explicit FilmRent(const char *t, const char *d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
+    */
     FilmRent(Film f);
     FilmRent(Film f, int q);
     FilmRent(Film f, int q, int a);
@@ -92,10 +95,12 @@ private:
     int quantity;
     QDateTime lastSold;
 public:
+    /*
     explicit FilmSale(QObject *parent = nullptr);
     explicit FilmSale(Film f, QObject *parent = nullptr);
     explicit FilmSale(const QString &t, const QString &d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
     explicit FilmSale(const char *t, const char *d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
+    */
     FilmSale(Film f);
     FilmSale(Film f, int q);
     FilmSale(Film f, QDateTime l);

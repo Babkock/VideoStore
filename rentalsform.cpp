@@ -1,7 +1,10 @@
 #include "rentalsform.h"
 #include "ui_rentalsform.h"
+#include "rentalseditor.h"
+#include "ui_rentalseditor.h"
 #include <iostream>
 #include <cstdlib>
+#include <QCloseEvent>
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlError>
@@ -9,8 +12,9 @@
 
 RentalsForm::RentalsForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RentalsForm) {
-    film = new Film("Title", "Director", 1950, 4.99);
+    ui(new Ui::RentalsForm),
+    parent(parent) {
+    film = new FilmRent(Film("Title", "Director", 1950, 4.99));
     ui->setupUi(this);
 }
 
@@ -18,6 +22,7 @@ RentalsForm::~RentalsForm(void) {
     delete ui;
     delete film;
 }
+
 
 void RentalsForm::setDebugMode(bool d) {
     debugMode = d;
@@ -35,7 +40,7 @@ bool RentalsForm::getNew(void) {
     return newFilm;
 }
 
-void RentalsForm::setFilm(const Film &f) {
+void RentalsForm::setFilm(Film f) {
     film->setTitle(f.getTitle());
     film->setDirector(f.getDirector());
     film->setYear(f.getYear());
@@ -43,8 +48,8 @@ void RentalsForm::setFilm(const Film &f) {
     film->setAdded(f.getAdded());
 }
 
-Film *RentalsForm::getFilm(void) {
-    return new Film(film->getTitle(), film->getDirector(), film->getYear(), film->getPrice());
+Film RentalsForm::getFilm(void) {
+    return Film(film->getTitle(), film->getDirector(), film->getYear(), film->getPrice());
 }
 
 void RentalsForm::setQuantity(int q) {
@@ -75,14 +80,14 @@ void RentalsForm::setLastRentedTo(const char *l) {
 void RentalsForm::on_rentFormTitleField_textChanged(const QString &arg1) {
     film->setTitle(arg1);
     if (debugMode)
-        std::cout << "set film's title to " << arg1 << std::endl;
+        std::cout << "set film's title to " << arg1.toStdString() << std::endl;
 }
 
 /* the "Director of Film" field text has been changed */
 void RentalsForm::on_rentFormDirectorField_textChanged(const QString &arg1) {
     film->setDirector(arg1);
     if (debugMode)
-        std::cout << "set film's director to " << arg1 << std::endl;
+        std::cout << "set film's director to " << arg1.toStdString() << std::endl;
 }
 
 /* the "Year" field value has been changed */
@@ -109,6 +114,9 @@ void RentalsForm::on_rentFormSaveChangesButton_clicked(void) {
 
 /* the "Discard Changes" button has been clicked */
 void RentalsForm::on_rentFormDiscardChangesButton_clicked(void) {
+    /* emit closing();
+    this->close();
+    */
     emit closing();
     this->close();
 }
@@ -148,7 +156,7 @@ void RentalsForm::on_rentFormAvailable_valueChanged(int arg1) {
 void RentalsForm::on_rentFormLastRentedTo_textChanged(const QString &arg1) {
     lastRentedTo = arg1;
     if (debugMode)
-        std::cout << "set rental's last rented to to " << arg1 << std::endl;
+        std::cout << "set rental's last rented to to " << arg1.toStdString() << std::endl;
 }
 
 /* user pressed Return after editing "Last Rented to" */

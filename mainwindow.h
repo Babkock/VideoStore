@@ -12,6 +12,8 @@
 #include <QCloseEvent>
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
+#include "rentalsform.h"
+#include "rentalseditor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

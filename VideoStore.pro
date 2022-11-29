@@ -18,17 +18,20 @@ CONFIG += c++17
 SOURCES += main.cpp mainwindow.cpp \
     film.cpp \
     purchaseswindow.cpp \
+    rentalseditor.cpp \
     rentalsform.cpp \
     rentalswindow.cpp
 
 HEADERS += mainwindow.h \
     film.h \
     purchaseswindow.h \
+    rentalseditor.h \
     rentalsform.h \
     rentalswindow.h
 
 FORMS += mainwindow.ui \
     purchaseswindow.ui \
+    rentalseditor.ui \
     rentalsform.ui \
     rentalswindow.ui
 

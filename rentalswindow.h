@@ -9,6 +9,8 @@
 #define RENTALSWINDOW_H
 
 #include "film.h"
+#include "rentalseditor.h"
+#include "rentalsform.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 
@@ -40,6 +42,7 @@ private slots:
     void on_rentalReturn_clicked(void);
 private:
     Ui::RentalsWindow *ui;
+    RentalsEditor *rentalEditor;
     QString query;
     bool debugMode;
 signals:
