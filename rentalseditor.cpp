@@ -29,3 +29,27 @@ void RentalsEditor::closeEvent(QCloseEvent *event) {
     emit closing();
     event->accept();
 }
+
+QWidget *RentalsEditor::getForm(void) {
+    return form;
+}
+
+void RentalsEditor::setForm(QWidget *f) {
+    form = f;
+}
+
+/*
+QMainWindow *RentalsEditor::getExitMessage(void) {
+    return exitMessage;
+}
+
+void RentalsEditor::setExitMessage(QMainWindow *e) {
+    exitMessage = e;
+}
+*/
+
+void RentalsEditor::on_rentalEditorExit_clicked(void) {
+    emit closing();
+    this->close();
+}
+

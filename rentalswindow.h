@@ -27,23 +27,32 @@ public:
     void setDebugMode(bool d);
     QString getQuery(void);
     void setQuery(QString q);
+    unsigned int getId(void);
+    void setId(unsigned int i);
 protected:
     void closeEvent(QCloseEvent *event);
 private slots:
     /* user clicked "Add Film for Rent" button from Rentals window */
     void on_rentalAddNew_clicked(void);
     /* Whenever the text for the "Title of Film" text box is changed */
-    void on_rentalFilmTitle_textChanged(const QString &arg1);
+    void on_rentalTitleField_textChanged(const QString &arg1);
     /* User pressed Return after editing "Title of Film" box from Rentals window */
-    void on_rentalFilmTitle_returnPressed(void);
-    /* user clicked "Edit Film" button from Rentals window */
+    void on_rentalTitleField_returnPressed(void);
+    /* user clicked "Find Film to Edit" button from Rentals window */
     void on_rentalEdit_clicked(void);
     /* user clicked "Return" button from Rentals window */
     void on_rentalReturn_clicked(void);
+    /* the value of "or by ID:" box was changed */
+    void on_rentalIdField_valueChanged(int arg1);
+    /* Whenever the text in the "Title of Film" field is edited */
+    void on_rentalTitleField_textEdited(const QString &arg1);
+    /* user has finished editing the "or by ID:" field on Rentals */
+    void on_rentalIdField_editingFinished(void);
 private:
     Ui::RentalsWindow *ui;
     RentalsEditor *rentalEditor;
     QString query;
+    unsigned int id;
     bool debugMode;
 signals:
     void closing(void);

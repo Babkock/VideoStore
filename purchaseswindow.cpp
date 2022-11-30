@@ -31,14 +31,14 @@ void PurchasesWindow::on_purchaseAddNew_clicked(void) {
     /* bring up empty PurchasesForm */
 }
 
-/* Whenever the text for the "Title of Film" box is changed */
-void PurchasesWindow::on_purchaseFilmTitle_textChanged(const QString &arg1) {
-    query = arg1;
+/* Whenever the text for the "Title of Film" field on Purchases is changed */
+void PurchasesWindow::on_purchaseTitleField_textChanged(const QString &arg1) {
+    std::cout << "Text was changed: " << arg1.toStdString() << std::endl;
 }
 
 /* user pressed Return after editing "Title of Film" box from Purchases
  * This should do the same thing as on_purchaseEdit_clicked() */
-void PurchasesWindow::on_purchaseFilmTitle_returnPressed(void) {
+void PurchasesWindow::on_purchaseTitleField_returnPressed(void) {
     /* do nothing if the text box is empty */
 
     /* else, query the database */
@@ -48,7 +48,7 @@ void PurchasesWindow::on_purchaseFilmTitle_returnPressed(void) {
     /* else, bring up the RentalsForm with the found data */
 }
 
-/* user clicked "Edit Film" button from Purchases */
+/* user clicked "Find Film to Edit" button from Purchases */
 void PurchasesWindow::on_purchaseEdit_clicked(void) {
     /* do nothing if the text box is empty */
 
@@ -80,3 +80,29 @@ QString PurchasesWindow::getQuery(void) {
 void PurchasesWindow::setQuery(QString q) {
     query = q;
 }
+
+unsigned int PurchasesWindow::getId(void) {
+    return id;
+}
+
+void PurchasesWindow::setId(unsigned int i) {
+    id = i;
+}
+
+/* the value of "or by ID:" field on Purchases was changed */
+void PurchasesWindow::on_purchaseIdField_valueChanged(int arg1) {
+    id = (unsigned int)arg1;
+    std::cout << "Value was changed: " << arg1 << std::endl;
+}
+
+/* Whenever the text in the "Title of Film" field is edited */
+void PurchasesWindow::on_purchaseTitleField_textEdited(const QString &arg1) {
+    query = arg1;
+    std::cout << "Text was edited: " << arg1.toStdString() << std::endl;
+}
+
+/* user is finished editing the "or by ID:" field on Purchases */
+void PurchasesWindow::on_purchaseIdField_editingFinished(void) {
+
+}
+

@@ -16,8 +16,8 @@
 RentalsWindow::RentalsWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::RentalsWindow) {
-    rentalEditor = new RentalsEditor(new RentalsForm(this), this);
     ui->setupUi(this);
+    rentalEditor = new RentalsEditor(new RentalsForm(), this);
     connect(rentalEditor, SIGNAL(closing()), this, SLOT(show()));
 }
 
@@ -35,17 +35,18 @@ void RentalsWindow::closeEvent(QCloseEvent *event) {
 void RentalsWindow::on_rentalAddNew_clicked(void) {
     /* bring up empty RentalsForm */
     //this->hide();
+    std::cout << "Add new Film for Rent was clicked" << std::endl;
     rentalEditor->show();
 }
 
 /* Whenever the text for the "Title of Film" box is changed */
-void RentalsWindow::on_rentalFilmTitle_textChanged(const QString &arg1) {
-    query = arg1;
+void RentalsWindow::on_rentalTitleField_textChanged(const QString &arg1) {
+    std::cout << "Text was changed: " << arg1.toStdString() << std::endl;
 }
 
 /* User pressed Return after editing "Title of Film" box from Rentals window
  * This should do the same thing as on_rentalEdit_clicked() */
-void RentalsWindow::on_rentalFilmTitle_returnPressed(void) {
+void RentalsWindow::on_rentalTitleField_returnPressed(void) {
     /* do nothing if the text box is empty */
 
     /* else, query the database */
@@ -55,7 +56,7 @@ void RentalsWindow::on_rentalFilmTitle_returnPressed(void) {
     /* else, bring up the RentalsForm with the found data */
 }
 
-/* user clicked "Edit Film" button from Rentals window
+/* user clicked "Find Film to Edit" button from Rentals window
  * This should do the same thing as on_rentalFilmTitle_returnPressed() */
 void RentalsWindow::on_rentalEdit_clicked(void) {
     /* do nothing if the text box is empty */
@@ -87,4 +88,21 @@ QString RentalsWindow::getQuery(void) {
 
 void RentalsWindow::setQuery(QString q) {
     query = q;
+}
+
+/* the value of "or by ID:" box has changed */
+void RentalsWindow::on_rentalIdField_valueChanged(int arg1) {
+    id = (unsigned int)arg1;
+    std::cout << "Value was changed: " << arg1 << std::endl;
+}
+
+/* Whenever the text in the "Title of Film" box on Rentals is edited */
+void RentalsWindow::on_rentalTitleField_textEdited(const QString &arg1) {
+    query = arg1;
+    std::cout << "Text was edited: " << arg1.toStdString() << std::endl;
+}
+
+/* user has finished editing the "or by ID:" field on Rentals */
+void RentalsWindow::on_rentalIdField_editingFinished(void) {
+
 }

@@ -10,6 +10,12 @@
     <height>485</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>353</width>
+    <height>485</height>
+   </size>
+  </property>
   <property name="maximumSize">
    <size>
     <width>353</width>
@@ -56,11 +62,11 @@
      <string>Add Film for Rent</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="rentalFilmTitle">
+   <widget class="QLineEdit" name="rentalTitleField">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>230</y>
+      <y>210</y>
       <width>291</width>
       <height>41</height>
      </rect>
@@ -112,7 +118,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>300</y>
+      <y>310</y>
       <width>271</width>
       <height>71</height>
      </rect>
@@ -123,16 +129,16 @@
      </font>
     </property>
     <property name="text">
-     <string>Edit Film</string>
+     <string>Find Film to Edit</string>
     </property>
    </widget>
    <widget class="Line" name="line_2">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>370</y>
+      <y>380</y>
       <width>331</width>
-      <height>31</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="orientation">
@@ -155,6 +161,39 @@
     </property>
     <property name="text">
      <string>Return</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="rentalIdField">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>260</y>
+      <width>171</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>270</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>or by ID:</string>
     </property>
    </widget>
   </widget>

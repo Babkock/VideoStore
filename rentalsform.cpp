@@ -13,7 +13,15 @@
 RentalsForm::RentalsForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RentalsForm),
-    parent(parent) {
+    parent((QMainWindow*)parent) {
+    film = new FilmRent(Film("Title", "Director", 1950, 4.99));
+    ui->setupUi(this);
+}
+
+RentalsForm::RentalsForm(RentalsEditor *p) :
+    QWidget(p),
+    ui(new Ui::RentalsForm),
+    parent(p) {
     film = new FilmRent(Film("Title", "Director", 1950, 4.99));
     ui->setupUi(this);
 }
@@ -22,7 +30,6 @@ RentalsForm::~RentalsForm(void) {
     delete ui;
     delete film;
 }
-
 
 void RentalsForm::setDebugMode(bool d) {
     debugMode = d;
@@ -78,29 +85,29 @@ void RentalsForm::setLastRentedTo(const char *l) {
 
 /* the "Title of Film" field text has been changed */
 void RentalsForm::on_rentFormTitleField_textChanged(const QString &arg1) {
-    film->setTitle(arg1);
-    if (debugMode)
-        std::cout << "set film's title to " << arg1.toStdString() << std::endl;
+//    film->setTitle(arg1);
+//    if (debugMode)
+//        std::cout << "set film's title to " << arg1.toStdString() << std::endl;
 }
 
 /* the "Director of Film" field text has been changed */
 void RentalsForm::on_rentFormDirectorField_textChanged(const QString &arg1) {
-    film->setDirector(arg1);
-    if (debugMode)
-        std::cout << "set film's director to " << arg1.toStdString() << std::endl;
+//    film->setDirector(arg1);
+//    if (debugMode)
+//        std::cout << "set film's director to " << arg1.toStdString() << std::endl;
 }
 
 /* the "Year" field value has been changed */
 void RentalsForm::on_rentFormYearField_valueChanged(int arg1) {
     film->setYear(arg1);
-    if (debugMode)
+//    if (debugMode)
         std::cout << "set film's year to " << arg1 << std::endl;
 }
 
 /* the "Price" field value has been changed */
 void RentalsForm::on_rentFormPriceField_valueChanged(double arg1) {
     film->setPrice(arg1);
-    if (debugMode)
+//    if (debugMode)
         std::cout << "set film's price to " << arg1 << std::endl;
 }
 
@@ -114,9 +121,6 @@ void RentalsForm::on_rentFormSaveChangesButton_clicked(void) {
 
 /* the "Discard Changes" button has been clicked */
 void RentalsForm::on_rentFormDiscardChangesButton_clicked(void) {
-    /* emit closing();
-    this->close();
-    */
     emit closing();
     this->close();
 }
@@ -134,28 +138,28 @@ void RentalsForm::on_rentFormDirectorField_returnPressed(void) {
 /* the "Date Added" date has been picked */
 void RentalsForm::on_rentFormAddedField_dateTimeChanged(const QDateTime &dateTime) {
     film->setAdded(dateTime);
-    if (debugMode)
+//    if (debugMode)
         std::cout << "set film's date added" << std::endl;
 }
 
 /* the "Quantity" meter was changed */
 void RentalsForm::on_rentFormQuantity_valueChanged(int arg1) {
     quantity = arg1;
-    if (debugMode)
+//    if (debugMode)
         std::cout << "set rental's quantity to " << arg1 << std::endl;
 }
 
 /* the "Available" meter was changed */
 void RentalsForm::on_rentFormAvailable_valueChanged(int arg1) {
     available = arg1;
-    if (debugMode)
+//    if (debugMode)
         std::cout << "set rental's available to " << arg1 << std::endl;
 }
 
 /* the "Last Rented to" field text was changed */
 void RentalsForm::on_rentFormLastRentedTo_textChanged(const QString &arg1) {
-    lastRentedTo = arg1;
-    if (debugMode)
+//    lastRentedTo = arg1;
+//    if (debugMode)
         std::cout << "set rental's last rented to to " << arg1.toStdString() << std::endl;
 }
 
@@ -163,3 +167,24 @@ void RentalsForm::on_rentFormLastRentedTo_textChanged(const QString &arg1) {
 void RentalsForm::on_rentFormLastRentedTo_returnPressed(void) {
 
 }
+
+/* user has finished editing "Title of Film" field */
+void RentalsForm::on_rentFormTitleField_textEdited(const QString &arg1) {
+    std::cout << "Title edited: " << arg1.toStdString() << std::endl;
+}
+
+/* user has finished editing "Director" field */
+void RentalsForm::on_rentFormDirectorField_textEdited(const QString &arg1) {
+    std::cout << "Director edited: " << arg1.toStdString() << std::endl;
+}
+
+/* user has finished setting "Price" field */
+void RentalsForm::on_rentFormPriceField_editingFinished(void) {
+
+}
+
+/* user has finished setting "Quantity" field */
+void RentalsForm::on_rentFormQuantity_editingFinished(void) {
+
+}
+
