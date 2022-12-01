@@ -8,6 +8,7 @@
 #ifndef PURCHASESWINDOW_H
 #define PURCHASESWINDOW_H
 
+#include "film.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 

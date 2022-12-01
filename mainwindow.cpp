@@ -9,8 +9,6 @@
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
 #include "ui_mainwindow.h"
-#include "rentalseditor.h"
-#include "rentalsform.h"
 #include <iostream>
 #include <cstdlib>
 #include <QSqlDatabase>
