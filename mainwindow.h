@@ -10,6 +10,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QSqlDatabase>
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
 #include "rentalsform.h"
@@ -43,6 +44,7 @@ private:
     RentalsWindow *rentals;
     PurchasesWindow *purchases;
     RentalsForm *form;
+    QSqlDatabase db;
     bool debugMode;
 signals:
     //void closing(void);

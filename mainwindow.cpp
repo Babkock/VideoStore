@@ -20,6 +20,24 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    const QString DRIVER("QSQLITE");
+    if (!QSqlDatabase::isDriverAvailable(DRIVER)) {
+        std::cerr << "Driver is not available" << std::endl;
+        delete ui;
+        abort();
+    }
+    db = QSqlDatabase::addDatabase(DRIVER);
+    db.setHostName("videostore");
+    db.setDatabaseName(":memory:");
+    db.setUserName("user");
+    db.setPassword("password");
+    if (!db.open()) {
+        std::cerr << "Could not open database" << std::endl;
+        delete ui;
+        abort();
+    }
+    QSqlQuery create("CREATE TABLE `filmrent` (`id` INTEGER PRIMARY KEY, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE)");
+
     rentals = new RentalsWindow(parent, new RentalsForm(Film("Title", "Director", 1950, 4.99)));
     purchases = new PurchasesWindow();
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
@@ -29,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow(void) {
     delete purchases;
     delete rentals;
+    db.close();
     delete ui;
 }
 
