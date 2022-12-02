@@ -33,9 +33,6 @@ public:
     RentalsForm(Film f, unsigned int q, const char *l, QDateTime a);
     RentalsForm(Film f, unsigned int q, const QString &l, QDateTime a);
     RentalsForm(Film f, unsigned int q, QDateTime a);
-    //RentalsForm(Film f, unsigned int q, unsigned int a, QDateTime a);
-    //RentalsForm(Film f, unsigned int q, unsigned int q, const char *l, QDateTime a);
-    //RentalsForm(Film f, unsigned int q, unsigned int a, const QString &l, QDateTime a);
     RentalsForm(const QString &t);
     RentalsForm(const QString &t, const QString &d);
     RentalsForm(const QString &t, unsigned int y);

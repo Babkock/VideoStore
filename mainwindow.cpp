@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    rentals = new RentalsWindow(this, new RentalsForm(Film("Title", "Director", 1950, 4.99)));
+    rentals = new RentalsWindow(parent, new RentalsForm(Film("Title", "Director", 1950, 4.99)));
     purchases = new PurchasesWindow();
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
     connect(purchases, SIGNAL(closing()), this, SLOT(show()));
@@ -32,10 +32,11 @@ MainWindow::~MainWindow(void) {
     delete ui;
 }
 
+/*
 void MainWindow::closeEvent(QCloseEvent *event) {
     emit closing();
     event->accept();
-}
+} */
 
 /* user clicked "Rentals" button from top menu */
 void MainWindow::on_buttonRentals_clicked(void) {

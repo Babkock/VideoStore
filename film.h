@@ -20,6 +20,7 @@ typedef struct ShoppingCartItem_t {
     int quantity : 6;        // Selected by shopper/employee
     double actualPrice;      // Price of film with ID * quantity
     QString title;           // Title of film
+    struct ShoppingCartItem_t *next;
 } ShoppingCartItem;
 
 class Film : public QObject {
@@ -65,12 +66,6 @@ private:
     QString lastRentedTo;
     QDateTime lastRented;
 public:
-    /*
-    explicit FilmRent(QObject *parent = nullptr);
-    explicit FilmRent(Film f, QObject *parent = nullptr);
-    explicit FilmRent(const QString &t, const QString &d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
-    explicit FilmRent(const char *t, const char *d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
-    */
     FilmRent(void);
     FilmRent(Film f);
     FilmRent(Film f, unsigned int q);
@@ -85,11 +80,6 @@ public:
     FilmRent(Film f, unsigned int q, const char *l, QDateTime a);
     FilmRent(Film f, unsigned int q, const QString &l, QDateTime a);
     FilmRent(Film f, unsigned int q, QDateTime a);
-    //FilmRent(Film f, unsigned int q, unsigned int a, QDateTime a);
-    //FilmRent(Film f, unsigned int q, unsigned int a, const char *l);
-    //FilmRent(Film f, unsigned int q, unsigned int a, const QString &l);
-    //FilmRent(Film f, unsigned int q, unsigned int q, const char *l, QDateTime a);
-    //FilmRent(Film f, unsigned int q, unsigned int a, const QString &l, QDateTime a);
     int getQuantity(void);
     void setQuantity(int q);
     int getAvailable(void);
@@ -110,12 +100,6 @@ private:
     unsigned int quantity;
     QDateTime lastSold;
 public:
-    /*
-    explicit FilmSale(QObject *parent = nullptr);
-    explicit FilmSale(Film f, QObject *parent = nullptr);
-    explicit FilmSale(const QString &t, const QString &d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
-    explicit FilmSale(const char *t, const char *d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
-    */
     FilmSale(Film f);
     FilmSale(Film f, unsigned int q);
     FilmSale(Film f, unsigned int q, unsigned int a);

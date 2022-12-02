@@ -26,7 +26,7 @@ public:
     bool getDebugMode(void);
     void setDebugMode(bool d);
 protected:
-    void closeEvent(QCloseEvent *event);
+    //void closeEvent(QCloseEvent *event);
 private slots:
     /* user clicked "Rentals" from top menu */
     void on_buttonRentals_clicked(void);
@@ -45,7 +45,7 @@ private:
     RentalsForm *form;
     bool debugMode;
 signals:
-    void closing(void);
+    //void closing(void);
 };
 
 #endif // MAINWINDOW_H

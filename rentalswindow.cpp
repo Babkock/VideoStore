@@ -10,6 +10,10 @@
 #include "rentalsform.h"
 #include "ui_rentalsform.h"
 #include <iostream>
+#include <QSqlDatabase>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
 
 RentalsWindow::RentalsWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -38,7 +42,6 @@ void RentalsWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Add Film for Rent" from Rentals window */
 void RentalsWindow::on_rentalAddNew_clicked(void) {
     /* bring up empty RentalsForm */
-    this->hide();
     form->show();
     std::cout << "Add new Film for Rent was clicked" << std::endl;
 }
@@ -75,7 +78,7 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
 /* user clicked "Return" button from Rentals window */
 void RentalsWindow::on_rentalReturn_clicked(void) {
     emit closing();
-    this->close();
+    hide();
 }
 
 bool RentalsWindow::getDebugMode(void) {

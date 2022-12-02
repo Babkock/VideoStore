@@ -9,6 +9,10 @@
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include <QSqlDatabase>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
