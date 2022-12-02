@@ -33,6 +33,7 @@ private:
     QDateTime added;
 public:
     explicit Film(QObject *parent = nullptr);
+    Film(const Film &f);
     Film(const QString &t, const QString &d);
     Film(const char *t, const char *d);
     Film(const QString &t, const QString &d, unsigned int y);
@@ -51,6 +52,7 @@ public:
     void setPrice(double p);
     QDateTime getAdded(void);
     void setAdded(QDateTime a);
+    virtual void print(void);
 signals:
 
 };
@@ -58,8 +60,8 @@ signals:
 class FilmRent : public Film {
     Q_OBJECT
 private:
-    int quantity;
-    int available;
+    unsigned int quantity;
+    unsigned int available;
     QString lastRentedTo;
     QDateTime lastRented;
 public:
@@ -69,12 +71,25 @@ public:
     explicit FilmRent(const QString &t, const QString &d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
     explicit FilmRent(const char *t, const char *d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
     */
+    FilmRent(void);
     FilmRent(Film f);
-    FilmRent(Film f, int q);
-    FilmRent(Film f, int q, int a);
+    FilmRent(Film f, unsigned int q);
+    FilmRent(Film f, unsigned int q, unsigned int a);
     FilmRent(Film f, const char *l);
+    FilmRent(Film f, const QString &l);
     FilmRent(Film f, QDateTime l);
     FilmRent(Film f, const char *l, QDateTime a);
+    FilmRent(Film f, const QString &l, QDateTime a);
+    FilmRent(Film f, unsigned int q, const char *l);
+    FilmRent(Film f, unsigned int q, const QString &l);
+    FilmRent(Film f, unsigned int q, const char *l, QDateTime a);
+    FilmRent(Film f, unsigned int q, const QString &l, QDateTime a);
+    FilmRent(Film f, unsigned int q, QDateTime a);
+    //FilmRent(Film f, unsigned int q, unsigned int a, QDateTime a);
+    //FilmRent(Film f, unsigned int q, unsigned int a, const char *l);
+    //FilmRent(Film f, unsigned int q, unsigned int a, const QString &l);
+    //FilmRent(Film f, unsigned int q, unsigned int q, const char *l, QDateTime a);
+    //FilmRent(Film f, unsigned int q, unsigned int a, const QString &l, QDateTime a);
     int getQuantity(void);
     void setQuantity(int q);
     int getAvailable(void);
@@ -92,7 +107,7 @@ signals:
 class FilmSale : public Film {
     Q_OBJECT
 private:
-    int quantity;
+    unsigned int quantity;
     QDateTime lastSold;
 public:
     /*
@@ -102,13 +117,18 @@ public:
     explicit FilmSale(const char *t, const char *d, unsigned int y = 0, double p = 0.0, QObject *parent = nullptr);
     */
     FilmSale(Film f);
-    FilmSale(Film f, int q);
+    FilmSale(Film f, unsigned int q);
+    FilmSale(Film f, unsigned int q, unsigned int a);
+    FilmSale(Film f, const char *l);
+    FilmSale(Film f, const QString &l);
     FilmSale(Film f, QDateTime l);
-    FilmSale(Film f, int q, QDateTime l);
+    FilmSale(Film f, const char *l, QDateTime a);
+    FilmSale(Film f, const QString &l, QDateTime a);
     int getQuantity(void);
     void setQuantity(int q);
     QDateTime getLastSold(void);
     void setLastSold(QDateTime l);
+    void print(void);
 signals:
 
 };

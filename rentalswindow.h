@@ -9,7 +9,8 @@
 #define RENTALSWINDOW_H
 
 #include "film.h"
-//#include "rentalseditor.h"
+#include "rentalsform.h"
+#include "ui_rentalsform.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 
@@ -21,6 +22,7 @@ class RentalsWindow : public QMainWindow {
     Q_OBJECT
 public:
     explicit RentalsWindow(QWidget *parent = nullptr);
+    RentalsWindow(QWidget *parent, QMainWindow *form);
     ~RentalsWindow(void);
     bool getDebugMode(void);
     void setDebugMode(bool d);
@@ -49,6 +51,7 @@ private slots:
     void on_rentalIdField_editingFinished(void);
 private:
     Ui::RentalsWindow *ui;
+    QMainWindow *form;
     QString query;
     unsigned int id;
     bool debugMode;

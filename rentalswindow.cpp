@@ -7,18 +7,26 @@
 */
 #include "rentalswindow.h"
 #include "ui_rentalswindow.h"
-//#include "rentalseditor.h"
-//#include "ui_rentalseditor.h"
+#include "rentalsform.h"
+#include "ui_rentalsform.h"
 #include <iostream>
 
 RentalsWindow::RentalsWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::RentalsWindow) {
     ui->setupUi(this);
-    //connect(..., SIGNAL(closing()), this, SLOT(show()));
+}
+
+RentalsWindow::RentalsWindow(QWidget *parent, QMainWindow *form):
+    QMainWindow(parent),
+    ui(new Ui::RentalsWindow),
+    form(form) {
+    ui->setupUi(this);
+    connect(form, SIGNAL(closing()), this, SLOT(show()));
 }
 
 RentalsWindow::~RentalsWindow(void) {
+    delete form;
     delete ui;
 }
 
@@ -30,7 +38,8 @@ void RentalsWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Add Film for Rent" from Rentals window */
 void RentalsWindow::on_rentalAddNew_clicked(void) {
     /* bring up empty RentalsForm */
-    //this->hide();
+    this->hide();
+    form->show();
     std::cout << "Add new Film for Rent was clicked" << std::endl;
 }
 

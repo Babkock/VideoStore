@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    rentals = new RentalsWindow();
+    rentals = new RentalsWindow(this, new RentalsForm(Film("Title", "Director", 1950, 4.99)));
     purchases = new PurchasesWindow();
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
     connect(purchases, SIGNAL(closing()), this, SLOT(show()));

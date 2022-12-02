@@ -18,15 +18,18 @@ CONFIG += c++17
 SOURCES += main.cpp mainwindow.cpp \
     film.cpp \
     purchaseswindow.cpp \
+    rentalsform.cpp \
     rentalswindow.cpp
 
 HEADERS += mainwindow.h \
     film.h \
     purchaseswindow.h \
+    rentalsform.h \
     rentalswindow.h
 
 FORMS += mainwindow.ui \
     purchaseswindow.ui \
+    rentalsform.ui \
     rentalswindow.ui
 
 TRANSLATIONS += VideoStore_en_US.ts

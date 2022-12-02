@@ -12,7 +12,7 @@
 #include <QCloseEvent>
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
-//#include "rentalseditor.h"
+#include "rentalsform.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -40,6 +40,7 @@ private:
     Ui::MainWindow *ui;
     RentalsWindow *rentals;
     PurchasesWindow *purchases;
+    RentalsForm *form;
     bool debugMode;
 };
 
