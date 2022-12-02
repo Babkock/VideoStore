@@ -160,6 +160,42 @@ void Film::setAdded(QDateTime a) {
     added = a;
 }
 
+void FilmRent::setQuantity(int q) {
+    quantity = (unsigned int)q;
+}
+
+int FilmRent::getQuantity(void) {
+    return (int)quantity;
+}
+
+void FilmRent::setAvailable(int a) {
+    available = (unsigned int)a;
+}
+
+int FilmRent::getAvailable(void) {
+    return (int)available;
+}
+
+void FilmRent::setLastRented(QDateTime l) {
+    lastRented = l;
+}
+
+QDateTime FilmRent::getLastRented(void) {
+    return lastRented;
+}
+
+void FilmRent::setLastRentedTo(const char *l) {
+    lastRentedTo = l;
+}
+
+void FilmRent::setLastRentedTo(const QString &l) {
+    lastRentedTo = l;
+}
+
+QString FilmRent::getLastRentedTo(void) {
+    return lastRentedTo;
+}
+
 void FilmRent::print(void) {
     std::cout << "Title: " << getTitle().toStdString() << std::endl;
     std::cout << "Director: " << getDirector().toStdString() << std::endl;

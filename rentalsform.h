@@ -1,3 +1,10 @@
+/* rentalsform.h
+ * Tanner Babcock
+ * CIS 152 - Data Structures
+ * Final Project: Video Store
+ * November - December 2022
+ * https://github.com/Babkock/VideoStore
+*/
 #ifndef RENTALSFORM_H
 #define RENTALSFORM_H
 
@@ -37,6 +44,10 @@ public:
     RentalsForm(const QString &t, const QString &d, double p);
     RentalsForm(const QString &t, const QString &d, unsigned int y, double p);
     ~RentalsForm(void);
+    bool getDebugMode(void);
+    void setDebugMode(bool d);
+    bool getEditExisting(void);
+    void setEditExisting(bool e);
 protected:
     void closeEvent(QCloseEvent *event);
 private slots:
@@ -44,11 +55,32 @@ private slots:
     void on_rentalsTitleField_textChanged(const QString &arg1);
     /* user changed text of the "Director of Film:" field */
     void on_rentalsDirectorField_textChanged(const QString &arg1);
+    /* user changed value of "Price in $:" field */
+    void on_rentalsPriceField_valueChanged(double arg1);
+    /* user changed value of "Year" field */
+    void on_rentalsYearField_valueChanged(int arg1);
+    /* user changed value of "Quantity" field */
+    void on_rentalsQuantityField_valueChanged(int arg1);
+    /* user changed value of "Available" field */
+    void on_rentalsAvailableField_valueChanged(int arg1);
+    /* user selected a date for the "Last Rented" field */
+    void on_rentalsLastRentedField_dateTimeChanged(const QDateTime &dateTime);
+    /* user changed text of "Last Rented to" field */
+    void on_rentalsLastRentedTo_textChanged(const QString &arg1);
+    /* user clicked on "Save Changes to Film" button */
+    void on_rentalsSaveChanges_clicked(void);
+    /* user clicked on "Discard Changes" button */
+    void on_rentalsDiscardChanges_clicked(void);
+    /* user pressed Return after editing "Title of Film" field */
+    void on_rentalsTitleField_returnPressed(void);
+    /* user pressed Return after editing "Director of Film" field */
+    void on_rentalsDirectorField_returnPressed(void);
 
 private:
-    Ui::RentalsForm *ui;
-    FilmRent film;
-    bool debugMode;
+    Ui::RentalsForm *ui;     // The interface for our Rentals Form window
+    FilmRent film;           // A FilmRent object that can read from/write to database
+    bool editExisting;       // true = existing film is being edited, false = new film
+    bool debugMode;          // Should we print debug messages?
 signals:
     void closing(void);
 };

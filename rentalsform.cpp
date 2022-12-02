@@ -102,6 +102,9 @@ RentalsForm::~RentalsForm(void) {
 void RentalsForm::closeEvent(QCloseEvent *event) {
     emit closing();
     event->accept();
+    close();
+    QMainWindow *p = (QMainWindow *)this->parent();
+    p->close();
 }
 
 /* user changed text of "Title of Film" field */
@@ -115,3 +118,61 @@ void RentalsForm::on_rentalsDirectorField_textChanged(const QString &arg1) {
     film.setDirector(arg1);
     std::cout << "Director changed: " << arg1.toStdString() << std::endl;
 }
+
+/* user changed value of "Price in $:" field */
+void RentalsForm::on_rentalsPriceField_valueChanged(double arg1) {
+    film.setPrice(arg1);
+    std::cout << "Price changed: " << arg1 << std::endl;
+}
+
+/* user changed value of "Year" field */
+void RentalsForm::on_rentalsYearField_valueChanged(int arg1) {
+    film.setYear((unsigned int)arg1);
+    std::cout << "Year changed: " << arg1 << std::endl;
+}
+
+/* user changed value of "Quantity" field */
+void RentalsForm::on_rentalsQuantityField_valueChanged(int arg1) {
+    film.setQuantity((unsigned int)arg1);
+    std::cout << "Quantity changed: " << arg1 << std::endl;
+}
+
+/* user changed value of "Available" field */
+void RentalsForm::on_rentalsAvailableField_valueChanged(int arg1) {
+    film.setAvailable((unsigned int)arg1);
+    std::cout << "Available changed: " << arg1 << std::endl;
+}
+
+/* user selected a date for "Last Rented" field */
+void RentalsForm::on_rentalsLastRentedField_dateTimeChanged(const QDateTime &dateTime) {
+    film.setLastRented(dateTime);
+    std::cout << "Set last rented" << std::endl;
+}
+
+/* user changed text of "Last Rented to" field */
+void RentalsForm::on_rentalsLastRentedTo_textChanged(const QString &arg1) {
+    film.setLastRentedTo(arg1);
+    std::cout << "Last Rented to changed: " << arg1.toStdString() << std::endl;
+}
+
+/* user clicked on "Save Changes to Film" button */
+void RentalsForm::on_rentalsSaveChanges_clicked(void) {
+    std::cout << "Changes saved" << std::endl;
+}
+
+/* user clicked on "Discard Changes" button */
+void RentalsForm::on_rentalsDiscardChanges_clicked(void) {
+    emit closing();
+    this->hide();
+}
+
+/* user pressed Return after editing "Title of Film" field */
+void RentalsForm::on_rentalsTitleField_returnPressed(void) {
+    std::cout << "Pressed Return on Title" << std::endl;
+}
+
+/* user pressed Return after editing "Director of Film" field */
+void RentalsForm::on_rentalsDirectorField_returnPressed(void) {
+    std::cout << "Pressed Return on Director" << std::endl;
+}
+
