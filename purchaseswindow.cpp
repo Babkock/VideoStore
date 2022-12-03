@@ -5,15 +5,27 @@
  * November - December 2022
  * https://github.com/Babkock/VideoStore
 */
-#include "purchaseswindow.h"
 #include "rentalswindow.h"
+#include "purchaseswindow.h"
 #include "ui_purchaseswindow.h"
+//#include "purchasesform.h"
+//#include "ui_purchasesform.h"
 #include <iostream>
 
 PurchasesWindow::PurchasesWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PurchasesWindow),
-    query((QString)"Title of Film Here") {
+    query((QString)"Title of Film Here"),
+    id(0) {
+    ui->setupUi(this);
+}
+
+PurchasesWindow::PurchasesWindow(QWidget *parent, QMainWindow *form) :
+    QMainWindow(parent),
+    ui(new Ui::PurchasesWindow),
+    form(form),
+    query(QString("Title of Film Here")),
+    id(0) {
     ui->setupUi(this);
 }
 

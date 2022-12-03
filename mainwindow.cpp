@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     db = QSqlDatabase::addDatabase(DRIVER);
     db.setHostName("videostore");
-    db.setDatabaseName(":memory:");
+    db.setDatabaseName("videostore.sql");
     db.setUserName("user");
     db.setPassword("password");
     if (!db.open()) {
@@ -38,11 +38,20 @@ MainWindow::MainWindow(QWidget *parent)
         delete ui;
         abort();
     }
-    QSqlQuery create("CREATE TABLE `filmrent` (`id` INTEGER PRIMARY KEY, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE, `added` DATETIME, `quantity` INT(11), `available` INT(11), `lastRentedTo` VARCHAR(80), `lastRented` DATETIME)");
-    QSqlQuery ins1("INSERT INTO `filmrent` VALUES(1, 'Persona', 'Ingmar Bergman', 1966, 6.99, NOW(), 2, 2, '', NULL, NOW())");
+    QSqlQuery create, ins1;
+    if (!(create.exec((QString)"CREATE TABLE `filmrent` (`id` INTEGER PRIMARY KEY, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE, `added` DATETIME, `quantity` INT(11), `available` INT(11), `lastRentedTo` VARCHAR(80), `lastRented` DATETIME)"))) {
+        if (create.lastError().number() != 1)
+            std::cout << create.lastError().number() << " Error from create query: " << create.lastError().text().toStdString() << std::endl;
+        else
+            std::cout << "Reading filmrent table" << std::endl;
+    }
+    if (!(ins1.exec("INSERT INTO `filmrent` VALUES(1, 'Persona', 'Ingmar Bergman', 1966, 6.99, NULL, 2, 2, '', NULL)"))) {
+        if (ins1.lastError().number() != 19)
+            std::cout << ins1.lastError().number() << " Error from ins1 query: " << ins1.lastError().text().toStdString() << std::endl;
+    }
 
-    rentals = new RentalsWindow(parent, new RentalsForm(Film("Title", "Director", 1950, 4.99)));
-    purchases = new PurchasesWindow();
+    rentals = new RentalsWindow(new RentalsForm(Film("Title", "Director", 1950, 4.99)));
+    purchases = new PurchasesWindow(/* new PurchasesForm(Film("Title", "Director", 1950, 4.99)) */);
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
     connect(purchases, SIGNAL(closing()), this, SLOT(show()));
 }

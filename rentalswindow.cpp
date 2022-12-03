@@ -17,14 +17,18 @@
 
 RentalsWindow::RentalsWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::RentalsWindow) {
+    ui(new Ui::RentalsWindow),
+    query(QString("Title of Film Here")),
+    id(0) {
     ui->setupUi(this);
 }
 
 RentalsWindow::RentalsWindow(QWidget *parent, QMainWindow *form):
     QMainWindow(parent),
     ui(new Ui::RentalsWindow),
-    form(form) {
+    form(form),
+    query(QString("Title of Film Here")),
+    id(0) {
     ui->setupUi(this);
     connect(form, SIGNAL(closing()), this, SLOT(show()));
 }
@@ -42,6 +46,7 @@ void RentalsWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Add Film for Rent" from Rentals window */
 void RentalsWindow::on_rentalAddNew_clicked(void) {
     /* bring up empty RentalsForm */
+    form = new RentalsForm(0, "Title", "Director", 1950, 5.00);
     form->show();
     std::cout << "Add new Film for Rent was clicked" << std::endl;
 }
@@ -68,10 +73,10 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
         i.addBindValue(qid);
         i.exec();
         if (i.first()) {
-            form->idField->setText(i.value(0));
-            form->titleField->setText(i.value(1).toString());
+            form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();
         } else {
+            std::cout << "Film with ID " << qid << " not found" << std::endl;
             return;
         }
     }
@@ -80,26 +85,48 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
         t.addBindValue(qtitle);
         t.exec();
         if (t.first()) {
-
+            form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+            form->show();
         } else {
+            std::cout << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
             return;
         }
     }
-    /* if not found, do nothing */
-
-    /* else, bring up the RentalsForm with the found data */
 }
 
 /* user clicked "Find Film to Edit" button from Rentals window
  * This should do the same thing as on_rentalFilmTitle_returnPressed() */
 void RentalsWindow::on_rentalEdit_clicked(void) {
-    /* do nothing if the text box is empty */
+    QString qtitle = this->ui->rentalTitleField->text();
+    int qid = this->ui->rentalIdField->text().toInt();
+    QSqlQuery i, t;
 
-    /* else, query the database */
-
-    /* if not found, do nothing */
-
-    /* else, bring up the RentalsForm with the found data */
+    if ((qtitle.length() == 0) && (qid == 0))
+        return;
+    else if (qid != 0) {
+        i.prepare("SELECT * FROM `filmrent` WHERE `id`=?");
+        i.addBindValue(qid);
+        i.exec();
+        if (i.first()) {
+            form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+            form->show();
+        } else {
+            std::cout << "Film with ID " << qid << " not found" << std::endl;
+            return;
+        }
+    }
+    else if (qtitle.length() != 0) {
+        t.prepare("SELECT * FROM `filmrent` WHERE `title`=?");
+        t.addBindValue(qtitle);
+        t.exec();
+        if (t.first()) {
+            form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+            form->show();
+        } else {
+            std::cout << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
+            return;
+        }
+    }
 }
 
 /* user clicked "Return" button from Rentals window */

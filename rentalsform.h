@@ -42,6 +42,16 @@ public:
     RentalsForm(const QString &t, unsigned int y, double p);
     RentalsForm(const QString &t, const QString &d, double p);
     RentalsForm(const QString &t, const QString &d, unsigned int y, double p);
+    RentalsForm(unsigned int id, const QString &t);
+    RentalsForm(unsigned int id, const char *t);
+    RentalsForm(unsigned int id, const QString &t, const QString &d);
+    RentalsForm(unsigned int id, const char *t, const char *d);
+    RentalsForm(unsigned int id, const QString &t, unsigned int y);
+    RentalsForm(unsigned int id, const char *t, unsigned int y);
+    RentalsForm(unsigned int id, const QString &t, const QString &d, unsigned int y);
+    RentalsForm(unsigned int id, const QString &t, const QString &d, unsigned int y, double p);
+    RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y);
+    RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y, double p);
     ~RentalsForm(void);
     bool getDebugMode(void);
     void setDebugMode(bool d);

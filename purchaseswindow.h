@@ -20,6 +20,7 @@ class PurchasesWindow : public QMainWindow {
     Q_OBJECT
 public:
     explicit PurchasesWindow(QWidget *parent = nullptr);
+    PurchasesWindow(QWidget *parent, QMainWindow *form);
     ~PurchasesWindow(void);
     bool getDebugMode(void);
     void setDebugMode(bool d);
@@ -48,7 +49,7 @@ private slots:
     void on_purchaseIdField_editingFinished(void);
 private:
     Ui::PurchasesWindow *ui;
-    /* PurchasesEditor *purchaseEditor; */
+    QMainWindow *form;
     bool debugMode;
     QString query;
     unsigned int id;

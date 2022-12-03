@@ -83,33 +83,67 @@ FilmRent::FilmRent(Film f, QDateTime l):
 }
 
 Film::Film(const char *t, const char *d, unsigned int y, double p)
-    : title(QString(t)), director(QString(d)), year(y), price(p) {
+    : id(0), title(QString(t)), director(QString(d)), year(y), price(p) {
     added = QDateTime::currentDateTime();
 }
 
 Film::Film(const QString &t, const QString &d)
-    : title(t), director(d), year(0), price(0.0) {
+    : id(0), title(t), director(d), year(0), price(0.0) {
     added = QDateTime::currentDateTime();
 }
 
 Film::Film(const char *t, const char *d)
-    : title(QString(t)), director(QString(d)), year(0), price(0.0) {
+    : id(0), title(QString(t)), director(QString(d)), year(0), price(0.0) {
     added = QDateTime::currentDateTime();
 }
 
 Film::Film(const QString &t, const QString &d, unsigned int y)
-    : title(t), director(d), year(y), price(0.0) {
+    : id(0), title(t), director(d), year(y), price(0.0) {
     added = QDateTime::currentDateTime();
 }
 
 Film::Film(const char *t, const char *d, unsigned int y)
-    : title(QString(t)), director(QString(d)), year(y), price(0.0) {
+    : id(0), title(QString(t)), director(QString(d)), year(y), price(0.0) {
     added = QDateTime::currentDateTime();
 }
 
 Film::Film(const QString &t, const QString &d, unsigned int y, double p)
-    : title(t), director(d), year(y), price(p) {
+    : id(0), title(t), director(d), year(y), price(p) {
     added = QDateTime::currentDateTime();
+}
+
+Film::Film(unsigned int i, const QString &t, const QString &d)
+    : id(i), title(t), director(d), year(0), price(0.0) {
+    added = QDateTime::currentDateTime();
+}
+
+Film::Film(unsigned int i, const char *t, const char *d)
+    : id(i), title(QString(t)), director(QString(d)), year(0), price(0.0) {
+    added = QDateTime::currentDateTime();
+}
+
+Film::Film(unsigned int i, const QString &t, const QString &d, unsigned int y)
+    : id(i), title(t), director(d), year(y), price(0.0) {
+    added = QDateTime::currentDateTime();
+}
+
+Film::Film(unsigned int i, const char *t, const char *d, unsigned int y)
+    : id(i), title(QString(t)), director(QString(d)), year(y), price(0.0) {
+    added = QDateTime::currentDateTime();
+}
+
+Film::Film(unsigned int i, const QString &t, const QString &d, unsigned int y, double p)
+    : id(i), title(t), director(d), year(y), price(p) {
+    added = QDateTime::currentDateTime();
+}
+
+Film::Film(unsigned int i, const char *t, const char *d, unsigned int y, double p)
+    : id(i), title(QString(t)), director(QString(d)), year(y), price(p) {
+    added = QDateTime::currentDateTime();
+}
+
+unsigned int Film::getId(void) {
+    return id;
 }
 
 QString Film::getTitle(void) {

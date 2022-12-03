@@ -41,6 +41,13 @@ public:
     Film(const char *t, const char *d, unsigned int y);
     Film(const QString &t, const QString &d, unsigned int y, double p);
     Film(const char *t, const char *d, unsigned int y, double p);
+    Film(unsigned int i, const QString &t, const QString &d);
+    Film(unsigned int i, const char *t, const char *d);
+    Film(unsigned int i, const QString &t, const QString &d, unsigned int y);
+    Film(unsigned int i, const char *t, const char *d, unsigned int y);
+    Film(unsigned int i, const QString &t, const QString &d, unsigned int y, double p);
+    Film(unsigned int i, const char *t, const char *d, unsigned int y, double p);
+    unsigned int getId(void);
     QString getTitle(void);
     void setTitle(const QString &t);
     void setTitle(const char *t);

@@ -86,6 +86,64 @@ RentalsForm::RentalsForm(const QString &t, unsigned int y, double p) :
     ui->setupUi(this);
 }
 
+RentalsForm::RentalsForm(unsigned int id, const QString &t) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film(id, t, "Director"))) {
+    ui->setupUi(this);
+}
+
+RentalsForm::RentalsForm(unsigned int id, const char *t) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film(id, t, "Director"))) {
+    ui->setupUi(this);
+}
+
+RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film(id, t, d))) {
+    ui->setupUi(this);
+}
+
+RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film(id, t, d))) {
+    ui->setupUi(this);
+}
+
+RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d, unsigned int y) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film(id, t, d, y))) {
+    ui->setupUi(this);
+}
+
+RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film(id, t, d, y))) {
+    ui->setupUi(this);
+}
+
+RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d, unsigned int y, double p) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film(id, t, d, y, p))) {
+    ui->setupUi(this);
+    this->ui->rentalsIdField->setValue(id);
+    this->ui->rentalsTitleField->setText(t);
+    this->ui->rentalsDirectorField->setText(d);
+    this->ui->rentalsYearField->setValue(y);
+    this->ui->rentalsPriceField->setValue(p);
+}
+
+RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y, double p) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film(id, t, d, y, p))) {
+    ui->setupUi(this);
+    this->ui->rentalsIdField->setValue(id);
+    this->ui->rentalsTitleField->setText(QString(t));
+    this->ui->rentalsDirectorField->setText(QString(d));
+    this->ui->rentalsYearField->setValue(y);
+    this->ui->rentalsPriceField->setValue(p);
+}
+
 RentalsForm::~RentalsForm(void) {
     delete ui;
 }
