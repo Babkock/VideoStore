@@ -94,19 +94,21 @@ void RentalsForm::closeEvent(QCloseEvent *event) {
     emit closing();
     event->accept();
     close();
-    QMainWindow *p = (QMainWindow *)this->parent();
-    p->close();
+//    QMainWindow *p = (QMainWindow *)this->parent();
+//    p->close();
 }
 
 /* user changed text of "Title of Film" field */
 void RentalsForm::on_rentalsTitleField_textChanged(const QString &arg1) {
     film.setTitle(arg1);
+    this->ui->rentalsSaveChanges->setEnabled(true);
     std::cout << "Title changed: " << arg1.toStdString() << std::endl;
 }
 
 /* user changed text of "Director of Film" field */
 void RentalsForm::on_rentalsDirectorField_textChanged(const QString &arg1) {
     film.setDirector(arg1);
+    this->ui->rentalsSaveChanges->setEnabled(true);
     std::cout << "Director changed: " << arg1.toStdString() << std::endl;
 }
 

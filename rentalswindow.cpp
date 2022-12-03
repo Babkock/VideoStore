@@ -48,6 +48,7 @@ void RentalsWindow::on_rentalAddNew_clicked(void) {
 
 /* Whenever the text for the "Title of Film" box is changed */
 void RentalsWindow::on_rentalTitleField_textChanged(const QString &arg1) {
+    setQuery(arg1);
     std::cout << "Text was changed: " << arg1.toStdString() << std::endl;
 }
 
@@ -55,9 +56,35 @@ void RentalsWindow::on_rentalTitleField_textChanged(const QString &arg1) {
  * This should do the same thing as on_rentalEdit_clicked() */
 void RentalsWindow::on_rentalTitleField_returnPressed(void) {
     /* do nothing if the text box is empty */
+    QString qtitle = this->ui->rentalTitleField->text();
+    int qid = this->ui->rentalIdField->text().toInt();
+    QSqlQuery i, t;
 
+    if ((qtitle.length() == 0) && (qid == 0))
+        return;
     /* else, query the database */
+    else if (qid != 0) {
+        i.prepare("SELECT * FROM `filmrent` WHERE `id`=?");
+        i.addBindValue(qid);
+        i.exec();
+        if (i.first()) {
+            form->idField->setText(i.value(0));
+            form->titleField->setText(i.value(1).toString());
+            form->show();
+        } else {
+            return;
+        }
+    }
+    else if (qtitle.length() != 0) {
+        t.prepare("SELECT * FROM `filmrent` WHERE `title`=?");
+        t.addBindValue(qtitle);
+        t.exec();
+        if (t.first()) {
 
+        } else {
+            return;
+        }
+    }
     /* if not found, do nothing */
 
     /* else, bring up the RentalsForm with the found data */

@@ -16,6 +16,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
+QSqlDatabase db;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
@@ -36,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
         delete ui;
         abort();
     }
-    QSqlQuery create("CREATE TABLE `filmrent` (`id` INTEGER PRIMARY KEY, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE)");
+    QSqlQuery create("CREATE TABLE `filmrent` (`id` INTEGER PRIMARY KEY, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE, `added` DATETIME, `quantity` INT(11), `available` INT(11), `lastRentedTo` VARCHAR(80), `lastRented` DATETIME)");
+    QSqlQuery ins1("INSERT INTO `filmrent` VALUES(1, 'Persona', 'Ingmar Bergman', 1966, 6.99, NOW(), 2, 2, '', NULL, NOW())");
 
     rentals = new RentalsWindow(parent, new RentalsForm(Film("Title", "Director", 1950, 4.99)));
     purchases = new PurchasesWindow();

@@ -15,6 +15,8 @@
 #include "rentalswindow.h"
 #include "rentalsform.h"
 
+extern QSqlDatabase db;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -44,7 +46,6 @@ private:
     RentalsWindow *rentals;
     PurchasesWindow *purchases;
     RentalsForm *form;
-    QSqlDatabase db;
     bool debugMode;
 signals:
     //void closing(void);
