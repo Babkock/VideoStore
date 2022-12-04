@@ -47,6 +47,7 @@ public:
     Film(unsigned int i, const char *t, const char *d, unsigned int y);
     Film(unsigned int i, const QString &t, const QString &d, unsigned int y, double p);
     Film(unsigned int i, const char *t, const char *d, unsigned int y, double p);
+    void setId(int i);
     unsigned int getId(void);
     QString getTitle(void);
     void setTitle(const QString &t);
@@ -111,16 +112,23 @@ public:
     FilmSale(void);
     FilmSale(Film f);
     FilmSale(Film f, unsigned int q);
-    FilmSale(Film f, unsigned int q, unsigned int a);
     FilmSale(Film f, const char *l);
     FilmSale(Film f, const QString &l);
     FilmSale(Film f, QDateTime l);
     FilmSale(Film f, const char *l, QDateTime a);
     FilmSale(Film f, const QString &l, QDateTime a);
+    FilmSale(Film f, unsigned int q, const char *l);
+    FilmSale(Film f, unsigned int q, const QString &l);
+    FilmSale(Film f, unsigned int q, const char *l, QDateTime a);
+    FilmSale(Film f, unsigned int q, const QString &l, QDateTime a);
+    FilmSale(Film f, unsigned int q, QDateTime a);
     int getQuantity(void);
     void setQuantity(int q);
     QDateTime getLastSold(void);
     void setLastSold(QDateTime l);
+    QString getLastSoldTo(void);
+    void setLastSoldTo(const char *l);
+    void setLastSoldTo(const QString &l);
     void print(void);
 signals:
 

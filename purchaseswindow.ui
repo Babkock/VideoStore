@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Video Store Purchases</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="maximumSize">

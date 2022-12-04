@@ -21,6 +21,8 @@ class PurchasesForm : public QMainWindow {
 public:
     explicit PurchasesForm(QWidget *parent = nullptr);
     ~PurchasesForm(void);
+    bool getEditExisting(void);
+    void setEditExisting(bool e);
 protected:
     void closeEvent(QCloseEvent *event);
 private slots:
@@ -32,6 +34,10 @@ private slots:
     void on_purchasesTitleField_textChanged(const QString &arg1);
     /* the text of the "Director of Film" field was changed */
     void on_purchasesDirectorField_textChanged(const QString &arg1);
+    /* the value of "Year" input field was changed */
+    void on_purchasesYearField_valueChanged(int arg1);
+    /* the value of "Price" field was changed */
+    void on_purchasesPriceField_valueChanged(double arg1);
 
 private:
     Ui::PurchasesForm *ui;

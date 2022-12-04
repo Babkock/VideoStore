@@ -18,10 +18,6 @@ Film::Film(QObject *parent)
     added = QDateTime::currentDateTime();
 }
 
-void Film::print(void) {
-
-}
-
 FilmRent::FilmRent(void) {
     setTitle("Title");
     setDirector("Director");
@@ -39,6 +35,16 @@ FilmSale::FilmSale(void) {
 }
 
 FilmRent::FilmRent(Film f) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f) {
+    setId(f.getId());
     setTitle(f.getTitle());
     setDirector(f.getDirector());
     setYear(f.getYear());
@@ -48,6 +54,17 @@ FilmRent::FilmRent(Film f) {
 
 FilmRent::FilmRent(Film f, unsigned int q):
     quantity(q) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, unsigned int q):
+    quantity(q) {
+    setId(f.getId());
     setTitle(f.getTitle());
     setDirector(f.getDirector());
     setYear(f.getYear());
@@ -57,6 +74,7 @@ FilmRent::FilmRent(Film f, unsigned int q):
 
 FilmRent::FilmRent(Film f, unsigned int q, unsigned int a):
     quantity(q), available(a) {
+    setId(f.getId());
     setTitle(f.getTitle());
     setDirector(f.getDirector());
     setYear(f.getYear());
@@ -66,6 +84,17 @@ FilmRent::FilmRent(Film f, unsigned int q, unsigned int a):
 
 FilmRent::FilmRent(Film f, const char *l):
     lastRentedTo((QString)l) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, const char *l):
+    lastSoldTo((QString)l) {
+    setId(f.getId());
     setTitle(f.getTitle());
     setDirector(f.getDirector());
     setYear(f.getYear());
@@ -75,6 +104,17 @@ FilmRent::FilmRent(Film f, const char *l):
 
 FilmRent::FilmRent(Film f, const QString &l):
     lastRentedTo(l) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, const QString &l):
+    lastSoldTo(l) {
+    setId(f.getId());
     setTitle(f.getTitle());
     setDirector(f.getDirector());
     setYear(f.getYear());
@@ -84,6 +124,96 @@ FilmRent::FilmRent(Film f, const QString &l):
 
 FilmRent::FilmRent(Film f, QDateTime l):
     lastRented(l) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, QDateTime l):
+    lastSold(l) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, const char *l, QDateTime a):
+    lastSold(a),
+    lastSoldTo(QString(l)) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, const QString &l, QDateTime a):
+    lastSold(a),
+    lastSoldTo(l) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, unsigned int q, const char *l):
+    quantity(q),
+    lastSoldTo(QString(l)) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, unsigned int q, const QString &l):
+    quantity(q),
+    lastSoldTo(l) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, unsigned int q, const char *l, QDateTime a):
+    quantity(q),
+    lastSold(a),
+    lastSoldTo(QString(l)) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, unsigned int q, const QString &l, QDateTime a):
+    quantity(q),
+    lastSold(a),
+    lastSoldTo(l) {
+    setId(f.getId());
+    setTitle(f.getTitle());
+    setDirector(f.getDirector());
+    setYear(f.getYear());
+    setPrice(f.getPrice());
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(Film f, unsigned int q, QDateTime a):
+    quantity(q),
+    lastSold(a) {
+    setId(f.getId());
     setTitle(f.getTitle());
     setDirector(f.getDirector());
     setYear(f.getYear());
@@ -151,6 +281,14 @@ Film::Film(unsigned int i, const char *t, const char *d, unsigned int y, double 
     added = QDateTime::currentDateTime();
 }
 
+void Film::print(void) {
+
+}
+
+void Film::setId(int i) {
+    id = (unsigned int)i;
+}
+
 unsigned int Film::getId(void) {
     return id;
 }
@@ -211,6 +349,14 @@ int FilmRent::getQuantity(void) {
     return (int)quantity;
 }
 
+void FilmSale::setQuantity(int q) {
+    quantity = (unsigned int)q;
+}
+
+int FilmSale::getQuantity(void) {
+    return (int)quantity;
+}
+
 void FilmRent::setAvailable(int a) {
     available = (unsigned int)a;
 }
@@ -227,8 +373,16 @@ QDateTime FilmRent::getLastRented(void) {
     return lastRented;
 }
 
+void FilmSale::setLastSold(QDateTime l) {
+    lastSold = l;
+}
+
+QDateTime FilmSale::getLastSold(void) {
+    return lastSold;
+}
+
 void FilmRent::setLastRentedTo(const char *l) {
-    lastRentedTo = l;
+    lastRentedTo = (QString)l;
 }
 
 void FilmRent::setLastRentedTo(const QString &l) {
@@ -239,7 +393,20 @@ QString FilmRent::getLastRentedTo(void) {
     return lastRentedTo;
 }
 
+void FilmSale::setLastSoldTo(const char *l) {
+    lastSoldTo = (QString)l;
+}
+
+void FilmSale::setLastSoldTo(const QString &l) {
+    lastSoldTo = l;
+}
+
+QString FilmSale::getLastSoldTo(void) {
+    return lastSoldTo;
+}
+
 void FilmRent::print(void) {
+    std::cout << "ID: " << getId() << std::endl;
     std::cout << "Title: " << getTitle().toStdString() << std::endl;
     std::cout << "Director: " << getDirector().toStdString() << std::endl;
     std::cout << "Year: " << getYear() << std::endl;
@@ -250,5 +417,11 @@ void FilmRent::print(void) {
 }
 
 void FilmSale::print(void) {
-
+    std::cout << "ID: " << getId() << std::endl;
+    std::cout << "Title: " << getTitle().toStdString() << std::endl;
+    std::cout << "Director: " << getDirector().toStdString() << std::endl;
+    std::cout << "Year: " << getYear() << std::endl;
+    std::cout << "Price: $" << getPrice() << std::endl;
+    std::cout << "Quantity: " << quantity << std::endl;
+    std::cout << "Last Sold to: " << lastSoldTo.toStdString() << std::endl;
 }

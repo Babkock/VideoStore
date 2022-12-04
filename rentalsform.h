@@ -64,11 +64,11 @@ private slots:
     void on_rentalsDirectorField_textChanged(const QString &arg1);
     /* user changed value of "Price in $:" field */
     void on_rentalsPriceField_valueChanged(double arg1);
-    /* user changed value of "Year" field */
+    /* the value of "Price" input field was changed */
     void on_rentalsYearField_valueChanged(int arg1);
-    /* user changed value of "Quantity" field */
+    /* the value of "Quantity" input field was changed */
     void on_rentalsQuantityField_valueChanged(int arg1);
-    /* user changed value of "Available" field */
+    /* the value of "Available" field was changed */
     void on_rentalsAvailableField_valueChanged(int arg1);
     /* user selected a date for the "Last Rented" field */
     void on_rentalsLastRentedField_dateTimeChanged(const QDateTime &dateTime);

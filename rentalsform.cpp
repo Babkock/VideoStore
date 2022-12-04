@@ -17,14 +17,16 @@ RentalsForm::RentalsForm(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::RentalsForm) {
     ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
 }
 
 RentalsForm::RentalsForm(Film f) :
     ui(new Ui::RentalsForm),
-    film(FilmRent(Film(f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()))),
+    film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()))),
     editExisting(false) {
     ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
@@ -34,9 +36,10 @@ RentalsForm::RentalsForm(Film f) :
 
 RentalsForm::RentalsForm(Film f, unsigned int q) :
     ui(new Ui::RentalsForm),
-    film(FilmRent(Film(f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), q)),
+    film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), q)),
     editExisting(false) {
     ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
@@ -47,10 +50,12 @@ RentalsForm::RentalsForm(Film f, unsigned int q) :
 
 RentalsForm::RentalsForm(Film f, unsigned int q, unsigned int a) :
     ui(new Ui::RentalsForm),
-    film(FilmRent(Film(f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), q, a)),
+    film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), q, a)),
     editExisting(false) {
     ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsIdField->setValue(f.getId());
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
     ui->rentalsYearField->setValue((int)f.getYear());
@@ -61,9 +66,11 @@ RentalsForm::RentalsForm(Film f, unsigned int q, unsigned int a) :
 
 RentalsForm::RentalsForm(Film f, const char *l) :
     ui(new Ui::RentalsForm),
-    film(FilmRent(Film(f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)) {
+    film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)) {
     ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsIdField->setValue(f.getId());
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
     ui->rentalsYearField->setValue((int)f.getYear());
@@ -73,8 +80,9 @@ RentalsForm::RentalsForm(Film f, const char *l) :
 
 RentalsForm::RentalsForm(Film f, const QString &l) :
     ui(new Ui::RentalsForm),
-    film(FilmRent(Film(f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)) {
+    film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)) {
     ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
@@ -90,13 +98,14 @@ RentalsForm::RentalsForm(Film f, QDateTime l) :
     ui->setupUi(this);
     char head[32];
     sprintf(head, "Editing Film Rental #%d", f.getId());
-    this->ui->rentalsHeaderText->setText(head);
-    this->ui->rentalsIdField->setValue(f.getId());
-    this->ui->rentalsTitleField->setText(f.getTitle());
-    this->ui->rentalsDirectorField->setText(f.getDirector());
-    this->ui->rentalsYearField->setValue(int(f.getYear()));
-    this->ui->rentalsPriceField->setValue(f.getPrice());
-    this->ui->rentalsLastRentedField->setDateTime(l);
+    this->setWindowTitle(head);
+    ui->rentalsHeaderText->setText(head);
+    ui->rentalsIdField->setValue(f.getId());
+    ui->rentalsTitleField->setText(f.getTitle());
+    ui->rentalsDirectorField->setText(f.getDirector());
+    ui->rentalsYearField->setValue(int(f.getYear()));
+    ui->rentalsPriceField->setValue(f.getPrice());
+    ui->rentalsLastRentedField->setDateTime(l);
 }
 
 RentalsForm::RentalsForm(const QString &t) :
@@ -104,9 +113,10 @@ RentalsForm::RentalsForm(const QString &t) :
     film(FilmRent(Film(t, "Director"))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(const QString &t, const QString &d) :
@@ -114,10 +124,11 @@ RentalsForm::RentalsForm(const QString &t, const QString &d) :
     film(FilmRent(Film(t, d))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsDirectorField->setText(d);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsDirectorField->setText(d);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(const QString &t, unsigned int y) :
@@ -125,10 +136,11 @@ RentalsForm::RentalsForm(const QString &t, unsigned int y) :
     film(FilmRent(Film(t, "Director", y))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsYearField->setValue((int)y);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsYearField->setValue((int)y);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(const QString &t, const QString &d, unsigned int y) :
@@ -136,11 +148,12 @@ RentalsForm::RentalsForm(const QString &t, const QString &d, unsigned int y) :
     film(FilmRent(Film(t, d, y))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsDirectorField->setText(d);
-    this->ui->rentalsYearField->setValue((int)y);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsDirectorField->setText(d);
+    ui->rentalsYearField->setValue((int)y);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(const QString &t, unsigned int y, double p) :
@@ -148,11 +161,12 @@ RentalsForm::RentalsForm(const QString &t, unsigned int y, double p) :
     film(FilmRent(Film(t, "Director", y, p))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsYearField->setValue((int)y);
-    this->ui->rentalsPriceField->setValue(p);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsYearField->setValue((int)y);
+    ui->rentalsPriceField->setValue(p);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(unsigned int id, const QString &t) :
@@ -160,9 +174,10 @@ RentalsForm::RentalsForm(unsigned int id, const QString &t) :
     film(FilmRent(Film(id, t, "Director"))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(unsigned int id, const char *t) :
@@ -170,9 +185,10 @@ RentalsForm::RentalsForm(unsigned int id, const char *t) :
     film(FilmRent(Film(id, t, "Director"))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(QString(t));
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(QString(t));
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d) :
@@ -180,10 +196,11 @@ RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d) :
     film(FilmRent(Film(id, t, d))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsDirectorField->setText(d);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsDirectorField->setText(d);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d) :
@@ -191,10 +208,11 @@ RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d) :
     film(FilmRent(Film(id, t, d))),
     editExisting(false) {
     ui->setupUi(this);
-    this->ui->rentalsHeaderText->setText("Adding New Film to Inventory");
-    this->ui->rentalsTitleField->setText(QString(t));
-    this->ui->rentalsDirectorField->setText(QString(d));
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle("Adding New Film to Inventory");
+    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsTitleField->setText(QString(t));
+    ui->rentalsDirectorField->setText(QString(d));
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d, unsigned int y) :
@@ -204,11 +222,12 @@ RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d, un
     ui->setupUi(this);
     char head[32];
     sprintf(head, "Editing Film Rental #%d", id);
-    this->ui->rentalsHeaderText->setText(head);
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsDirectorField->setText(d);
-    this->ui->rentalsYearField->setValue(int(y));
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle(head);
+    ui->rentalsHeaderText->setText(head);
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsDirectorField->setText(d);
+    ui->rentalsYearField->setValue(int(y));
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y) :
@@ -218,11 +237,12 @@ RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d, unsigned
     ui->setupUi(this);
     char head[32];
     sprintf(head, "Editing Film Rental #%d", id);
-    this->ui->rentalsHeaderText->setText(head);
-    this->ui->rentalsTitleField->setText(QString(t));
-    this->ui->rentalsDirectorField->setText(QString(d));
-    this->ui->rentalsYearField->setValue(int(y));
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle(head);
+    ui->rentalsHeaderText->setText(head);
+    ui->rentalsTitleField->setText(QString(t));
+    ui->rentalsDirectorField->setText(QString(d));
+    ui->rentalsYearField->setValue(int(y));
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d, unsigned int y, double p) :
@@ -232,13 +252,14 @@ RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d, un
     ui->setupUi(this);
     char head[32];
     sprintf(head, "Editing Film Rental #%d", id);
-    this->ui->rentalsHeaderText->setText(head);
-    this->ui->rentalsIdField->setValue(id);
-    this->ui->rentalsTitleField->setText(t);
-    this->ui->rentalsDirectorField->setText(d);
-    this->ui->rentalsYearField->setValue(int(y));
-    this->ui->rentalsPriceField->setValue(p);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle(head);
+    ui->rentalsHeaderText->setText(head);
+    ui->rentalsIdField->setValue(id);
+    ui->rentalsTitleField->setText(t);
+    ui->rentalsDirectorField->setText(d);
+    ui->rentalsYearField->setValue(int(y));
+    ui->rentalsPriceField->setValue(p);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y, double p) :
@@ -248,13 +269,14 @@ RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d, unsigned
     ui->setupUi(this);
     char head[32];
     sprintf(head, "Editing Film Rental #%d", id);
-    this->ui->rentalsHeaderText->setText(head);
-    this->ui->rentalsIdField->setValue(id);
-    this->ui->rentalsTitleField->setText(QString(t));
-    this->ui->rentalsDirectorField->setText(QString(d));
-    this->ui->rentalsYearField->setValue(int(y));
-    this->ui->rentalsPriceField->setValue(p);
-    this->ui->rentalsSaveChanges->setEnabled(false);
+    this->setWindowTitle(head);
+    ui->rentalsHeaderText->setText(head);
+    ui->rentalsIdField->setValue(id);
+    ui->rentalsTitleField->setText(QString(t));
+    ui->rentalsDirectorField->setText(QString(d));
+    ui->rentalsYearField->setValue(int(y));
+    ui->rentalsPriceField->setValue(p);
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::~RentalsForm(void) {
@@ -283,14 +305,14 @@ void RentalsForm::on_rentalsDirectorField_textChanged(const QString &arg1) {
         std::cout << "Director changed: " << arg1.toStdString() << std::endl;
 }
 
-/* user changed value of "Price in $:" field */
+/* the value of the "Price" input field was changed */
 void RentalsForm::on_rentalsPriceField_valueChanged(double arg1) {
     film.setPrice(arg1);
     if (debugMode)
         std::cout << "Price changed: " << arg1 << std::endl;
 }
 
-/* user changed value of "Year" field */
+/* the value of the "Year" input field was changed */
 void RentalsForm::on_rentalsYearField_valueChanged(int arg1) {
     film.setYear((unsigned int)arg1);
     if (debugMode)
