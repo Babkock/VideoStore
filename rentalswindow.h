@@ -24,8 +24,6 @@ public:
     explicit RentalsWindow(QWidget *parent = nullptr);
     RentalsWindow(QWidget *parent, QMainWindow *form);
     ~RentalsWindow(void);
-    bool getDebugMode(void);
-    void setDebugMode(bool d);
     QString getQuery(void);
     void setQuery(QString q);
     unsigned int getId(void);
@@ -54,7 +52,6 @@ private:
     QMainWindow *form;
     QString query;
     unsigned int id;
-    bool debugMode;
 signals:
     void closing(void);
 };

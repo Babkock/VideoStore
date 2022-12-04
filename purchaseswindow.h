@@ -22,8 +22,6 @@ public:
     explicit PurchasesWindow(QWidget *parent = nullptr);
     PurchasesWindow(QWidget *parent, QMainWindow *form);
     ~PurchasesWindow(void);
-    bool getDebugMode(void);
-    void setDebugMode(bool d);
     QString getQuery(void);
     void setQuery(QString q);
     unsigned int getId(void);
@@ -50,7 +48,6 @@ private slots:
 private:
     Ui::PurchasesWindow *ui;
     QMainWindow *form;
-    bool debugMode;
     QString query;
     unsigned int id;
 signals:

@@ -5,6 +5,7 @@
  * November - December 2022
  * https://github.com/Babkock/VideoStore
 */
+#include "main.h"
 #include "rentalswindow.h"
 #include "ui_rentalswindow.h"
 #include "rentalsform.h"
@@ -48,13 +49,15 @@ void RentalsWindow::on_rentalAddNew_clicked(void) {
     /* bring up empty RentalsForm */
     form = new RentalsForm();
     form->show();
-    std::cout << "Add new Film for Rent was clicked" << std::endl;
+    if (debugMode)
+        std::cout << "Add new Film for Rent was clicked" << std::endl;
 }
 
 /* Whenever the text for the "Title of Film" box is changed */
 void RentalsWindow::on_rentalTitleField_textChanged(const QString &arg1) {
     setQuery(arg1);
-    std::cout << "Text was changed: " << arg1.toStdString() << std::endl;
+    if (debugMode)
+        std::cout << "Text was changed: " << arg1.toStdString() << std::endl;
 }
 
 /* User pressed Return after editing "Title of Film" box from Rentals window
@@ -76,7 +79,7 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
             form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();
         } else {
-            std::cout << "Film with ID " << qid << " not found" << std::endl;
+            std::cerr << "Film with ID " << qid << " not found" << std::endl;
             return;
         }
     }
@@ -88,7 +91,7 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
             form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();
         } else {
-            std::cout << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
+            std::cerr << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
             return;
         }
     }
@@ -133,14 +136,6 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
 void RentalsWindow::on_rentalReturn_clicked(void) {
     emit closing();
     hide();
-}
-
-bool RentalsWindow::getDebugMode(void) {
-    return debugMode;
-}
-
-void RentalsWindow::setDebugMode(bool d) {
-    debugMode = d;
 }
 
 QString RentalsWindow::getQuery(void) {

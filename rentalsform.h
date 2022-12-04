@@ -53,8 +53,6 @@ public:
     RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y);
     RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y, double p);
     ~RentalsForm(void);
-    bool getDebugMode(void);
-    void setDebugMode(bool d);
     bool getEditExisting(void);
     void setEditExisting(bool e);
 protected:
@@ -89,7 +87,6 @@ private:
     Ui::RentalsForm *ui;     // The interface for our Rentals Form window
     FilmRent film;           // A FilmRent object that can read from/write to database
     bool editExisting;       // true = existing film is being edited, false = new film
-    bool debugMode;          // Should we print debug messages?
 signals:
     void closing(void);
 };

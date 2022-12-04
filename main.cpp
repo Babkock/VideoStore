@@ -18,6 +18,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
+bool debugMode;
 QSqlDatabase db;
 double cashRegister;
 double profits;

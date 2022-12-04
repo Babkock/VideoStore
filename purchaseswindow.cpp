@@ -5,11 +5,12 @@
  * November - December 2022
  * https://github.com/Babkock/VideoStore
 */
+#include "main.h"
 #include "rentalswindow.h"
 #include "purchaseswindow.h"
 #include "ui_purchaseswindow.h"
-//#include "purchasesform.h"
-//#include "ui_purchasesform.h"
+#include "purchasesform.h"
+#include "ui_purchasesform.h"
 #include <iostream>
 
 PurchasesWindow::PurchasesWindow(QWidget *parent) :
@@ -30,6 +31,7 @@ PurchasesWindow::PurchasesWindow(QWidget *parent, QMainWindow *form) :
 }
 
 PurchasesWindow::~PurchasesWindow(void) {
+    delete form;
     delete ui;
 }
 
@@ -41,6 +43,10 @@ void PurchasesWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Add Film for Purchase" from Purchases window */
 void PurchasesWindow::on_purchaseAddNew_clicked(void) {
     /* bring up empty PurchasesForm */
+    form = new PurchasesForm();
+    form->show();
+    if (debugMode)
+        std::cout << "Add new Film for Purchase was clicked" << std::endl;
 }
 
 /* Whenever the text for the "Title of Film" field on Purchases is changed */
@@ -75,14 +81,6 @@ void PurchasesWindow::on_purchaseEdit_clicked(void) {
 void PurchasesWindow::on_purchaseReturn_clicked(void) {
     emit closing();
     this->close();
-}
-
-bool PurchasesWindow::getDebugMode(void) {
-    return debugMode;
-}
-
-void PurchasesWindow::setDebugMode(bool d) {
-    debugMode = d;
 }
 
 QString PurchasesWindow::getQuery(void) {

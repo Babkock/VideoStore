@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RentalsForm</class>
- <widget class="QMainWindow" name="RentalsForm">
+ <class>PurchasesForm</class>
+ <widget class="QMainWindow" name="PurchasesForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>757</width>
-    <height>651</height>
+    <height>612</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>757</width>
-    <height>651</height>
+    <height>612</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>757</width>
-    <height>651</height>
+    <height>612</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="rentalsHeaderText">
+   <widget class="QLabel" name="purchasesHeaderText">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>70</x>
       <y>10</y>
-      <width>541</width>
+      <width>601</width>
       <height>31</height>
      </rect>
     </property>
@@ -47,25 +47,12 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>711</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>140</y>
-      <width>131</width>
+      <x>20</x>
+      <y>80</y>
+      <width>41</width>
       <height>31</height>
      </rect>
     </property>
@@ -75,41 +62,23 @@
      </font>
     </property>
     <property name="text">
-     <string>Title of Film:</string>
+     <string>ID:</string>
     </property>
    </widget>
-   <widget class="Line" name="line_2">
+   <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>130</y>
-      <width>31</width>
-      <height>411</height>
+      <x>10</x>
+      <y>50</y>
+      <width>731</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="orientation">
-     <enum>Qt::Vertical</enum>
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLineEdit" name="rentalsTitleField">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>130</y>
-      <width>361</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Title</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="rentalsIdField">
+   <widget class="QSpinBox" name="purchasesIdField">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -130,7 +99,98 @@
      <enum>QAbstractSpinBox::NoButtons</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>80</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Date Added:</string>
+    </property>
+   </widget>
+   <widget class="QDateTimeEdit" name="purchasesDateAddedField">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>70</y>
+      <width>301</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::NoButtons</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>130</y>
+      <width>31</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>140</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Title of Film:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="purchasesTitleField">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>130</y>
+      <width>361</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Title</string>
+    </property>
+    <property name="maxLength">
+     <number>110</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -138,12 +198,6 @@
       <width>171</width>
       <height>31</height>
      </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
     </property>
     <property name="font">
      <font>
@@ -154,25 +208,7 @@
      <string>Director of Film:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>ID:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="rentalsDirectorField">
+   <widget class="QLineEdit" name="purchasesDirectorField">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -189,13 +225,16 @@
     <property name="text">
      <string>Director</string>
     </property>
+    <property name="maxLength">
+     <number>80</number>
+    </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
       <x>290</x>
       <y>240</y>
-      <width>61</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
@@ -208,7 +247,7 @@
      <string>Year:</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="rentalsYearField">
+   <widget class="QSpinBox" name="purchasesYearField">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -232,7 +271,7 @@
      <number>2100</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -250,7 +289,7 @@
      <string>Price:</string>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="rentalsPriceField">
+   <widget class="QDoubleSpinBox" name="purchasesPriceField">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -270,53 +309,8 @@
     <property name="prefix">
      <string>$</string>
     </property>
-    <property name="maximum">
-     <double>22.000000000000000</double>
-    </property>
-    <property name="singleStep">
-     <double>0.500000000000000</double>
-    </property>
    </widget>
-   <widget class="QDateTimeEdit" name="rentalsDateAddedField">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>70</y>
-      <width>301</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-    <property name="buttonSymbols">
-     <enum>QAbstractSpinBox::NoButtons</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>80</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Date Added:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
+   <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -334,7 +328,7 @@
      <string>Quantity:</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="rentalsQuantityField">
+   <widget class="QSpinBox" name="purchasesQuantityField">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -351,20 +345,14 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>10</number>
-    </property>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
       <x>240</x>
       <y>390</y>
       <width>101</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -373,10 +361,10 @@
      </font>
     </property>
     <property name="text">
-     <string>Available:</string>
+     <string>Last Sold:</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="rentalsAvailableField">
+   <widget class="QDateTimeEdit" name="purchasesLastSoldField">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -387,23 +375,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>10</number>
-    </property>
    </widget>
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>220</x>
       <y>440</y>
       <width>131</width>
       <height>31</height>
@@ -415,10 +397,10 @@
      </font>
     </property>
     <property name="text">
-     <string>Last Rented:</string>
+     <string>Last Sold to:</string>
     </property>
    </widget>
-   <widget class="QDateTimeEdit" name="rentalsLastRentedField">
+   <widget class="QLineEdit" name="purchasesLastSoldTo">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -429,58 +411,19 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>490</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Last Rented to:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="rentalsLastRentedTo">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>480</y>
-      <width>361</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
       <pointsize>14</pointsize>
      </font>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
    </widget>
-   <widget class="QPushButton" name="rentalsSaveChanges">
+   <widget class="QPushButton" name="purchasesSaveChanges">
     <property name="enabled">
      <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>550</y>
-      <width>331</width>
+      <x>30</x>
+      <y>500</y>
+      <width>311</width>
       <height>81</height>
      </rect>
     </property>
@@ -493,12 +436,12 @@
      <string>Save Changes to Film</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="rentalsDiscardChanges">
+   <widget class="QPushButton" name="purchasesDiscardChanges">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>550</y>
-      <width>371</width>
+      <x>360</x>
+      <y>500</y>
+      <width>361</width>
       <height>81</height>
      </rect>
     </property>

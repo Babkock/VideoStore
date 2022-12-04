@@ -108,6 +108,7 @@ private:
     QDateTime lastSold;
     QString lastSoldTo;
 public:
+    FilmSale(void);
     FilmSale(Film f);
     FilmSale(Film f, unsigned int q);
     FilmSale(Film f, unsigned int q, unsigned int a);

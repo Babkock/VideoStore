@@ -17,6 +17,7 @@ CONFIG += c++17
 
 SOURCES += main.cpp mainwindow.cpp \
     film.cpp \
+    purchasesform.cpp \
     purchaseswindow.cpp \
     rentalsform.cpp \
     rentalswindow.cpp
@@ -24,11 +25,13 @@ SOURCES += main.cpp mainwindow.cpp \
 HEADERS += mainwindow.h \
     film.h \
     main.h \
+    purchasesform.h \
     purchaseswindow.h \
     rentalsform.h \
     rentalswindow.h
 
 FORMS += mainwindow.ui \
+    purchasesform.ui \
     purchaseswindow.ui \
     rentalsform.ui \
     rentalswindow.ui

@@ -27,6 +27,15 @@ FilmRent::FilmRent(void) {
     setDirector("Director");
     setYear(1950);
     setPrice(4.99);
+    setAdded(QDateTime::currentDateTime());
+}
+
+FilmSale::FilmSale(void) {
+    setTitle("Title");
+    setDirector("Director");
+    setYear(1950);
+    setPrice(4.99);
+    setAdded(QDateTime::currentDateTime());
 }
 
 FilmRent::FilmRent(Film f) {

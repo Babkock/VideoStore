@@ -28,13 +28,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(purchases, SIGNAL(closing()), this, SLOT(show()));
 
     QSqlQuery sel1, sel2;
-    sel1.prepare("SELECT * FROM `filmrent`");
+    int total = sel1.prepare("SELECT COUNT(*) FROM `filmrent`");
     sel1.exec();
+    std::cout << "Tables in filmrent: " << total << std::endl;
 
-    int total = sel1.size();
-    sel2.prepare("SELECT * FROM `filmsale`");
+    total += sel2.prepare("SELECT COUNT(*) FROM `filmsale`");
     sel2.exec();
-    total += sel2.size();
     this->ui->totalFilmsField->setValue(total);
     this->ui->cashRegisterField->setValue(cashRegister);
     this->ui->profitsField->setValue(profits);
@@ -56,14 +55,12 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Rentals" button from top menu */
 void MainWindow::on_buttonRentals_clicked(void) {
     hide();
-    rentals->setDebugMode(debugMode);
     rentals->show();
 }
 
 /* user clicked "Purchases" button from top menu */
 void MainWindow::on_buttonPurchases_clicked(void) {
     hide();
-    purchases->setDebugMode(debugMode);
     purchases->show();
 }
 
@@ -80,13 +77,5 @@ void MainWindow::on_buttonReset_clicked(void) {
 
 /* user toggled "Print Debug Messages" on top menu */
 void MainWindow::on_checkDebug_toggled(bool checked) {
-    setDebugMode(checked);
-}
-
-bool MainWindow::getDebugMode(void) {
-    return debugMode;
-}
-
-void MainWindow::setDebugMode(bool d) {
-    debugMode = d;
+    debugMode = checked;
 }

@@ -14,6 +14,7 @@
 #include <QSqlDatabase>
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
+#include "purchasesform.h"
 #include "rentalsform.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,8 +26,6 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow(void);
-    bool getDebugMode(void);
-    void setDebugMode(bool d);
 protected:
     //void closeEvent(QCloseEvent *event);
 private slots:
@@ -45,7 +44,7 @@ private:
     RentalsWindow *rentals;
     PurchasesWindow *purchases;
     RentalsForm *form;
-    bool debugMode;
+    PurchasesForm *pform;
 signals:
     //void closing(void);
 };
