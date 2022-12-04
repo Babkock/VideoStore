@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>318</width>
-    <height>412</height>
+    <width>563</width>
+    <height>426</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>318</width>
-    <height>412</height>
+    <width>563</width>
+    <height>426</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>318</width>
-    <height>412</height>
+    <width>563</width>
+    <height>426</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -142,6 +142,176 @@
     </property>
     <property name="text">
      <string>Reset Database</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>20</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>by Tanner Babcock
+Copyright (c) 2022</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>90</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cash Register:</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>60</y>
+      <width>21</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>190</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Profits:</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="cashRegisterField">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>130</y>
+      <width>211</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::NoButtons</enum>
+    </property>
+    <property name="prefix">
+     <string>$</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="profitsField">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>220</y>
+      <width>211</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::NoButtons</enum>
+    </property>
+    <property name="prefix">
+     <string>$</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="totalFilmsField">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>330</y>
+      <width>211</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::NoButtons</enum>
+    </property>
+    <property name="suffix">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>290</y>
+      <width>231</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Total Films in Database:</string>
     </property>
    </widget>
   </widget>

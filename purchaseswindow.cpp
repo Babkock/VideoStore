@@ -104,13 +104,15 @@ void PurchasesWindow::setId(unsigned int i) {
 /* the value of "or by ID:" field on Purchases was changed */
 void PurchasesWindow::on_purchaseIdField_valueChanged(int arg1) {
     id = (unsigned int)arg1;
-    std::cout << "Value was changed: " << arg1 << std::endl;
+    if (debugMode)
+        std::cout << "Value was changed: " << arg1 << std::endl;
 }
 
 /* Whenever the text in the "Title of Film" field is edited */
 void PurchasesWindow::on_purchaseTitleField_textEdited(const QString &arg1) {
     query = arg1;
-    std::cout << "Text was edited: " << arg1.toStdString() << std::endl;
+    if (debugMode)
+        std::cout << "Text was edited: " << arg1.toStdString() << std::endl;
 }
 
 /* user is finished editing the "or by ID:" field on Purchases */

@@ -23,6 +23,7 @@ SOURCES += main.cpp mainwindow.cpp \
 
 HEADERS += mainwindow.h \
     film.h \
+    main.h \
     purchaseswindow.h \
     rentalsform.h \
     rentalswindow.h

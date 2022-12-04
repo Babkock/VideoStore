@@ -46,7 +46,7 @@ void RentalsWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Add Film for Rent" from Rentals window */
 void RentalsWindow::on_rentalAddNew_clicked(void) {
     /* bring up empty RentalsForm */
-    form = new RentalsForm(0, "Title", "Director", 1950, 5.00);
+    form = new RentalsForm();
     form->show();
     std::cout << "Add new Film for Rent was clicked" << std::endl;
 }
@@ -111,7 +111,7 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
             form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();
         } else {
-            std::cout << "Film with ID " << qid << " not found" << std::endl;
+            std::cerr << "Film with ID " << qid << " not found" << std::endl;
             return;
         }
     }
@@ -123,7 +123,7 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
             form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();
         } else {
-            std::cout << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
+            std::cerr << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
             return;
         }
     }
@@ -154,13 +154,15 @@ void RentalsWindow::setQuery(QString q) {
 /* the value of "or by ID:" box has changed */
 void RentalsWindow::on_rentalIdField_valueChanged(int arg1) {
     id = (unsigned int)arg1;
-    std::cout << "Value was changed: " << arg1 << std::endl;
+    if (debugMode)
+        std::cout << "Value was changed: " << arg1 << std::endl;
 }
 
 /* Whenever the text in the "Title of Film" box on Rentals is edited */
 void RentalsWindow::on_rentalTitleField_textEdited(const QString &arg1) {
     query = arg1;
-    std::cout << "Text was edited: " << arg1.toStdString() << std::endl;
+    if (debugMode)
+        std::cout << "Text was edited: " << arg1.toStdString() << std::endl;
 }
 
 /* user has finished editing the "or by ID:" field on Rentals */

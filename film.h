@@ -106,6 +106,7 @@ class FilmSale : public Film {
 private:
     unsigned int quantity;
     QDateTime lastSold;
+    QString lastSoldTo;
 public:
     FilmSale(Film f);
     FilmSale(Film f, unsigned int q);

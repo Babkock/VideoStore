@@ -90,8 +90,6 @@ private:
     FilmRent film;           // A FilmRent object that can read from/write to database
     bool editExisting;       // true = existing film is being edited, false = new film
     bool debugMode;          // Should we print debug messages?
-    QSpinBox *idField;
-    QLineEdit *titleField;
 signals:
     void closing(void);
 };

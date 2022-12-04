@@ -8,14 +8,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "main.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 #include <QSqlDatabase>
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
 #include "rentalsform.h"
-
-extern QSqlDatabase db;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
