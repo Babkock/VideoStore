@@ -11,8 +11,7 @@
 #include "film.h"
 #include "rentalswindow.h"
 #include <QMainWindow>
-#include <QLineEdit>
-#include <QSpinBox>
+#include <QCloseEvent>
 
 namespace Ui {
 class RentalsForm;

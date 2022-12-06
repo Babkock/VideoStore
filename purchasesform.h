@@ -11,6 +11,7 @@
 #include "film.h"
 #include "purchaseswindow.h"
 #include <QMainWindow>
+#include <QCloseEvent>
 
 namespace Ui {
 class PurchasesForm;

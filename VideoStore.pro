@@ -20,7 +20,8 @@ SOURCES += main.cpp mainwindow.cpp \
     purchasesform.cpp \
     purchaseswindow.cpp \
     rentalsform.cpp \
-    rentalswindow.cpp
+    rentalswindow.cpp \
+    shoppingcart.cpp
 
 HEADERS += mainwindow.h \
     film.h \
@@ -28,13 +29,15 @@ HEADERS += mainwindow.h \
     purchasesform.h \
     purchaseswindow.h \
     rentalsform.h \
-    rentalswindow.h
+    rentalswindow.h \
+    shoppingcart.h
 
 FORMS += mainwindow.ui \
     purchasesform.ui \
     purchaseswindow.ui \
     rentalsform.ui \
-    rentalswindow.ui
+    rentalswindow.ui \
+    shoppingcart.ui
 
 TRANSLATIONS += VideoStore_en_US.ts
 CONFIG += lrelease

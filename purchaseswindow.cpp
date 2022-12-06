@@ -12,6 +12,9 @@
 #include "purchasesform.h"
 #include "ui_purchasesform.h"
 #include <iostream>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlDatabase>
 
 PurchasesWindow::PurchasesWindow(QWidget *parent) :
     QMainWindow(parent),
