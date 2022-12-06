@@ -23,6 +23,24 @@ ShoppingCart::ShoppingCart(QWidget *parent) :
     ui->setupUi(this);
 }
 
+ShoppingCart::ShoppingCart(void) :
+    ui(new Ui::ShoppingCart),
+    id(0), quantity(0), customerName("") {
+    ui->setupUi(this);
+}
+
+ShoppingCart::ShoppingCart(ShoppingCartItem_t *c):
+    ui(new Ui::ShoppingCart),
+    cart(c),
+    id(0), quantity(0), customerName("") {
+    ui->setupUi(this);
+}
+
 ShoppingCart::~ShoppingCart(void) {
     delete ui;
+}
+
+void ShoppingCart::closeEvent(QCloseEvent *event) {
+    emit closing();
+    event->accept();
 }

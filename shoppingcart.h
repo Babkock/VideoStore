@@ -8,6 +8,8 @@
 #ifndef SHOPPINGCART_H
 #define SHOPPINGCART_H
 
+#include "main.h"
+#include "film.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 
@@ -19,10 +21,29 @@ class ShoppingCart : public QMainWindow {
     Q_OBJECT
 public:
     explicit ShoppingCart(QWidget *parent = nullptr);
+    ShoppingCart(void);
+    ShoppingCart(ShoppingCartItem_t *c);
+    ShoppingCart(ShoppingCartItem_t c, const char *n);
+    ShoppingCart(ShoppingCartItem_t c, const QString &n);
     ~ShoppingCart(void);
-
+    QString getCustomerName(void);
+    void setCustomerName(const char *n);
+    void setCustomerName(const QString &n);
+    unsigned int getId(void);
+    void setId(unsigned int i);
+    unsigned int getQuantity(void);
+    void setQuantity(unsigned int q);
+protected:
+    void closeEvent(QCloseEvent *event);
 private:
     Ui::ShoppingCart *ui;
+    ShoppingCartItem *cart;
+    QString customerName;
+    unsigned int id;
+    unsigned int quantity;
+    QDateTime due;
+signals:
+    void closing(void);
 };
 
 #endif // SHOPPINGCART_H

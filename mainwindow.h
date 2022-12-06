@@ -16,6 +16,7 @@
 #include "rentalswindow.h"
 #include "purchasesform.h"
 #include "rentalsform.h"
+#include "shoppingcart.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,6 +42,7 @@ private:
     Ui::MainWindow *ui;
     RentalsWindow *rentals;
     PurchasesWindow *purchases;
+    ShoppingCart *sc;
 signals:
 
 };

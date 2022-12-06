@@ -6,10 +6,12 @@
  * https://github.com/Babkock/VideoStore
 */
 #include "main.h"
+#include "film.h"
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "purchaseswindow.h"
 #include "rentalswindow.h"
-#include "ui_mainwindow.h"
+#include "shoppingcart.h"
 #include <iostream>
 #include <cstdlib>
 #include <QSqlDatabase>
@@ -24,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     rentals = new RentalsWindow(/* new RentalsForm(Film("Title", "Director", 1950, 4.99)) */);
     purchases = new PurchasesWindow(/* new PurchasesForm(Film("Title", "Director", 1950, 4.99)) */);
+    sc = new ShoppingCart(new ShoppingCartItem_t { .rental = true, .id = 0, .quantity = 0, .price = 0.99, .title = "Test", .next = NULL });
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
     connect(purchases, SIGNAL(closing()), this, SLOT(show()));
 
@@ -41,12 +44,13 @@ MainWindow::MainWindow(QWidget *parent)
     }
     sel2.next();
     std::cout << "Rows in filmsale: " << sel2.value(0).toInt() << std::endl;
-    this->ui->totalFilmsField->setValue(sel1.value(0).toInt() + sel2.value(0).toInt());
-    this->ui->cashRegisterField->setValue(cashRegister);
-    this->ui->profitsField->setValue(profits);
+    ui->totalFilmsField->setValue(sel1.value(0).toInt() + sel2.value(0).toInt());
+    ui->cashRegisterField->setValue(cashRegister);
+    ui->profitsField->setValue(profits);
 }
 
 MainWindow::~MainWindow(void) {
+    delete sc;
     delete purchases;
     delete rentals;
     db.close();
@@ -71,7 +75,10 @@ void MainWindow::on_buttonPurchases_clicked(void) {
 
 /* user clicked "Check Out Films" from top menu */
 void MainWindow::on_buttonCheckOut_clicked(void) {
-    /* Open the shopping cart editor */
+    if (debugMode)
+        std::cout << "Shopping Cart" << std::endl;
+    hide();
+    sc->show();
 }
 
 /* user clicked "Reset Database" from top menu */
