@@ -58,30 +58,63 @@ void PurchasesWindow::on_purchaseTitleField_textChanged(const QString &arg1) {
 /* user pressed Return after editing "Title of Film" box from Purchases
  * This should do the same thing as on_purchaseEdit_clicked() */
 void PurchasesWindow::on_purchaseTitleField_returnPressed(void) {
-    /* do nothing if the text box is empty */
+    QString qtitle = ui->purchaseTitleField->text();
+    int qid = ui->purchaseIdField->text().toInt();
+    QSqlQuery i, t;
 
-    /* else, query the database */
+    if ((qtitle.length() == 0) && (qid == 0))
+        return;
+    else if (qid != 0) {
 
-    /* if not found, do nothing */
+    }
+    else if (qtitle.length() != 0) {
 
-    /* else, bring up the RentalsForm with the found data */
+    }
 }
 
-/* user clicked "Find Film to Edit" button from Purchases */
+/* user clicked "Find Film to Edit" button from Purchases
+ * This should do the same thing as on_rentalFilmTitle_returnPressed() */
 void PurchasesWindow::on_purchaseEdit_clicked(void) {
-    /* do nothing if the text box is empty */
+    QString qtitle = ui->purchaseTitleField->text();
+    int qid = ui->purchaseIdField->text().toInt();
+    QSqlQuery i, t;
 
-    /* else, query the database */
-
-    /* if not found, do nothing */
-
-    /* else, bring up the RentalsForm with the found data */
+    if ((qtitle.length() == 0) && (qid == 0))
+        return;
+    else if (qid != 0) {
+        i.prepare("SELECT * FROM `filmsale` WHERE `id`=?");
+        i.addBindValue(qid);
+        if (!(i.exec())) {
+            std::cerr << i.lastError().nativeErrorCode().toStdString() << " Error during ID select: " << i.lastError().text().toStdString() << std::endl;
+            return;
+        }
+        if (i.first()) {
+            form = new PurchasesForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+            form->show();
+        } else {
+            std::cerr << "Film with ID " << qid << " not found" << std::endl;
+        }
+    }
+    else if (qtitle.length() != 0) {
+        t.prepare("SELECT * FROM `filmsale` WHERE `title` LIKE ?");
+        t.addBindValue("%" + qtitle + "%");
+        if (!(t.exec())) {
+            std::cerr << t.lastError().nativeErrorCode().toStdString() << " Error during Title select: " << t.lastError().text().toStdString() << std::endl;
+            return;
+        }
+        if (t.first()) {
+            form = new PurchasesForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+            form->show();
+        } else {
+            std::cerr << "Film with Title '" << qtitle.toStdString() << "' not found" << std::endl;
+        }
+    }
 }
 
 /* user clicked "Return" button from Purchases */
 void PurchasesWindow::on_purchaseReturn_clicked(void) {
     emit closing();
-    this->close();
+    close();
 }
 
 QString PurchasesWindow::getQuery(void) {

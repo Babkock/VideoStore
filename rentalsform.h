@@ -74,11 +74,13 @@ private slots:
     void on_rentalsTitleField_returnPressed(void);
     /* user pressed Return after editing "Director of Film" field */
     void on_rentalsDirectorField_returnPressed(void);
+    /* user pressed Return after editing "Last Rented to" field */
+    void on_rentalsLastRentedTo_returnPressed(void);
 
 private:
-    Ui::RentalsForm *ui;     // The interface for our Rentals Form window
-    FilmRent film;           // A FilmRent object that can read from/write to database
-    bool editExisting;       // true = existing film is being edited, false = new film
+    Ui::RentalsForm *ui;
+    FilmRent film;
+    bool editExisting;
 signals:
     void closing(void);
 };

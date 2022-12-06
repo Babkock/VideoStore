@@ -13,6 +13,7 @@
 #include "ui_rentalswindow.h"
 #include <iostream>
 #include <QSqlQuery>
+#include <QSqlDatabase>
 #include <QSqlError>
 
 RentalsForm::RentalsForm(QWidget *parent) :
@@ -361,7 +362,7 @@ void RentalsForm::on_rentalsLastRentedField_dateTimeChanged(const QDateTime &dat
     film.setLastRented(dateTime);
     ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
-        std::cout << "Set last rented" << std::endl;
+        std::cout << "Set last rented: " << dateTime.toString("yyyy-MM-dd hh:mm:ss").toStdString() << std::endl;
 }
 
 /* user changed text of "Last Rented to" field */
@@ -376,31 +377,28 @@ void RentalsForm::on_rentalsLastRentedTo_textChanged(const QString &arg1) {
 void RentalsForm::on_rentalsSaveChanges_clicked(void) {
     if (editExisting) {
         QSqlQuery update;
-        update.prepare("UPDATE `filmrent` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `available`=?, `lastRentedTo`=? WHERE `id`=?");
+        update.prepare("UPDATE `filmrent` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `available`=?, `lastRentedTo`=? WHERE `id`=? LIMIT 1");
         update.addBindValue(film.getTitle());
         update.addBindValue(film.getDirector());
         update.addBindValue(film.getYear());
-        update.addBindValue(film.getPrice());
         update.addBindValue(film.getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        update.addBindValue(film.getPrice());
         update.addBindValue(film.getQuantity());
         update.addBindValue(film.getAvailable());
         update.addBindValue(film.getLastRentedTo());
         update.addBindValue(film.getId());
         if (!(update.exec())) {
             std::cerr << update.lastError().nativeErrorCode().toStdString() << " Error during update: " << update.lastError().text().toStdString() << std::endl;
-            emit closing();
-            hide();
-            return;
         }
         else {
             if (debugMode)
                 std::cout << "Successfully updated filmrent #" << film.getId() << std::endl;
             else
                 std::cout << "Successfully updated film rental '" << film.getTitle().toStdString() << "'" << std::endl;
-            emit closing();
-            hide();
-            return;
         }
+        db.commit();
+        emit closing();
+        hide();
     } else {
         QSqlQuery c;
         int newid = c.prepare("SELECT COUNT(*) FROM `filmrent`");
@@ -421,19 +419,16 @@ void RentalsForm::on_rentalsSaveChanges_clicked(void) {
         ins.addBindValue(film.getLastRented());
         if (!(ins.exec())) {
             std::cerr << ins.lastError().nativeErrorCode().toStdString() << " Error during insert: " << ins.lastError().text().toStdString() << std::endl;
-            emit closing();
-            hide();
-            return;
         }
         else {
             if (debugMode)
                 std::cout << "Successfully inserted filmrent #" << film.getId() << std::endl;
             else
                 std::cout << "Successfully added film rental '" << film.getTitle().toStdString() << "'" << std::endl;
-            emit closing();
-            hide();
-            return;
         }
+        db.commit();
+        emit closing();
+        hide();
     }
 }
 
@@ -454,3 +449,10 @@ void RentalsForm::on_rentalsDirectorField_returnPressed(void) {
     if (debugMode)
         std::cout << "Pressed Return on Director" << std::endl;
 }
+
+/* user pressed Return after editing "Last Rented to" field */
+void RentalsForm::on_rentalsLastRentedTo_returnPressed(void) {
+    if (debugMode)
+        std::cout << "Pressed Return on Last Rented to" << std::endl;
+}
+

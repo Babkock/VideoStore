@@ -65,6 +65,12 @@ private slots:
     void on_purchasesLastSoldField_dateTimeChanged(const QDateTime &dateTime);
     /* the text of the "Last Sold to:" field was changed */
     void on_purchasesLastSoldTo_textChanged(const QString &arg1);
+    /* user pressed Return after editing "Title of Film" field */
+    void on_purchasesTitleField_returnPressed(void);
+    /* user pressed Return after editing "Director of Film" field */
+    void on_purchasesDirectorField_returnPressed(void);
+    /* user pressed Return after editing "Last Sold to:" field */
+    void on_purchasesLastSoldTo_returnPressed(void);
 private:
     Ui::PurchasesForm *ui;
     FilmSale film;

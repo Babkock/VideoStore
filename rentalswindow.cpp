@@ -124,11 +124,10 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
             form->show();
         } else {
             std::cerr << "Film with ID " << qid << " not found" << std::endl;
-            return;
         }
     }
     else if (qtitle.length() != 0) {
-        t.prepare("SELECT * FROM `filmrent` WHERE `title` LIKE ? LIMIT 1");
+        t.prepare("SELECT * FROM `filmrent` WHERE `title` LIKE ?");
         t.addBindValue("%" + qtitle + "%");
         if (!(t.exec())) {
             std::cerr << t.lastError().number() << " Error during Title select: " << t.lastError().text().toStdString() << std::endl;
@@ -139,7 +138,6 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
             form->show();
         } else {
             std::cerr << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
-            return;
         }
     }
 }

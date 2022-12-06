@@ -53,12 +53,6 @@ MainWindow::~MainWindow(void) {
     delete ui;
 }
 
-/*
-void MainWindow::closeEvent(QCloseEvent *event) {
-    emit closing();
-    event->accept();
-} */
-
 /* user clicked "Rentals" button from top menu */
 void MainWindow::on_buttonRentals_clicked(void) {
     if (debugMode)

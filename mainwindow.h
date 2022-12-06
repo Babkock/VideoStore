@@ -26,8 +26,6 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow(void);
-protected:
-    //void closeEvent(QCloseEvent *event);
 private slots:
     /* user clicked "Rentals" from top menu */
     void on_buttonRentals_clicked(void);
@@ -44,7 +42,7 @@ private:
     RentalsWindow *rentals;
     PurchasesWindow *purchases;
 signals:
-    //void closing(void);
+
 };
 
 #endif // MAINWINDOW_H

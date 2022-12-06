@@ -93,6 +93,7 @@ void dbRepopulate(void) {
         if (ins4.lastError().number() != 19)
             std::cerr << ins4.lastError().nativeErrorCode().toStdString() << " Error from fourth insert: " << ins4.lastError().text().toStdString() << std::endl;
     }
+    db.commit();
 }
 
 void dbReset(void) {
