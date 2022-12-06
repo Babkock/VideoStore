@@ -61,6 +61,169 @@ PurchasesForm::PurchasesForm(Film f, unsigned int q):
     ui->purchasesSaveChanges->setEnabled(false);
 }
 
+PurchasesForm::PurchasesForm(Film f, const char *l):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
+    editExisting(false) {
+    ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Purchases");
+    ui->purchasesHeaderText->setText("Adding New Film to Purchases");
+    ui->purchasesTitleField->setText(f.getTitle());
+    ui->purchasesDirectorField->setText(f.getDirector());
+    ui->purchasesYearField->setValue((int)f.getYear());
+    ui->purchasesPriceField->setValue(f.getPrice());
+    ui->purchasesLastSoldTo->setText((QString)l);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(Film f, const QString &l):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
+    editExisting(false) {
+    ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Purchases");
+    ui->purchasesHeaderText->setText("Adding New Film to Purchases");
+    ui->purchasesTitleField->setText(f.getTitle());
+    ui->purchasesDirectorField->setText(f.getDirector());
+    ui->purchasesYearField->setValue((int)f.getYear());
+    ui->purchasesPriceField->setValue(f.getPrice());
+    ui->purchasesLastSoldTo->setText(l);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(Film f, QDateTime l):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
+    editExisting(true) {
+    ui->setupUi(this);
+    char head[32];
+    sprintf(head, "Editing Film Purchase #%d", f.getId());
+    this->setWindowTitle(head);
+    ui->purchasesHeaderText->setText(head);
+    ui->purchasesTitleField->setText(f.getTitle());
+    ui->purchasesDirectorField->setText(f.getDirector());
+    ui->purchasesYearField->setValue((int)f.getYear());
+    ui->purchasesPriceField->setValue(f.getPrice());
+    ui->purchasesLastSoldField->setDateTime(l);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(unsigned int id, const QString &t):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(id, t, "Director"))),
+    editExisting(false) {
+    ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Purchases");
+    ui->purchasesIdField->setValue((int)id);
+    ui->purchasesHeaderText->setText("Adding New Film to Purchases");
+    ui->purchasesTitleField->setText(t);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(unsigned int id, const char *t):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(id, t, "Director"))),
+    editExisting(false) {
+    ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Purchases");
+    ui->purchasesIdField->setValue((int)id);
+    ui->purchasesHeaderText->setText("Adding New Film to Purchases");
+    ui->purchasesTitleField->setText(t);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(id, t, d))),
+    editExisting(false) {
+    ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Purchases");
+    ui->purchasesHeaderText->setText("Adding New Film to Purchases");
+    ui->purchasesIdField->setValue((int)id);
+    ui->purchasesTitleField->setText(t);
+    ui->purchasesDirectorField->setText(d);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(id, t, d))),
+    editExisting(false) {
+    ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Purchases");
+    ui->purchasesHeaderText->setText("Adding New Film to Purchases");
+    ui->purchasesIdField->setValue((int)id);
+    ui->purchasesTitleField->setText((QString)t);
+    ui->purchasesDirectorField->setText((QString)d);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d, unsigned int y):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(id, t, d, y))),
+    editExisting(true) {
+    ui->setupUi(this);
+    char head[32];
+    sprintf(head, "Editing Film Purchase #%d", id);
+    this->setWindowTitle(head);
+    ui->purchasesHeaderText->setText(head);
+    ui->purchasesIdField->setValue((int)id);
+    ui->purchasesTitleField->setText(t);
+    ui->purchasesDirectorField->setText(d);
+    ui->purchasesYearField->setValue((int)y);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d, unsigned int y):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(id, t, d, y))),
+    editExisting(true) {
+    ui->setupUi(this);
+    char head[32];
+    sprintf(head, "Editing Film Purchase #%d", id);
+    this->setWindowTitle(head);
+    ui->purchasesHeaderText->setText(head);
+    ui->purchasesIdField->setValue((int)id);
+    ui->purchasesTitleField->setText((QString)t);
+    ui->purchasesDirectorField->setText((QString)d);
+    ui->purchasesYearField->setValue((int)y);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d, unsigned int y, double p):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(id, t, d, y, p))),
+    editExisting(true) {
+    ui->setupUi(this);
+    char head[32];
+    sprintf(head, "Editing Film Purchase #%d", id);
+    this->setWindowTitle(head);
+    ui->purchasesHeaderText->setText(head);
+    ui->purchasesIdField->setValue((int)id);
+    ui->purchasesTitleField->setText((QString)t);
+    ui->purchasesDirectorField->setText((QString)d);
+    ui->purchasesYearField->setValue((int)y);
+    ui->purchasesPriceField->setValue(p);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
+PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d, unsigned int y, double p):
+    ui(new Ui::PurchasesForm),
+    film(FilmSale(Film(id, t, d, y, p))),
+    editExisting(true) {
+    ui->setupUi(this);
+    char head[32];
+    sprintf(head, "Editing Film Purchase #%d", id);
+    this->setWindowTitle(head);
+    ui->purchasesHeaderText->setText(head);
+    ui->purchasesIdField->setValue((int)id);
+    ui->purchasesTitleField->setText((QString)t);
+    ui->purchasesDirectorField->setText((QString)d);
+    ui->purchasesYearField->setValue((int)y);
+    ui->purchasesPriceField->setValue(p);
+    ui->purchasesSaveChanges->setEnabled(false);
+}
+
 PurchasesForm::~PurchasesForm(void) {
     delete ui;
 }
@@ -68,6 +231,7 @@ PurchasesForm::~PurchasesForm(void) {
 void PurchasesForm::closeEvent(QCloseEvent *event) {
     emit closing();
     event->accept();
+    hide();
 }
 
 bool PurchasesForm::getEditExisting(void) {
@@ -142,5 +306,5 @@ void PurchasesForm::on_purchasesLastSoldTo_textChanged(const QString &arg1) {
     film.setLastSoldTo(arg1);
     ui->purchasesSaveChanges->setEnabled(true);
     if (debugMode)
-        std::cout << "Last sold to changed: " << arg1 << std::endl;
+        std::cout << "Last sold to changed: " << arg1.toStdString() << std::endl;
 }

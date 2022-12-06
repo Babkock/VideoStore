@@ -29,13 +29,6 @@ public:
     RentalsForm(Film f, const char *l);
     RentalsForm(Film f, const QString &l);
     RentalsForm(Film f, QDateTime l);
-    RentalsForm(Film f, const char *l, QDateTime a);
-    RentalsForm(Film f, const QString &l, QDateTime a);
-    RentalsForm(Film f, unsigned int q, const char *l);
-    RentalsForm(Film f, unsigned int q, const QString &l);
-    RentalsForm(Film f, unsigned int q, const char *l, QDateTime a);
-    RentalsForm(Film f, unsigned int q, const QString &l, QDateTime a);
-    RentalsForm(Film f, unsigned int q, QDateTime a);
     RentalsForm(const QString &t);
     RentalsForm(const QString &t, const QString &d);
     RentalsForm(const QString &t, unsigned int y);
@@ -47,8 +40,6 @@ public:
     RentalsForm(unsigned int id, const char *t);
     RentalsForm(unsigned int id, const QString &t, const QString &d);
     RentalsForm(unsigned int id, const char *t, const char *d);
-    RentalsForm(unsigned int id, const QString &t, unsigned int y);
-    RentalsForm(unsigned int id, const char *t, unsigned int y);
     RentalsForm(unsigned int id, const QString &t, const QString &d, unsigned int y);
     RentalsForm(unsigned int id, const QString &t, const QString &d, unsigned int y, double p);
     RentalsForm(unsigned int id, const char *t, const char *d, unsigned int y);

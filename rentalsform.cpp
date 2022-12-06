@@ -201,6 +201,7 @@ RentalsForm::RentalsForm(unsigned int id, const char *t) :
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsIdField->setValue(id);
     ui->rentalsTitleField->setText(QString(t));
     ui->rentalsSaveChanges->setEnabled(false);
 }
@@ -212,6 +213,7 @@ RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d) :
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsIdField->setValue(id);
     ui->rentalsTitleField->setText(t);
     ui->rentalsDirectorField->setText(d);
     ui->rentalsSaveChanges->setEnabled(false);
@@ -224,6 +226,7 @@ RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d) :
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Inventory");
     ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    ui->rentalsIdField->setValue(id);
     ui->rentalsTitleField->setText(QString(t));
     ui->rentalsDirectorField->setText(QString(d));
     ui->rentalsSaveChanges->setEnabled(false);
@@ -238,6 +241,7 @@ RentalsForm::RentalsForm(unsigned int id, const QString &t, const QString &d, un
     sprintf(head, "Editing Film Rental #%d", id);
     this->setWindowTitle(head);
     ui->rentalsHeaderText->setText(head);
+    ui->rentalsIdField->setValue(id);
     ui->rentalsTitleField->setText(t);
     ui->rentalsDirectorField->setText(d);
     ui->rentalsYearField->setValue(int(y));
@@ -253,6 +257,7 @@ RentalsForm::RentalsForm(unsigned int id, const char *t, const char *d, unsigned
     sprintf(head, "Editing Film Rental #%d", id);
     this->setWindowTitle(head);
     ui->rentalsHeaderText->setText(head);
+    ui->rentalsIdField->setValue(id);
     ui->rentalsTitleField->setText(QString(t));
     ui->rentalsDirectorField->setText(QString(d));
     ui->rentalsYearField->setValue(int(y));
@@ -306,7 +311,7 @@ void RentalsForm::closeEvent(QCloseEvent *event) {
 /* user changed text of "Title of Film" field */
 void RentalsForm::on_rentalsTitleField_textChanged(const QString &arg1) {
     film.setTitle(arg1);
-    this->ui->rentalsSaveChanges->setEnabled(true);
+    ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Title changed: " << arg1.toStdString() << std::endl;
 }
@@ -314,7 +319,7 @@ void RentalsForm::on_rentalsTitleField_textChanged(const QString &arg1) {
 /* user changed text of "Director of Film" field */
 void RentalsForm::on_rentalsDirectorField_textChanged(const QString &arg1) {
     film.setDirector(arg1);
-    this->ui->rentalsSaveChanges->setEnabled(true);
+    ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Director changed: " << arg1.toStdString() << std::endl;
 }
@@ -322,6 +327,7 @@ void RentalsForm::on_rentalsDirectorField_textChanged(const QString &arg1) {
 /* the value of the "Price" input field was changed */
 void RentalsForm::on_rentalsPriceField_valueChanged(double arg1) {
     film.setPrice(arg1);
+    ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Price changed: " << arg1 << std::endl;
 }
@@ -329,6 +335,7 @@ void RentalsForm::on_rentalsPriceField_valueChanged(double arg1) {
 /* the value of the "Year" input field was changed */
 void RentalsForm::on_rentalsYearField_valueChanged(int arg1) {
     film.setYear((unsigned int)arg1);
+    ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Year changed: " << arg1 << std::endl;
 }
@@ -336,6 +343,7 @@ void RentalsForm::on_rentalsYearField_valueChanged(int arg1) {
 /* user changed value of "Quantity" field */
 void RentalsForm::on_rentalsQuantityField_valueChanged(int arg1) {
     film.setQuantity((unsigned int)arg1);
+    ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Quantity changed: " << arg1 << std::endl;
 }
@@ -343,6 +351,7 @@ void RentalsForm::on_rentalsQuantityField_valueChanged(int arg1) {
 /* user changed value of "Available" field */
 void RentalsForm::on_rentalsAvailableField_valueChanged(int arg1) {
     film.setAvailable((unsigned int)arg1);
+    ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Available changed: " << arg1 << std::endl;
 }
@@ -350,6 +359,7 @@ void RentalsForm::on_rentalsAvailableField_valueChanged(int arg1) {
 /* user selected a date for "Last Rented" field */
 void RentalsForm::on_rentalsLastRentedField_dateTimeChanged(const QDateTime &dateTime) {
     film.setLastRented(dateTime);
+    ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Set last rented" << std::endl;
 }
@@ -357,6 +367,7 @@ void RentalsForm::on_rentalsLastRentedField_dateTimeChanged(const QDateTime &dat
 /* user changed text of "Last Rented to" field */
 void RentalsForm::on_rentalsLastRentedTo_textChanged(const QString &arg1) {
     film.setLastRentedTo(arg1);
+    ui->rentalsSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Last Rented to changed: " << arg1.toStdString() << std::endl;
 }

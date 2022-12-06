@@ -43,7 +43,7 @@ void PurchasesWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Add Film for Purchase" from Purchases window */
 void PurchasesWindow::on_purchaseAddNew_clicked(void) {
     /* bring up empty PurchasesForm */
-    form = new PurchasesForm();
+    form = new PurchasesForm(this);
     form->show();
     if (debugMode)
         std::cout << "Add new Film for Purchase was clicked" << std::endl;

@@ -55,7 +55,7 @@ bool dbReload(void) {
     QSqlQuery create1, create2;
     if (!(create1.exec((QString)"CREATE TABLE `filmrent` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE, `added` DATETIME, `quantity` INT(11), `available` INT(11), `lastRentedTo` VARCHAR(80), `lastRented` DATETIME)"))) {
         if (create1.lastError().number() != 1)
-            std::cerr << create1.lastError().number() << " Error from first create: " << create1.lastError().text().toStdString() << std::endl;
+            std::cerr << create1.lastError().nativeErrorCode().toStdString() << " Error from first create: " << create1.lastError().text().toStdString() << std::endl;
         else {
             std::cout << "Reading filmrent table" << std::endl;
             exists = true;
@@ -63,7 +63,7 @@ bool dbReload(void) {
     }
     if (!(create2.exec((QString)"CREATE TABLE `filmsale` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE, `added` DATETIME, `quantity` INT(11), `lastSoldTo` VARCHAR(80), `lastSold` DATETIME)"))) {
         if (create2.lastError().number() != 1)
-            std::cerr << create2.lastError().number() << " Error from second create: " << create2.lastError().text().toStdString() << std::endl;
+            std::cerr << create2.lastError().nativeErrorCode().toStdString() << " Error from second create: " << create2.lastError().text().toStdString() << std::endl;
         else {
             std::cout << "Reading filmsale table" << std::endl;
             exists = true;
@@ -100,9 +100,9 @@ void dbReset(void) {
     profits = 0.0;
     QSqlQuery drop, drop2;
     if (!(drop.exec((QString)"DROP TABLE `filmrent`"))) {
-        std::cerr << drop.lastError().number() << " Error from first drop: " << drop.lastError().text().toStdString() << std::endl;
+        std::cerr << drop.lastError().nativeErrorCode().toStdString() << " Error from first drop: " << drop.lastError().text().toStdString() << std::endl;
     } else if (!(drop2.exec((QString)"DROP TABLE `filmsale`"))) {
-        std::cerr << drop2.lastError().number() << " Error from second drop: " << drop.lastError().text().toStdString() << std::endl;
+        std::cerr << drop2.lastError().nativeErrorCode().toStdString() << " Error from second drop: " << drop.lastError().text().toStdString() << std::endl;
     } else {
         dbReload();
     }
