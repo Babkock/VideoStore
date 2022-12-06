@@ -5,7 +5,7 @@
  * November - December 2022
  * https://github.com/Babkock/VideoStore
 */
-#include "main.h"
+#include "database.h"
 #include "film.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -25,18 +25,18 @@ ShoppingCart::ShoppingCart(QWidget *parent) :
 
 ShoppingCart::ShoppingCart(void) :
     ui(new Ui::ShoppingCart),
-    id(0), quantity(0), customerName("") {
+    customerName(""), id(0), quantity(0) {
     ui->setupUi(this);
 }
 
 ShoppingCart::ShoppingCart(ShoppingCartItem_t *c):
     ui(new Ui::ShoppingCart),
-    cart(c),
-    id(0), quantity(0), customerName("") {
+    cart(c), customerName(""), id(0), quantity(0) {
     ui->setupUi(this);
 }
 
 ShoppingCart::~ShoppingCart(void) {
+    delete cart;
     delete ui;
 }
 
@@ -44,3 +44,9 @@ void ShoppingCart::closeEvent(QCloseEvent *event) {
     emit closing();
     event->accept();
 }
+
+void ShoppingCart::on_shoppingCartCancel_clicked(void) {
+    emit closing();
+    hide();
+}
+

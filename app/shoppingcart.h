@@ -8,7 +8,7 @@
 #ifndef SHOPPINGCART_H
 #define SHOPPINGCART_H
 
-#include "main.h"
+#include "database.h"
 #include "film.h"
 #include <QMainWindow>
 #include <QCloseEvent>
@@ -44,6 +44,9 @@ private:
     QDateTime due;
 signals:
     void closing(void);
+private slots:
+    /* user clicked the "Cancel" button */
+    void on_shoppingCartCancel_clicked(void);
 };
 
 #endif // SHOPPINGCART_H

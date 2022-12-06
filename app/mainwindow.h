@@ -8,7 +8,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "main.h"
+#include "database.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 #include <QSqlDatabase>

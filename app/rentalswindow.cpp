@@ -5,7 +5,7 @@
  * November - December 2022
  * https://github.com/Babkock/VideoStore
 */
-#include "main.h"
+#include "database.h"
 #include "rentalswindow.h"
 #include "ui_rentalswindow.h"
 #include "rentalsform.h"

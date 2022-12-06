@@ -9,8 +9,6 @@
 #define RENTALSWINDOW_H
 
 #include "film.h"
-#include "rentalsform.h"
-#include "ui_rentalsform.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 

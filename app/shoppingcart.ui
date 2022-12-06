@@ -518,7 +518,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>20</x>
       <y>720</y>
       <width>551</width>
       <height>71</height>
@@ -531,6 +531,24 @@
     </property>
     <property name="text">
      <string>Confirm Order</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="shoppingCartCancel">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>720</y>
+      <width>311</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cancel</string>
     </property>
    </widget>
   </widget>

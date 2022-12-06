@@ -1,12 +1,12 @@
-/* main.h
+/* database.h
  * Tanner Babcock
  * CIS 152 - Data Structures
  * Final Project: Video Store
  * November - December 2022
  * https://github.com/Babkock/VideoStore
 */
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef DATABASE_H
+#define DATABASE_H
 
 #include <QSqlDatabase>
 
@@ -20,4 +20,4 @@ bool dbReload(void);
 void dbRepopulate(void);
 void dbReset(void);
 
-#endif // MAIN_H
+#endif // DATABASE_H
