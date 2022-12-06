@@ -17,6 +17,7 @@ extern double profits;
 
 void dbConnect(const char *out);
 bool dbReload(void);
+void dbRepopulate(void);
 void dbReset(void);
 
 #endif // MAIN_H

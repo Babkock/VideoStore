@@ -51,7 +51,8 @@ void PurchasesWindow::on_purchaseAddNew_clicked(void) {
 
 /* Whenever the text for the "Title of Film" field on Purchases is changed */
 void PurchasesWindow::on_purchaseTitleField_textChanged(const QString &arg1) {
-    std::cout << "Text was changed: " << arg1.toStdString() << std::endl;
+    if (debugMode)
+        std::cout << "Text was changed: " << arg1.toStdString() << std::endl;
 }
 
 /* user pressed Return after editing "Title of Film" box from Purchases

@@ -43,8 +43,6 @@ private:
     Ui::MainWindow *ui;
     RentalsWindow *rentals;
     PurchasesWindow *purchases;
-    RentalsForm *form;
-    PurchasesForm *pform;
 signals:
     //void closing(void);
 };

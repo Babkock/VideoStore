@@ -22,19 +22,26 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    rentals = new RentalsWindow(new RentalsForm(Film("Title", "Director", 1950, 4.99)));
+    rentals = new RentalsWindow(/* new RentalsForm(Film("Title", "Director", 1950, 4.99)) */);
     purchases = new PurchasesWindow(/* new PurchasesForm(Film("Title", "Director", 1950, 4.99)) */);
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
     connect(purchases, SIGNAL(closing()), this, SLOT(show()));
 
     QSqlQuery sel1, sel2;
-    int total = sel1.prepare("SELECT COUNT(*) FROM `filmrent`");
-    sel1.exec();
-    std::cout << "Tables in filmrent: " << total << std::endl;
+    sel1.prepare("SELECT COUNT(*) FROM `filmrent`");
+    if (!(sel1.exec())) {
+        std::cerr << sel1.lastError().number() << " Error while counting filmrent: " << sel1.lastError().text().toStdString() << std::endl;
+    }
+    sel1.next();
+    std::cout << "Rows in filmrent: " << sel1.value(0).toInt() << std::endl;
 
-    total += sel2.prepare("SELECT COUNT(*) FROM `filmsale`");
-    sel2.exec();
-    this->ui->totalFilmsField->setValue(total);
+    sel2.prepare("SELECT COUNT(*) FROM `filmsale`");
+    if (!(sel2.exec())) {
+        std::cerr << sel2.lastError().number() << " Error while counting filmsale: " << sel2.lastError().text().toStdString() << std::endl;
+    }
+    sel2.next();
+    std::cout << "Rows in filmsale: " << sel2.value(0).toInt() << std::endl;
+    this->ui->totalFilmsField->setValue(sel1.value(0).toInt() + sel2.value(0).toInt());
     this->ui->cashRegisterField->setValue(cashRegister);
     this->ui->profitsField->setValue(profits);
 }
@@ -54,12 +61,16 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 /* user clicked "Rentals" button from top menu */
 void MainWindow::on_buttonRentals_clicked(void) {
+    if (debugMode)
+        std::cout << "Rentals" << std::endl;
     hide();
     rentals->show();
 }
 
 /* user clicked "Purchases" button from top menu */
 void MainWindow::on_buttonPurchases_clicked(void) {
+    if (debugMode)
+        std::cout << "Purchases" << std::endl;
     hide();
     purchases->show();
 }
@@ -77,5 +88,6 @@ void MainWindow::on_buttonReset_clicked(void) {
 
 /* user toggled "Print Debug Messages" on top menu */
 void MainWindow::on_checkDebug_toggled(bool checked) {
+    std::cout << "Debug messages " << ((checked) ? "enabled" : "disabled") << std::endl;
     debugMode = checked;
 }

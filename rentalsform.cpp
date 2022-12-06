@@ -12,13 +12,26 @@
 #include "rentalswindow.h"
 #include "ui_rentalswindow.h"
 #include <iostream>
+#include <QSqlQuery>
+#include <QSqlError>
 
 RentalsForm::RentalsForm(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::RentalsForm) {
+    ui(new Ui::RentalsForm),
+    editExisting(false) {
     ui->setupUi(this);
-    this->setWindowTitle("Adding New Film to Inventory");
-    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    this->setWindowTitle("Adding New Film to Rentals");
+    ui->rentalsHeaderText->setText("Adding New Film to Rentals");
+}
+
+RentalsForm::RentalsForm(void) :
+    ui(new Ui::RentalsForm),
+    film(FilmRent(Film("Title", "Director"))),
+    editExisting(false) {
+    ui->setupUi(this);
+    this->setWindowTitle("Adding New Film to Rentals");
+    ui->rentalsHeaderText->setText("Adding New Film to Rentals");
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(Film f) :
@@ -26,12 +39,13 @@ RentalsForm::RentalsForm(Film f) :
     film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()))),
     editExisting(false) {
     ui->setupUi(this);
-    this->setWindowTitle("Adding New Film to Inventory");
-    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    this->setWindowTitle("Adding New Film to Rentals");
+    ui->rentalsHeaderText->setText("Adding New Film to Rentals");
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
     ui->rentalsYearField->setValue((int)f.getYear());
     ui->rentalsPriceField->setValue(f.getPrice());
+    ui->rentalsSaveChanges->setEnabled(false);
 }
 
 RentalsForm::RentalsForm(Film f, unsigned int q) :
@@ -39,8 +53,8 @@ RentalsForm::RentalsForm(Film f, unsigned int q) :
     film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), q)),
     editExisting(false) {
     ui->setupUi(this);
-    this->setWindowTitle("Adding New Film to Inventory");
-    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    this->setWindowTitle("Adding New Film to Rentals");
+    ui->rentalsHeaderText->setText("Adding New Film to Rentals");
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
     ui->rentalsYearField->setValue((int)f.getYear());
@@ -53,8 +67,8 @@ RentalsForm::RentalsForm(Film f, unsigned int q, unsigned int a) :
     film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), q, a)),
     editExisting(false) {
     ui->setupUi(this);
-    this->setWindowTitle("Adding New Film to Inventory");
-    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    this->setWindowTitle("Adding New Film to Rentals");
+    ui->rentalsHeaderText->setText("Adding New Film to Rentals");
     ui->rentalsIdField->setValue(f.getId());
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
@@ -68,8 +82,8 @@ RentalsForm::RentalsForm(Film f, const char *l) :
     ui(new Ui::RentalsForm),
     film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)) {
     ui->setupUi(this);
-    this->setWindowTitle("Adding New Film to Inventory");
-    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    this->setWindowTitle("Adding New Film to Rentals");
+    ui->rentalsHeaderText->setText("Adding New Film to Rentals");
     ui->rentalsIdField->setValue(f.getId());
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
@@ -82,8 +96,8 @@ RentalsForm::RentalsForm(Film f, const QString &l) :
     ui(new Ui::RentalsForm),
     film(FilmRent(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)) {
     ui->setupUi(this);
-    this->setWindowTitle("Adding New Film to Inventory");
-    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    this->setWindowTitle("Adding New Film to Rentals");
+    ui->rentalsHeaderText->setText("Adding New Film to Rentals");
     ui->rentalsTitleField->setText(f.getTitle());
     ui->rentalsDirectorField->setText(f.getDirector());
     ui->rentalsYearField->setValue((int)f.getYear());
@@ -113,8 +127,8 @@ RentalsForm::RentalsForm(const QString &t) :
     film(FilmRent(Film(t, "Director"))),
     editExisting(false) {
     ui->setupUi(this);
-    this->setWindowTitle("Adding New Film to Inventory");
-    ui->rentalsHeaderText->setText("Adding New Film to Inventory");
+    this->setWindowTitle("Adding New Film to Rentals");
+    ui->rentalsHeaderText->setText("Adding New Film to Rentals");
     ui->rentalsTitleField->setText(t);
     ui->rentalsSaveChanges->setEnabled(false);
 }
@@ -349,13 +363,73 @@ void RentalsForm::on_rentalsLastRentedTo_textChanged(const QString &arg1) {
 
 /* user clicked on "Save Changes to Film" button */
 void RentalsForm::on_rentalsSaveChanges_clicked(void) {
-    std::cout << "Changes saved" << std::endl;
+    if (editExisting) {
+        QSqlQuery update;
+        update.prepare("UPDATE `filmrent` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `available`=?, `lastRentedTo`=? WHERE `id`=?");
+        update.addBindValue(film.getTitle());
+        update.addBindValue(film.getDirector());
+        update.addBindValue(film.getYear());
+        update.addBindValue(film.getPrice());
+        update.addBindValue(film.getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        update.addBindValue(film.getQuantity());
+        update.addBindValue(film.getAvailable());
+        update.addBindValue(film.getLastRentedTo());
+        update.addBindValue(film.getId());
+        if (!(update.exec())) {
+            std::cerr << update.lastError().nativeErrorCode().toStdString() << " Error during update: " << update.lastError().text().toStdString() << std::endl;
+            emit closing();
+            hide();
+            return;
+        }
+        else {
+            if (debugMode)
+                std::cout << "Successfully updated filmrent #" << film.getId() << std::endl;
+            else
+                std::cout << "Successfully updated film rental '" << film.getTitle().toStdString() << "'" << std::endl;
+            emit closing();
+            hide();
+            return;
+        }
+    } else {
+        QSqlQuery c;
+        int newid = c.prepare("SELECT COUNT(*) FROM `filmrent`");
+        c.exec();
+        newid++;
+        film.setId(newid);
+
+        QSqlQuery ins;
+        ins.prepare("INSERT INTO `filmrent` (`id`, `title`, `director`, `year`, `price`, `added`, `quantity`, `available`, `lastRentedTo`, `lastRented`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        ins.addBindValue(film.getTitle());
+        ins.addBindValue(film.getDirector());
+        ins.addBindValue(film.getYear());
+        ins.addBindValue(film.getPrice());
+        ins.addBindValue(film.getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        ins.addBindValue(film.getQuantity());
+        ins.addBindValue(film.getAvailable());
+        ins.addBindValue(film.getLastRentedTo());
+        ins.addBindValue(film.getLastRented());
+        if (!(ins.exec())) {
+            std::cerr << ins.lastError().nativeErrorCode().toStdString() << " Error during insert: " << ins.lastError().text().toStdString() << std::endl;
+            emit closing();
+            hide();
+            return;
+        }
+        else {
+            if (debugMode)
+                std::cout << "Successfully inserted filmrent #" << film.getId() << std::endl;
+            else
+                std::cout << "Successfully added film rental '" << film.getTitle().toStdString() << "'" << std::endl;
+            emit closing();
+            hide();
+            return;
+        }
+    }
 }
 
 /* user clicked on "Discard Changes" button */
 void RentalsForm::on_rentalsDiscardChanges_clicked(void) {
     emit closing();
-    this->hide();
+    hide();
 }
 
 /* user pressed Return after editing "Title of Film" field */
@@ -369,4 +443,3 @@ void RentalsForm::on_rentalsDirectorField_returnPressed(void) {
     if (debugMode)
         std::cout << "Pressed Return on Director" << std::endl;
 }
-

@@ -20,6 +20,42 @@ class PurchasesForm : public QMainWindow {
     Q_OBJECT
 public:
     explicit PurchasesForm(QWidget *parent = nullptr);
+    PurchasesForm(void);
+    PurchasesForm(Film f);
+    PurchasesForm(Film f, unsigned int q);
+    PurchasesForm(Film f, const char *l);
+    PurchasesForm(Film f, const QString &l);
+    PurchasesForm(Film f, QDateTime l);
+    PurchasesForm(Film f, const char *l, QDateTime a);
+    PurchasesForm(Film f, const QString &l, QDateTime a);
+    PurchasesForm(Film f, unsigned int q, const char *l);
+    PurchasesForm(Film f, unsigned int q, const QString &l);
+    PurchasesForm(Film f, unsigned int q, const char *l, QDateTime a);
+    PurchasesForm(Film f, unsigned int q, const QString &l, QDateTime a);
+    PurchasesForm(Film f, unsigned int q, QDateTime a);
+    PurchasesForm(const QString &t);
+    PurchasesForm(const char *t);
+    PurchasesForm(const QString &t, const QString &d);
+    PurchasesForm(const char *t, const char *d);
+    PurchasesForm(const QString &t, unsigned int y);
+    PurchasesForm(const char *t, unsigned int y);
+    PurchasesForm(const QString &t, const QString &d, unsigned int y);
+    PurchasesForm(const char *t, const char *d, unsigned int y);
+    PurchasesForm(const QString &t, unsigned int y, double p);
+    PurchasesForm(const char *t, unsigned int y, double p);
+    PurchasesForm(const QString &t, const QString &d, double p);
+    PurchasesForm(const char *t, const char *d, double p);
+    PurchasesForm(const QString &t, const QString &d, unsigned int y, double p);
+    PurchasesForm(unsigned int id, const QString &t);
+    PurchasesForm(unsigned int id, const char *t);
+    PurchasesForm(unsigned int id, const QString &t, const QString &d);
+    PurchasesForm(unsigned int id, const char *t, const char *d);
+    PurchasesForm(unsigned int id, const QString &t, unsigned int y);
+    PurchasesForm(unsigned int id, const char *t, unsigned int y);
+    PurchasesForm(unsigned int id, const QString &t, const QString &d, unsigned int y);
+    PurchasesForm(unsigned int id, const char *t, const char *d, unsigned int y);
+    PurchasesForm(unsigned int id, const QString &t, const QString &d, unsigned int y, double p);
+    PurchasesForm(unsigned int id, const char *t, const char *d, unsigned int y, double p);
     ~PurchasesForm(void);
     bool getEditExisting(void);
     void setEditExisting(bool e);
@@ -38,7 +74,12 @@ private slots:
     void on_purchasesYearField_valueChanged(int arg1);
     /* the value of "Price" field was changed */
     void on_purchasesPriceField_valueChanged(double arg1);
-
+    /* the value of the "Quantity" field was changed */
+    void on_purchasesQuantityField_valueChanged(int arg1);
+    /* user selected a new date time on the "Last Sold:" field */
+    void on_purchasesLastSoldField_dateTimeChanged(const QDateTime &dateTime);
+    /* the text of the "Last Sold to:" field was changed */
+    void on_purchasesLastSoldTo_textChanged(const QString &arg1);
 private:
     Ui::PurchasesForm *ui;
     FilmSale film;

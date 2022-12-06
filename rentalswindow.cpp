@@ -47,7 +47,7 @@ void RentalsWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Add Film for Rent" from Rentals window */
 void RentalsWindow::on_rentalAddNew_clicked(void) {
     /* bring up empty RentalsForm */
-    form = new RentalsForm();
+    form = new RentalsForm(this);
     form->show();
     if (debugMode)
         std::cout << "Add new Film for Rent was clicked" << std::endl;
@@ -64,8 +64,8 @@ void RentalsWindow::on_rentalTitleField_textChanged(const QString &arg1) {
  * This should do the same thing as on_rentalEdit_clicked() */
 void RentalsWindow::on_rentalTitleField_returnPressed(void) {
     /* do nothing if the text box is empty */
-    QString qtitle = this->ui->rentalTitleField->text();
-    int qid = this->ui->rentalIdField->text().toInt();
+    QString qtitle = ui->rentalTitleField->text();
+    int qid = ui->rentalIdField->text().toInt();
     QSqlQuery i, t;
 
     if ((qtitle.length() == 0) && (qid == 0))
@@ -74,7 +74,10 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
     else if (qid != 0) {
         i.prepare("SELECT * FROM `filmrent` WHERE `id`=?");
         i.addBindValue(qid);
-        i.exec();
+        if (!(i.exec())) {
+            std::cerr << i.lastError().number() << " Error during ID select: " << i.lastError().text().toStdString() << std::endl;
+            return;
+        }
         if (i.first()) {
             form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();
@@ -84,9 +87,12 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
         }
     }
     else if (qtitle.length() != 0) {
-        t.prepare("SELECT * FROM `filmrent` WHERE `title`=?");
-        t.addBindValue(qtitle);
-        t.exec();
+        t.prepare("SELECT * FROM `filmrent` WHERE `title` LIKE ? LIMIT 1");
+        t.addBindValue("%" + qtitle + "%");
+        if (!(t.exec())) {
+            std::cerr << t.lastError().number() << " Error during Title select: " << t.lastError().text().toStdString() << std::endl;
+            return;
+        }
         if (t.first()) {
             form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();
@@ -100,8 +106,8 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
 /* user clicked "Find Film to Edit" button from Rentals window
  * This should do the same thing as on_rentalFilmTitle_returnPressed() */
 void RentalsWindow::on_rentalEdit_clicked(void) {
-    QString qtitle = this->ui->rentalTitleField->text();
-    int qid = this->ui->rentalIdField->text().toInt();
+    QString qtitle = ui->rentalTitleField->text();
+    int qid = ui->rentalIdField->text().toInt();
     QSqlQuery i, t;
 
     if ((qtitle.length() == 0) && (qid == 0))
@@ -109,7 +115,10 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
     else if (qid != 0) {
         i.prepare("SELECT * FROM `filmrent` WHERE `id`=?");
         i.addBindValue(qid);
-        i.exec();
+        if (!(i.exec())) {
+            std::cerr << i.lastError().number() << " Error during ID select: " << i.lastError().text().toStdString() << std::endl;
+            return;
+        }
         if (i.first()) {
             form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();
@@ -119,9 +128,12 @@ void RentalsWindow::on_rentalEdit_clicked(void) {
         }
     }
     else if (qtitle.length() != 0) {
-        t.prepare("SELECT * FROM `filmrent` WHERE `title`=?");
-        t.addBindValue(qtitle);
-        t.exec();
+        t.prepare("SELECT * FROM `filmrent` WHERE `title` LIKE ? LIMIT 1");
+        t.addBindValue("%" + qtitle + "%");
+        if (!(t.exec())) {
+            std::cerr << t.lastError().number() << " Error during Title select: " << t.lastError().text().toStdString() << std::endl;
+            return;
+        }
         if (t.first()) {
             form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
             form->show();

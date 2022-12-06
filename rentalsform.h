@@ -22,6 +22,7 @@ class RentalsForm : public QMainWindow {
     Q_OBJECT
 public:
     explicit RentalsForm(QWidget *parent = nullptr);
+    RentalsForm(void);
     RentalsForm(Film f);
     RentalsForm(Film f, unsigned int q);
     RentalsForm(Film f, unsigned int q, unsigned int a);
@@ -70,7 +71,7 @@ private slots:
     void on_rentalsQuantityField_valueChanged(int arg1);
     /* the value of "Available" field was changed */
     void on_rentalsAvailableField_valueChanged(int arg1);
-    /* user selected a date for the "Last Rented" field */
+    /* user selected a date time for the "Last Rented" field */
     void on_rentalsLastRentedField_dateTimeChanged(const QDateTime &dateTime);
     /* user changed text of "Last Rented to" field */
     void on_rentalsLastRentedTo_textChanged(const QString &arg1);
