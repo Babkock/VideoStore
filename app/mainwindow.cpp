@@ -26,9 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     rentals = new RentalsWindow(/* new RentalsForm(Film("Title", "Director", 1950, 4.99)) */);
     purchases = new PurchasesWindow(/* new PurchasesForm(Film("Title", "Director", 1950, 4.99)) */);
-    sc = new ShoppingCart(new ShoppingCartItem_t { .rental = true, .id = 0, .quantity = 0, .price = 0.99, .title = "Test", .next = NULL });
+    sc = new ShoppingCart((ShoppingCartItem){ .rental = true, .id = 0, .quantity = 0, .price = 0.99, .title = "Test" });
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
     connect(purchases, SIGNAL(closing()), this, SLOT(show()));
+    connect(sc, SIGNAL(closing()), this, SLOT(show()));
 
     QSqlQuery sel1, sel2;
     sel1.prepare("SELECT COUNT(*) FROM `filmrent`");

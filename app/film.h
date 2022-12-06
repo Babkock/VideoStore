@@ -20,7 +20,7 @@ typedef struct ShoppingCartItem_t {
     int quantity : 6;        // Selected by shopper/employee
     double price;            // Price of film
     QString title;           // Title of film
-    struct ShoppingCartItem_t *next;
+//    struct ShoppingCartItem_t *next;
 } ShoppingCartItem;
 
 class Film : public QObject {

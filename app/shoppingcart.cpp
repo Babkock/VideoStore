@@ -12,6 +12,7 @@
 #include "shoppingcart.h"
 #include "ui_shoppingcart.h"
 #include <iostream>
+#include <vector>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlDatabase>
@@ -29,14 +30,15 @@ ShoppingCart::ShoppingCart(void) :
     ui->setupUi(this);
 }
 
-ShoppingCart::ShoppingCart(ShoppingCartItem_t *c):
+ShoppingCart::ShoppingCart(ShoppingCartItem c):
     ui(new Ui::ShoppingCart),
-    cart(c), customerName(""), id(0), quantity(0) {
+    customerName(""), id(0), quantity(0) {
     ui->setupUi(this);
+    cart.push_back(c);
 }
 
 ShoppingCart::~ShoppingCart(void) {
-    delete cart;
+    //delete cart;
     delete ui;
 }
 
@@ -45,8 +47,85 @@ void ShoppingCart::closeEvent(QCloseEvent *event) {
     event->accept();
 }
 
-void ShoppingCart::on_shoppingCartCancel_clicked(void) {
-    emit closing();
-    hide();
+void ShoppingCart::push(ShoppingCartItem c) {
+    cart.push_back(c);
+    int rows = ui->shoppingCartTable->rowCount();
+    char col[10], title[150], p[7];
+    sprintf(col, "%s #%d", ((c.rental) ? "Rental" : "Purchase"), c.id);
+    sprintf(title, "%s", c.title.toStdString());
+    sprintf(p, "$%.2f", c.price);
+    ui->shoppingCartTable->setItem(rows-1, 0, new QTableWidgetItem(col));
+    ui->shoppingCartTable->setItem(rows-1, 1, new QTableWidgetItem(title));
+    ui->shoppingCartTable->setItem(rows-1, 2, new QTableWidgetItem(p));
+    ui->shoppingCartTable->setItem(rows-1, 3, new QTableWidgetItem("" + c.quantity));
+    ui->shoppingCartTable->setRowCount(rows++);
 }
 
+void ShoppingCart::on_shoppingCartCancel_clicked(void) {
+    emit closing();
+    close();
+}
+
+/* user clicked on the "Add to Cart" button */
+void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
+    int qid, quant;
+    qid = ui->shoppingCartIdField->text().toInt();
+    quant = ui->shoppingCartQuantityField->text().toInt();
+    if (ui->shoppingCartRentalRadio->isDown())
+        rental = true;
+    else if (ui->shoppingCartPurchaseRadio->isDown())
+        rental = false;
+
+    if (qid == 0 || quant == 0)
+        return;
+    else {
+        QSqlQuery sel;
+        sel.prepare(((rental) ? "SELECT `title`, `director`, `price`, `quantity` FROM `filmrent` WHERE `id`=?" : "SELECT `title`, `director`, `price`, `available` FROM `filmsale` WHERE `id`=?"));
+        sel.addBindValue(qid);
+        if (!(sel.exec())) {
+            std::cerr << sel.lastError().nativeErrorCode().toStdString() << " Error during select: " << sel.lastError().text().toStdString() << std::endl;
+            return;
+        }
+        if (sel.first()) {
+            if (quant > sel.value(3).toInt()) {
+                std::cerr << "Not that many copies available" << std::endl;
+                quant = sel.value(3).toInt();
+            }
+            else if (sel.value(3).toInt() == 0) {
+                std::cerr << "No copies of that left" << std::endl;
+            }
+            else {
+                cart.push_back((ShoppingCartItem){ .rental = rental, .id = qid, .quantity = quant, .price = sel.value(2).toDouble(), .title = sel.value(0).toString() });
+                int rows = ui->shoppingCartTable->rowCount();
+                char col[10], title[150], p[7];
+                sprintf(col, "%s #%d", ((rental) ? "Rental" : "Purchase"), qid);
+                sprintf(title, "%s by %s", sel.value(0).toString().toStdString().c_str(), sel.value(1).toString().toStdString().c_str());
+                sprintf(p, "$%.2f", sel.value(2).toDouble());
+                ui->shoppingCartTable->setItem(rows-1, 0, new QTableWidgetItem(col));
+                ui->shoppingCartTable->setItem(rows-1, 1, new QTableWidgetItem(title));
+                ui->shoppingCartTable->setItem(rows-1, 2, new QTableWidgetItem(p));
+                ui->shoppingCartTable->setItem(rows-1, 3, new QTableWidgetItem("" + quant));
+                ui->shoppingCartSubTotalField->setValue(ui->shoppingCartSubTotalField->text().toDouble() + sel.value(2).toDouble());
+                ui->shoppingCartTotalField->setValue(ui->shoppingCartSubTotalField->text().toDouble());
+                ui->shoppingCartTable->setRowCount(rows++);
+                ui->shoppingCartEmptyCart->setEnabled(true);
+                ui->shoppingCartRemoveLast->setEnabled(true);
+                ui->shoppingCartConfirm->setEnabled(true);
+            }
+        } else {
+            std::cerr << "No film with ID " << qid << std::endl;
+        }
+    }
+}
+
+/* the value of the "ID" field was changed */
+void ShoppingCart::on_shoppingCartIdField_valueChanged(int arg1) {
+    id = (unsigned int)arg1;
+    ui->shoppingCartAddToCart->setEnabled(true);
+}
+
+/* the value of the "Quantity" field was changed */
+void ShoppingCart::on_shoppingCartQuantityField_valueChanged(int arg1) {
+    quantity = (unsigned int)arg1;
+    ui->shoppingCartAddToCart->setEnabled(true);
+}
