@@ -85,7 +85,7 @@ private slots:
     void on_purchasesLastSoldTo_returnPressed(void);
 private:
     Ui::PurchasesForm *ui;
-    FilmSale film;
+    FilmSale *film;
     bool editExisting;
 signals:
     void closing(void);

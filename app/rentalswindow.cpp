@@ -58,7 +58,7 @@ void RentalsWindow::closeEvent(QCloseEvent *event) {
 /* user clicked "Add Film for Rent" from Rentals window */
 void RentalsWindow::on_rentalAddNew_clicked(void) {
     /* bring up empty RentalsForm */
-    form = new RentalsForm(this);
+    form = new RentalsForm(Film("Title", "Director"));
     form->show();
     if (debugMode)
         std::cout << "Add new Film for Rent was clicked" << std::endl;

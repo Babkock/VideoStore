@@ -89,7 +89,7 @@ private slots:
 
 private:
     Ui::RentalsForm *ui;
-    FilmRent film;
+    FilmRent *film;
     bool editExisting;
 signals:
     void closing(void);

@@ -38,7 +38,7 @@ PurchasesForm::PurchasesForm(QWidget *parent) :
 
 PurchasesForm::PurchasesForm(void) :
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film("Title", "Director"))),
+    film(new FilmSale(Film("Title", "Director"))),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -48,7 +48,7 @@ PurchasesForm::PurchasesForm(void) :
 
 PurchasesForm::PurchasesForm(Film f):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()))),
+    film(new FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()))),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -62,7 +62,7 @@ PurchasesForm::PurchasesForm(Film f):
 
 PurchasesForm::PurchasesForm(Film f, unsigned int q):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), q)),
+    film(new FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), q)),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -77,7 +77,7 @@ PurchasesForm::PurchasesForm(Film f, unsigned int q):
 
 PurchasesForm::PurchasesForm(Film f, const char *l):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
+    film(new FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -92,7 +92,7 @@ PurchasesForm::PurchasesForm(Film f, const char *l):
 
 PurchasesForm::PurchasesForm(Film f, const QString &l):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
+    film(new FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -107,7 +107,7 @@ PurchasesForm::PurchasesForm(Film f, const QString &l):
 
 PurchasesForm::PurchasesForm(Film f, QDateTime l):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
+    film(new FilmSale(Film(f.getId(), f.getTitle(), f.getDirector(), f.getYear(), f.getPrice()), l)),
     editExisting(true) {
     ui->setupUi(this);
     char head[32];
@@ -124,7 +124,7 @@ PurchasesForm::PurchasesForm(Film f, QDateTime l):
 
 PurchasesForm::PurchasesForm(unsigned int id, const QString &t):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(id, t, "Director"))),
+    film(new FilmSale(Film(id, t, "Director"))),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -136,7 +136,7 @@ PurchasesForm::PurchasesForm(unsigned int id, const QString &t):
 
 PurchasesForm::PurchasesForm(unsigned int id, const char *t):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(id, t, "Director"))),
+    film(new FilmSale(Film(id, t, "Director"))),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -148,7 +148,7 @@ PurchasesForm::PurchasesForm(unsigned int id, const char *t):
 
 PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(id, t, d))),
+    film(new FilmSale(Film(id, t, d))),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -161,7 +161,7 @@ PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d
 
 PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(id, t, d))),
+    film(new FilmSale(Film(id, t, d))),
     editExisting(false) {
     ui->setupUi(this);
     this->setWindowTitle("Adding New Film to Purchases");
@@ -174,7 +174,7 @@ PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d):
 
 PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d, unsigned int y):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(id, t, d, y))),
+    film(new FilmSale(Film(id, t, d, y))),
     editExisting(true) {
     ui->setupUi(this);
     char head[32];
@@ -190,7 +190,7 @@ PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d
 
 PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d, unsigned int y):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(id, t, d, y))),
+    film(new FilmSale(Film(id, t, d, y))),
     editExisting(true) {
     ui->setupUi(this);
     char head[32];
@@ -206,7 +206,7 @@ PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d, unsi
 
 PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d, unsigned int y, double p):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(id, t, d, y, p))),
+    film(new FilmSale(Film(id, t, d, y, p))),
     editExisting(true) {
     ui->setupUi(this);
     char head[32];
@@ -223,7 +223,7 @@ PurchasesForm::PurchasesForm(unsigned int id, const QString &t, const QString &d
 
 PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d, unsigned int y, double p):
     ui(new Ui::PurchasesForm),
-    film(FilmSale(Film(id, t, d, y, p))),
+    film(new FilmSale(Film(id, t, d, y, p))),
     editExisting(true) {
     ui->setupUi(this);
     char head[32];
@@ -239,6 +239,7 @@ PurchasesForm::PurchasesForm(unsigned int id, const char *t, const char *d, unsi
 }
 
 PurchasesForm::~PurchasesForm(void) {
+    delete film;
     delete ui;
 }
 
@@ -261,21 +262,21 @@ void PurchasesForm::on_purchasesSaveChanges_clicked(void) {
     if (editExisting) {
         QSqlQuery update;
         update.prepare("UPDATE `filmsale` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `lastSoldTo`=? WHERE `id`=? LIMIT 1");
-        update.addBindValue(film.getTitle());
-        update.addBindValue(film.getDirector());
-        update.addBindValue(film.getYear());
-        update.addBindValue(film.getAdded().toString("yyyy-MM-dd hh:mm:ss"));
-        update.addBindValue(film.getPrice());
-        update.addBindValue(film.getQuantity());
-        update.addBindValue(film.getLastSoldTo());
-        update.addBindValue(film.getId());
+        update.addBindValue(film->getTitle());
+        update.addBindValue(film->getDirector());
+        update.addBindValue(film->getYear());
+        update.addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        update.addBindValue(film->getPrice());
+        update.addBindValue(film->getQuantity());
+        update.addBindValue(film->getLastSoldTo());
+        update.addBindValue(film->getId());
         if (!(update.exec())) {
             std::cerr << update.lastError().nativeErrorCode().toStdString() << " Error during update: " << update.lastError().text().toStdString() << std::endl;
         } else {
             if (debugMode)
-                std::cout << "Successfully updated filmsale #" << film.getId() << std::endl;
+                std::cout << "Successfully updated filmsale #" << film->getId() << std::endl;
             else
-                std::cout << "Successfully updated film '" << film.getTitle().toStdString() << "'" << std::endl;
+                std::cout << "Successfully updated film '" << film->getTitle().toStdString() << "'" << std::endl;
         }
         db.commit();
         emit closing();
@@ -285,25 +286,25 @@ void PurchasesForm::on_purchasesSaveChanges_clicked(void) {
         int newid = c.prepare("SELECT COUNT(*) FROM `filmsale`");
         c.exec();
         newid++;
-        film.setId(newid);
+        film->setId(newid);
 
         QSqlQuery insert;
         insert.prepare("INSERT INTO `filmsale` (`id`, `title`, `director`, `year`, `price`, `added`, `quantity`, `lastSoldTo`, `lastSold`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
-        insert.addBindValue(film.getTitle());
-        insert.addBindValue(film.getDirector());
-        insert.addBindValue(film.getYear());
-        insert.addBindValue(film.getPrice());
-        insert.addBindValue(film.getAdded().toString("yyyy-MM-dd hh:mm:ss"));
-        insert.addBindValue(film.getQuantity());
-        insert.addBindValue(film.getLastSoldTo());
-        insert.addBindValue(film.getLastSold());
+        insert.addBindValue(film->getTitle());
+        insert.addBindValue(film->getDirector());
+        insert.addBindValue(film->getYear());
+        insert.addBindValue(film->getPrice());
+        insert.addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        insert.addBindValue(film->getQuantity());
+        insert.addBindValue(film->getLastSoldTo());
+        insert.addBindValue(film->getLastSold());
         if (!(insert.exec())) {
             std::cerr << insert.lastError().nativeErrorCode().toStdString() << " Error during insert: " << insert.lastError().text().toStdString() << std::endl;
         } else {
             if (debugMode)
-                std::cout << "Successfully inserted filmsale #" << film.getId() << std::endl;
+                std::cout << "Successfully inserted filmsale #" << film->getId() << std::endl;
             else
-                std::cout << "Successfully added film '" << film.getTitle().toStdString() << "'" << std::endl;
+                std::cout << "Successfully added film '" << film->getTitle().toStdString() << "'" << std::endl;
         }
         db.commit();
         emit closing();
@@ -319,7 +320,7 @@ void PurchasesForm::on_purchasesDiscardChanges_clicked(void) {
 
 /* the text of the "Title of Film" field was changed */
 void PurchasesForm::on_purchasesTitleField_textChanged(const QString &arg1) {
-    film.setTitle(arg1);
+    film->setTitle(arg1);
     ui->purchasesSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Title changed: " << arg1.toStdString() << std::endl;
@@ -327,7 +328,7 @@ void PurchasesForm::on_purchasesTitleField_textChanged(const QString &arg1) {
 
 /* the text of the "Director of Film" field was changed */
 void PurchasesForm::on_purchasesDirectorField_textChanged(const QString &arg1) {
-    film.setDirector(arg1);
+    film->setDirector(arg1);
     ui->purchasesSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Director changed: " << arg1.toStdString() << std::endl;
@@ -335,7 +336,7 @@ void PurchasesForm::on_purchasesDirectorField_textChanged(const QString &arg1) {
 
 /* the value of "Year" input field was changed */
 void PurchasesForm::on_purchasesYearField_valueChanged(int arg1) {
-    film.setYear(arg1);
+    film->setYear(arg1);
     ui->purchasesSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Year changed: " << arg1 << std::endl;
@@ -343,7 +344,7 @@ void PurchasesForm::on_purchasesYearField_valueChanged(int arg1) {
 
 /* the value of "Price" input field was changed */
 void PurchasesForm::on_purchasesPriceField_valueChanged(double arg1) {
-    film.setPrice(arg1);
+    film->setPrice(arg1);
     ui->purchasesSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Price changed: $" << arg1 << std::endl;
@@ -351,7 +352,7 @@ void PurchasesForm::on_purchasesPriceField_valueChanged(double arg1) {
 
 /* the value of "Quantity" input field was changed */
 void PurchasesForm::on_purchasesQuantityField_valueChanged(int arg1) {
-    film.setQuantity((int)arg1);
+    film->setQuantity((int)arg1);
     ui->purchasesSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Quantity changed: " << arg1 << std::endl;
@@ -359,15 +360,15 @@ void PurchasesForm::on_purchasesQuantityField_valueChanged(int arg1) {
 
 /* user selected a new date time on the "Last Sold" field */
 void PurchasesForm::on_purchasesLastSoldField_dateTimeChanged(const QDateTime &dateTime) {
-    film.setLastSold(dateTime);
+    film->setLastSold(dateTime);
     ui->purchasesSaveChanges->setEnabled(true);
     if (debugMode)
-        std::cout << "Date time changed" << std::endl;
+        std::cout << "Last sold changed: " << film->getLastSold().toString("yyyy-MM-dd hh:mm:ss").toStdString() << std::endl;
 }
 
 /* the text of the "Last Sold to:" field was changed */
 void PurchasesForm::on_purchasesLastSoldTo_textChanged(const QString &arg1) {
-    film.setLastSoldTo(arg1);
+    film->setLastSoldTo(arg1);
     ui->purchasesSaveChanges->setEnabled(true);
     if (debugMode)
         std::cout << "Last sold to changed: " << arg1.toStdString() << std::endl;
