@@ -1,4 +1,5 @@
-/* database.cpp
+/*
+ * database.cpp
  * Tanner Babcock
  * CIS 152 - Data Structures
  * Final Project: Video Store
@@ -17,6 +18,7 @@
 ***********************************/
 #include "database.h"
 #include <iostream>
+#include <QSqlDriver>
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -72,9 +74,8 @@ bool dbReload(void) {
             exists = true;
         }
     }
-    if (!exists) {
+    if (!exists)
         dbRepopulate();
-    }
     return exists;
 }
 

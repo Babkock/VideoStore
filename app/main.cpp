@@ -1,4 +1,5 @@
-/* main.cpp
+/*
+ * main.cpp
  * Tanner Babcock
  * CIS 152 - Data Structures
  * Final Project: Video Store
@@ -24,8 +25,6 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QSqlDatabase>
-#include <QSqlDriver>
-#include <QSqlError>
 #include <QSqlQuery>
 
 bool debugMode;

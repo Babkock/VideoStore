@@ -2,7 +2,7 @@
 # Tanner Babcock
 # CIS 152 - Data Structures
 # Final Project: Video Store
-# November-December 2022
+# November - December 2022
 QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

@@ -1,4 +1,5 @@
-/* purchaseswindow.h
+/*
+ * purchaseswindow.h
  * Tanner Babcock
  * CIS 152 - Data Structures
  * Final Project: Video Store

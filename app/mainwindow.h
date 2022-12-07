@@ -1,4 +1,5 @@
-/* mainwindow.h
+/*
+ * mainwindow.h
  * Tanner Babcock
  * CIS 152 - Data Structures
  * Final Project: Video Store

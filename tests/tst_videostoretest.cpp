@@ -1,3 +1,20 @@
+/*
+ * tst_videostoretest.cpp
+ * Tanner Babcock
+ * CIS 152 - Data Structures
+ * Final Project: Video Store
+ * November-December 2022
+*/
+/**********************************
+ * OS: Void GNU/Linux
+ * IDE: QtCreator
+ * Copyright : This is my own original work based
+ * on specifications issued by our instructor.
+ * Academic Honesty: I attest that this is my original
+ * work. I have not used unauthorized source code,
+ * either modified or unmodified. I have not given
+ * other fellow student(s) access to my program.
+***********************************/
 #include "film.h"
 #include "database.h"
 #include "mainwindow.h"
@@ -27,10 +44,12 @@ private slots:
     void test_filmsale(void);
     void test_selectrent(void);
     void test_selectsale(void);
+    void test_updaterent(void);
+    void test_updatesale(void);
 };
 
 videoStoreTest::videoStoreTest(void) {
-
+    std::cout << "Tests initialized" << std::endl;
 }
 
 videoStoreTest::~videoStoreTest(void) {
@@ -72,6 +91,8 @@ void videoStoreTest::initTestCase(void) {
 }
 
 void videoStoreTest::cleanupTestCase(void) {
+    QSqlQuery drop1("DROP TABLE `filmrent`");
+    QSqlQuery drop2("DROP TABLE `filmsale`");
     db.close();
     unlink("test.sql");
 }
@@ -149,6 +170,48 @@ void videoStoreTest::test_selectsale(void) {
     QCOMPARE(sel.value(4).toDouble(), 7.99);
     QCOMPARE(sel.value(6).toInt(), 12);
     std::cout << "Selected film from filmsale" << std::endl;
+}
+
+void videoStoreTest::test_updaterent(void) {
+    FilmRent *f = new FilmRent(Film(1, "Stalker", "Andrei Tarkovsky", 1979, 9.99), 1);
+
+    QSqlQuery update;
+    update.prepare("UPDATE `filmrent` SET `title`=?, `director`=?, `year`=?, `price`=?, `added`=?, `quantity`=?, `available`=?, `lastRented`=?, `lastRentedTo`=? WHERE `id`=?");
+    update.addBindValue(f->getTitle());
+    update.addBindValue(f->getDirector());
+    update.addBindValue(f->getYear());
+    update.addBindValue(f->getPrice());
+    update.addBindValue(f->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+    update.addBindValue(f->getQuantity());
+    update.addBindValue(f->getAvailable());
+    update.addBindValue(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    update.addBindValue(f->getLastRentedTo());
+    update.addBindValue(f->getId());
+    QCOMPARE(update.exec(), true);
+    db.commit();
+    std::cout << "Updated film in filmrent" << std::endl;
+    delete f;
+}
+
+void videoStoreTest::test_updatesale(void) {
+    FilmSale *f = new FilmSale(Film(1, "Funny Games", "Michael Haneke", 1997, 6.99), 2);
+
+    QSqlQuery update;
+    update.prepare("UPDATE `filmsale` SET `title`=?, `director`=?, `year`=?, `price`=?, `added`=?, `quantity`=?, `lastSoldTo`=?, `lastSold`=? WHERE `id`=?");
+    update.addBindValue(f->getTitle());
+    update.addBindValue(f->getDirector());
+    update.addBindValue(f->getYear());
+    update.addBindValue(f->getPrice());
+    update.addBindValue(f->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+    update.addBindValue(f->getQuantity());
+    update.addBindValue(f->getLastSoldTo());
+    update.addBindValue(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    update.addBindValue(f->getId());
+    QCOMPARE(update.exec(), true);
+    std::cout << update.lastError().nativeErrorCode().toStdString() << " Error during update: " << update.lastError().text().toStdString() << std::endl;
+    db.commit();
+    std::cout << "Updated film in filmsale" << std::endl;
+    delete f;
 }
 
 QTEST_MAIN(videoStoreTest)
