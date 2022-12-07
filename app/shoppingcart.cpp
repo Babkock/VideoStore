@@ -62,7 +62,7 @@ void ShoppingCart::push(ShoppingCartItem c) {
     int rows = ui->shoppingCartTable->rowCount();
     char col[10], title[150], p[7];
     sprintf(col, "%s #%d", ((c.rental) ? "Rental" : "Purchase"), c.id);
-    sprintf(title, "%s", c.title.toStdString());
+    sprintf(title, "%s", c.title.toStdString().c_str());
     sprintf(p, "$%.2f", c.price);
     ui->shoppingCartTable->setItem(rows-1, 0, new QTableWidgetItem(col));
     ui->shoppingCartTable->setItem(rows-1, 1, new QTableWidgetItem(title));
@@ -105,7 +105,7 @@ void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
                 std::cerr << "No copies of that left" << std::endl;
             }
             else {
-                cart.push_back((ShoppingCartItem){ .rental = rental, .id = qid, .quantity = quant, .price = sel.value(2).toDouble(), .title = sel.value(0).toString() });
+                cart.push_back((ShoppingCartItem){ .rental = rental, .id = (unsigned int)qid, .quantity = quant, .price = sel.value(2).toDouble(), .title = sel.value(0).toString() });
                 int rows = ui->shoppingCartTable->rowCount();
                 char col[10], title[150], p[7];
                 sprintf(col, "%s #%d", ((rental) ? "Rental" : "Purchase"), qid);
