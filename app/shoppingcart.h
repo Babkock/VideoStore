@@ -5,6 +5,16 @@
  * November - December 2022
  * https://github.com/Babkock/VideoStore
 */
+/**********************************
+ * OS: Void GNU/Linux
+ * IDE: QtCreator
+ * Copyright : This is my own original work based
+ * on specifications issued by our instructor.
+ * Academic Honesty: I attest that this is my original
+ * work. I have not used unauthorized source code,
+ * either modified or unmodified. I have not given
+ * other fellow student(s) access to my program.
+***********************************/
 #ifndef SHOPPINGCART_H
 #define SHOPPINGCART_H
 
@@ -54,8 +64,20 @@ private slots:
     void on_shoppingCartCancel_clicked(void);
     /* user clicked the "Add to Cart" button */
     void on_shoppingCartAddToCart_clicked(void);
+    /* the value of the "ID:" field was changed */
     void on_shoppingCartIdField_valueChanged(int arg1);
+    /* the value of the "Quantity:" field was changed */
     void on_shoppingCartQuantityField_valueChanged(int arg1);
+    /* user clicked the "Remove Last Item from Cart" button */
+    void on_shoppingCartRemoveLast_clicked(void);
+    /* user clicked the "Empty Cart" button */
+    void on_shoppingCartEmptyCart_clicked(void);
+    /* the text of the "Customer Name" field was changed */
+    void on_shoppingCartCustomerNameField_textChanged(const QString &arg1);
+    /* user selected a date time in the "Due" field */
+    void on_shoppingCartDueField_dateTimeChanged(const QDateTime &dateTime);
+    /* user clicked the "Confirm Order" button */
+    void on_shoppingCartConfirm_clicked(void);
 };
 
 #endif // SHOPPINGCART_H
