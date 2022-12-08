@@ -25,6 +25,16 @@
 #include <QCloseEvent>
 #include <vector>
 
+typedef struct ShoppingCartItem_t {
+    bool rental : 1;         // rental = true, sale = false
+    unsigned int id : 8;     // ID from the Database
+    int quantity : 6;        // Selected by shopper/employee
+    double price;            // Price of film
+    QString title;           // Title of film
+    QString director;
+//    struct ShoppingCartItem_t *next;
+} ShoppingCartItem;
+
 namespace Ui {
 class ShoppingCart;
 }
@@ -35,8 +45,8 @@ public:
     explicit ShoppingCart(QWidget *parent = nullptr);
     ShoppingCart(void);
     ShoppingCart(ShoppingCartItem c);
-    ShoppingCart(ShoppingCartItem_t c, const char *n);
-    ShoppingCart(ShoppingCartItem_t c, const QString &n);
+    ShoppingCart(ShoppingCartItem c, const char *n);
+    ShoppingCart(ShoppingCartItem c, const QString &n);
     ~ShoppingCart(void);
     QString getCustomerName(void);
     void setCustomerName(const char *n);
@@ -48,11 +58,12 @@ public:
     unsigned int getQuantity(void);
     void setQuantity(unsigned int q);
     void push(ShoppingCartItem c);
+    ShoppingCartItem pop(void);
 protected:
     void closeEvent(QCloseEvent *event);
 private:
     Ui::ShoppingCart *ui;
-    std::vector<ShoppingCartItem> cart;
+    std::vector<ShoppingCartItem> *cart;
     QString customerName;
     bool rental;
     unsigned int id;

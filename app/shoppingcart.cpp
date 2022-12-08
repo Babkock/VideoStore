@@ -22,6 +22,7 @@
 #include "shoppingcart.h"
 #include "ui_shoppingcart.h"
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -30,25 +31,28 @@
 
 ShoppingCart::ShoppingCart(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::ShoppingCart) {
+    ui(new Ui::ShoppingCart),
+    cart(new std::vector<ShoppingCartItem>) {
     ui->setupUi(this);
 }
 
 ShoppingCart::ShoppingCart(void) :
     ui(new Ui::ShoppingCart),
+    cart(new std::vector<ShoppingCartItem>),
     customerName(""), id(0), quantity(0) {
     ui->setupUi(this);
 }
 
 ShoppingCart::ShoppingCart(ShoppingCartItem c):
     ui(new Ui::ShoppingCart),
+    cart(new std::vector<ShoppingCartItem>),
     customerName(""), id(0), quantity(0) {
     ui->setupUi(this);
-    cart.push_back(c);
+    cart->push_back(c);
 }
 
 ShoppingCart::~ShoppingCart(void) {
-    //delete cart;
+    delete cart;
     delete ui;
 }
 
@@ -58,17 +62,36 @@ void ShoppingCart::closeEvent(QCloseEvent *event) {
 }
 
 void ShoppingCart::push(ShoppingCartItem c) {
-    cart.push_back(c);
+    cart->push_back(c);
+    std::ostringstream str1, str2, str3;
+    std::string id, p, q;
+    str1 << ((c.rental) ? "Renting" : "Buying") << " #" << c.id;
+    id = str1.str();
+    str2 << "$" << c.price;
+    p = str2.str();
+    str3 << c.quantity;
+    q = str3.str();
+
     int rows = ui->shoppingCartTable->rowCount();
-    char col[10], title[150], p[7];
-    sprintf(col, "%s #%d", ((c.rental) ? "Rental" : "Purchase"), c.id);
-    sprintf(title, "%s", c.title.toStdString().c_str());
-    sprintf(p, "$%.2f", c.price);
-    ui->shoppingCartTable->setItem(rows-1, 0, new QTableWidgetItem(col));
-    ui->shoppingCartTable->setItem(rows-1, 1, new QTableWidgetItem(title));
-    ui->shoppingCartTable->setItem(rows-1, 2, new QTableWidgetItem(p));
-    ui->shoppingCartTable->setItem(rows-1, 3, new QTableWidgetItem("" + c.quantity));
-    ui->shoppingCartTable->setRowCount(rows++);
+    ui->shoppingCartTable->insertRow(rows);
+    ui->shoppingCartTable->setItem(rows, 0, new QTableWidgetItem(id.c_str()));
+    ui->shoppingCartTable->setItem(rows, 1, new QTableWidgetItem(c.title.toStdString().c_str()));
+    ui->shoppingCartTable->setItem(rows, 2, new QTableWidgetItem(c.director.toStdString().c_str()));
+    ui->shoppingCartTable->setItem(rows, 3, new QTableWidgetItem(p.c_str()));
+    ui->shoppingCartTable->setItem(rows, 4, new QTableWidgetItem(q.c_str()));
+}
+
+ShoppingCartItem ShoppingCart::pop(void) {
+    if (cart->size() == 0) {
+        std::cout << "Cannot remove any more items" << std::endl;
+        return (ShoppingCartItem){ .rental = false, .id = 0, .quantity = 0, .price = 0.0, .title = "Error", .director = "Error" };
+    } else {
+        ShoppingCartItem back = cart->back();
+        cart->pop_back();
+        int rows = ui->shoppingCartTable->rowCount();
+        ui->shoppingCartTable->setRowCount(rows-1);
+        return back;
+    }
 }
 
 void ShoppingCart::on_shoppingCartCancel_clicked(void) {
@@ -105,19 +128,10 @@ void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
                 std::cerr << "No copies of that left" << std::endl;
             }
             else {
-                cart.push_back((ShoppingCartItem){ .rental = rental, .id = (unsigned int)qid, .quantity = quant, .price = sel.value(2).toDouble(), .title = sel.value(0).toString() });
-                int rows = ui->shoppingCartTable->rowCount();
-                char col[10], title[150], p[7];
-                sprintf(col, "%s #%d", ((rental) ? "Rental" : "Purchase"), qid);
-                sprintf(title, "%s by %s", sel.value(0).toString().toStdString().c_str(), sel.value(1).toString().toStdString().c_str());
-                sprintf(p, "$%.2f", sel.value(2).toDouble());
-                ui->shoppingCartTable->setItem(rows-1, 0, new QTableWidgetItem(col));
-                ui->shoppingCartTable->setItem(rows-1, 1, new QTableWidgetItem(title));
-                ui->shoppingCartTable->setItem(rows-1, 2, new QTableWidgetItem(p));
-                ui->shoppingCartTable->setItem(rows-1, 3, new QTableWidgetItem("" + quant));
+                this->push((ShoppingCartItem){ .rental = rental, .id = (unsigned int)qid, .quantity = quant, .price = sel.value(2).toDouble(), .title = sel.value(0).toString(), .director = sel.value(1).toString() });
+
                 ui->shoppingCartSubTotalField->setValue(ui->shoppingCartSubTotalField->text().toDouble() + sel.value(2).toDouble());
                 ui->shoppingCartTotalField->setValue(ui->shoppingCartSubTotalField->text().toDouble());
-                ui->shoppingCartTable->setRowCount(rows++);
                 ui->shoppingCartEmptyCart->setEnabled(true);
                 ui->shoppingCartRemoveLast->setEnabled(true);
                 ui->shoppingCartConfirm->setEnabled(true);
@@ -142,12 +156,15 @@ void ShoppingCart::on_shoppingCartQuantityField_valueChanged(int arg1) {
 
 /* user clicked the "Remove Last Item from Cart" button */
 void ShoppingCart::on_shoppingCartRemoveLast_clicked(void) {
-
+    ShoppingCartItem del = this->pop();
+    std::cout << "Removed shopping cart item: " << del.id << ", " << del.title.toStdString() << ", " << del.quantity << ", $" << del.price << std::endl;
 }
 
 /* user clicked the "Empty the Cart" button */
 void ShoppingCart::on_shoppingCartEmptyCart_clicked(void) {
-
+    ui->shoppingCartTable->setRowCount(0);
+    cart->clear();
+    ui->shoppingCartConfirm->setEnabled(false);
 }
 
 /* the text of the "Customer Name" field was changed */

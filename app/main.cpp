@@ -19,13 +19,11 @@
 #include "database.h"
 #include "mainwindow.h"
 #include <iostream>
-#include <cstdlib>
-#include <cstring>
+#include <string>
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 
 bool debugMode;
 QSqlDatabase db;
@@ -34,8 +32,19 @@ double profits;
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+    std::string dbFile;
 
-    dbConnect("videostore.sql");
+    if (argc == 1 || argc == 0) {
+        dbFile = "videostore.sql";
+    } else if (argc > 2) {
+        std::cerr << "USAGE: " << argv[0] << " [database file]" << std::endl;
+        return 1;
+    } else if (argc > 1) {
+        std::cout << "Using database file " << argv[1] << std::endl;
+        dbFile.insert(0, argv[1]);
+    }
+
+    dbConnect(dbFile.c_str());
     if (dbReload()) {
         std::cout << "Reloading existing database" << std::endl;
     } else {
@@ -56,5 +65,6 @@ int main(int argc, char *argv[]) {
     MainWindow w;
     w.show();
     a.exec();
+    db.close();
     return 0;
 }

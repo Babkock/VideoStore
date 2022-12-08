@@ -62,10 +62,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow(void) {
-    delete sc;
-    delete purchases;
-    delete rentals;
-    db.close();
     delete ui;
 }
 
