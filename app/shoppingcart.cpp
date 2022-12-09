@@ -35,20 +35,23 @@ ShoppingCart::ShoppingCart(QWidget *parent) :
     ui(new Ui::ShoppingCart),
     cart(new std::vector<ShoppingCartItem>) {
     ui->setupUi(this);
+    ui->shoppingCartDueField->setDateTime(QDateTime::currentDateTime());
 }
 
 ShoppingCart::ShoppingCart(void) :
     ui(new Ui::ShoppingCart),
     cart(new std::vector<ShoppingCartItem>),
-    customerName(""), id(0), quantity(0) {
+    customerName(""), id(0), quantity(0), subtotal(0.0), tax(0.0), total(0.0) {
     ui->setupUi(this);
+    ui->shoppingCartDueField->setDateTime(QDateTime::currentDateTime());
 }
 
 ShoppingCart::ShoppingCart(ShoppingCartItem c):
     ui(new Ui::ShoppingCart),
     cart(new std::vector<ShoppingCartItem>),
-    customerName(""), id(0), quantity(0) {
+    customerName(""), id(0), quantity(0), subtotal(0.0), tax(0.0), total(0.0) {
     ui->setupUi(this);
+    ui->shoppingCartDueField->setDateTime(QDateTime::currentDateTime());
     cart->push_back(c);
 }
 
@@ -60,6 +63,22 @@ ShoppingCart::~ShoppingCart(void) {
 void ShoppingCart::closeEvent(QCloseEvent *event) {
     emit closing();
     event->accept();
+}
+
+double ShoppingCart::getSubTotal(void) {
+    return subtotal;
+}
+
+void ShoppingCart::setSubTotal(double s) {
+    subtotal = s;
+}
+
+double ShoppingCart::getTax(void) {
+    return tax;
+}
+
+void ShoppingCart::setTax(double t) {
+    tax = t;
 }
 
 double ShoppingCart::getTotal(void) {
@@ -92,7 +111,7 @@ void ShoppingCart::push(ShoppingCartItem c) {
 
 ShoppingCartItem ShoppingCart::pop(void) {
     if (cart->size() == 0) {
-        std::cout << "Cannot remove any more items" << std::endl;
+        std::cerr << "Cannot remove any more items" << std::endl;
         return (ShoppingCartItem){ .rental = false, .id = 0, .quantity = 0, .price = 0.0, .title = "Error", .director = "Error" };
     } else {
         ShoppingCartItem back = cart->back();
@@ -121,7 +140,7 @@ void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
         sel.prepare(((rental) ? "SELECT `title`, `director`, `price`, `available` FROM `filmrent` WHERE `id`=?" : "SELECT `title`, `director`, `price`, `quantity` FROM `filmsale` WHERE `id`=?"));
         sel.addBindValue(qid);
         if (!(sel.exec())) {
-            std::cerr << sel.lastError().nativeErrorCode().toInt() << " Error during select: " << sel.lastError().text().toStdString() << std::endl;
+            std::cerr << "Error during select: " << sel.lastError().text().toStdString() << std::endl;
             return;
         }
         if (sel.first()) {
@@ -136,7 +155,11 @@ void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
                 this->push((ShoppingCartItem){ .rental = rental, .id = (unsigned int)qid, .quantity = quant, .price = sel.value(2).toDouble(), .title = sel.value(0).toString(), .director = sel.value(1).toString() });
 
                 double itemPrice = sel.value(2).toDouble();
-                setTotal(getTotal() + (itemPrice * quant));
+                setSubTotal(getSubTotal() + (itemPrice * quant));
+                setTax(getSubTotal() * 0.06);
+                setTotal(getSubTotal() + getTax());
+                ui->shoppingCartSubTotalField->setValue(getSubTotal());
+                ui->shoppingCartTaxField->setValue(getTax());
                 ui->shoppingCartTotalField->setValue(getTotal());
                 ui->shoppingCartEmptyCart->setEnabled(true);
                 ui->shoppingCartRemoveLast->setEnabled(true);
@@ -167,7 +190,14 @@ void ShoppingCart::on_shoppingCartQuantityField_valueChanged(int arg1) {
 /* user clicked the "Remove Last Item from Cart" button */
 void ShoppingCart::on_shoppingCartRemoveLast_clicked(void) {
     ShoppingCartItem del = this->pop();
-    std::cout << "Removed shopping cart item: " << del.id << ", " << del.title.toStdString() << ", " << del.quantity << ", $" << del.price << std::endl;
+    if (debugMode)
+        std::cout << "Removed shopping cart item: " << del.id << ", " << del.title.toStdString() << ", " << del.quantity << ", $" << del.price << std::endl;
+    subtotal = (getSubTotal() - (del.quantity * del.price));
+    tax = (getSubTotal() * 0.06);
+    total = getSubTotal() + getTax();
+    ui->shoppingCartSubTotalField->setValue(getSubTotal());
+    ui->shoppingCartTaxField->setValue(getTax());
+    ui->shoppingCartTotalField->setValue(getTotal());
 }
 
 /* user clicked the "Empty the Cart" button */
@@ -175,6 +205,11 @@ void ShoppingCart::on_shoppingCartEmptyCart_clicked(void) {
     ui->shoppingCartTable->setRowCount(0);
     cart->clear();
     ui->shoppingCartConfirm->setEnabled(false);
+    subtotal = 0.0;
+    tax = 0.0;
+    total = 0.0;
+    ui->shoppingCartSubTotalField->setValue(0.0);
+    ui->shoppingCartTaxField->setValue(0.0);
     ui->shoppingCartTotalField->setValue(0.0);
     if (debugMode)
         std::cout << "Cart emptied" << std::endl;
@@ -228,7 +263,7 @@ void ShoppingCart::on_shoppingCartConfirm_clicked(void) {
         update.addBindValue(item.quantity);
         update.addBindValue(item.id);
         if (!(update.exec())) {
-            std::cerr << "Updating film " << ((r) ? "rent" : "purchase") << " #" << item.id << " failed: " << update.lastError().nativeErrorCode().toInt() << update.lastError().text().toStdString() << std::endl;
+            std::cerr << "Updating film " << ((r) ? "rent" : "purchase") << " #" << item.id << " failed: " << update.lastError().text().toStdString() << std::endl;
             break;
         }
     }

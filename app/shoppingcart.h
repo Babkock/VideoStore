@@ -56,6 +56,10 @@ public:
     void setId(unsigned int i);
     unsigned int getQuantity(void);
     void setQuantity(unsigned int q);
+    double getSubTotal(void);
+    void setSubTotal(double s);
+    double getTax(void);
+    void setTax(double t);
     double getTotal(void);
     void setTotal(double t);
     void push(ShoppingCartItem c);
@@ -69,6 +73,8 @@ private:
     bool rental;
     unsigned int id;
     unsigned int quantity;
+    double subtotal;
+    double tax;
     double total;
     QDateTime due;
 signals:
@@ -92,8 +98,10 @@ private slots:
     void on_shoppingCartDueField_dateTimeChanged(const QDateTime &dateTime);
     /* user clicked the "Confirm Order" button */
     void on_shoppingCartConfirm_clicked(void);
-    void on_shoppingCartRentalRadio_clicked();
-    void on_shoppingCartPurchaseRadio_clicked();
+    /* user clicked the "Rental" radio button */
+    void on_shoppingCartRentalRadio_clicked(void);
+    /* user clicked the "Purchases" radio button */
+    void on_shoppingCartPurchaseRadio_clicked(void);
 };
 
 #endif // SHOPPINGCART_H
