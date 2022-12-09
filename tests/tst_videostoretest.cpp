@@ -16,7 +16,6 @@
  * other fellow student(s) access to my program.
 ***********************************/
 #include "film.h"
-#include "database.h"
 #include "mainwindow.h"
 #include "shoppingcart.h"
 #include <iostream>
@@ -46,6 +45,7 @@ private slots:
     void test_selectsale(void);
     void test_updaterent(void);
     void test_updatesale(void);
+    void test_shoppingcart(void);
 };
 
 videoStoreTest::videoStoreTest(void) {
@@ -170,6 +170,10 @@ void videoStoreTest::test_selectsale(void) {
     QCOMPARE(sel.value(4).toDouble(), 7.99);
     QCOMPARE(sel.value(6).toInt(), 12);
     std::cout << "Selected film from filmsale" << std::endl;
+}
+
+void videoStoreTest::test_shoppingcart(void) {
+
 }
 
 void videoStoreTest::test_updaterent(void) {

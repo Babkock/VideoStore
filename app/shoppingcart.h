@@ -32,7 +32,6 @@ typedef struct ShoppingCartItem_t {
     double price;            // Price of film
     QString title;           // Title of film
     QString director;
-//    struct ShoppingCartItem_t *next;
 } ShoppingCartItem;
 
 namespace Ui {
@@ -57,6 +56,8 @@ public:
     void setId(unsigned int i);
     unsigned int getQuantity(void);
     void setQuantity(unsigned int q);
+    double getTotal(void);
+    void setTotal(double t);
     void push(ShoppingCartItem c);
     ShoppingCartItem pop(void);
 protected:
@@ -68,6 +69,7 @@ private:
     bool rental;
     unsigned int id;
     unsigned int quantity;
+    double total;
     QDateTime due;
 signals:
     void closing(void);
@@ -90,6 +92,8 @@ private slots:
     void on_shoppingCartDueField_dateTimeChanged(const QDateTime &dateTime);
     /* user clicked the "Confirm Order" button */
     void on_shoppingCartConfirm_clicked(void);
+    void on_shoppingCartRentalRadio_clicked();
+    void on_shoppingCartPurchaseRadio_clicked();
 };
 
 #endif // SHOPPINGCART_H

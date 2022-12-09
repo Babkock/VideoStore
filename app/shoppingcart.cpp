@@ -1,4 +1,5 @@
-/* shoppingcart.cpp
+/*
+ * shoppingcart.cpp
  * Tanner Babcock
  * CIS 152 - Data Structures
  * Final Project: Video Store
@@ -61,6 +62,14 @@ void ShoppingCart::closeEvent(QCloseEvent *event) {
     event->accept();
 }
 
+double ShoppingCart::getTotal(void) {
+    return total;
+}
+
+void ShoppingCart::setTotal(double t) {
+    total = t;
+}
+
 void ShoppingCart::push(ShoppingCartItem c) {
     cart->push_back(c);
     std::ostringstream str1, str2, str3;
@@ -104,19 +113,15 @@ void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
     int qid, quant;
     qid = ui->shoppingCartIdField->text().toInt();
     quant = ui->shoppingCartQuantityField->text().toInt();
-    if (ui->shoppingCartRentalRadio->isDown())
-        rental = true;
-    else if (ui->shoppingCartPurchaseRadio->isDown())
-        rental = false;
 
     if (qid == 0 || quant == 0)
         return;
     else {
         QSqlQuery sel;
-        sel.prepare(((rental) ? "SELECT `title`, `director`, `price`, `quantity` FROM `filmrent` WHERE `id`=?" : "SELECT `title`, `director`, `price`, `available` FROM `filmsale` WHERE `id`=?"));
+        sel.prepare(((rental) ? "SELECT `title`, `director`, `price`, `available` FROM `filmrent` WHERE `id`=?" : "SELECT `title`, `director`, `price`, `quantity` FROM `filmsale` WHERE `id`=?"));
         sel.addBindValue(qid);
         if (!(sel.exec())) {
-            std::cerr << sel.lastError().nativeErrorCode().toStdString() << " Error during select: " << sel.lastError().text().toStdString() << std::endl;
+            std::cerr << sel.lastError().nativeErrorCode().toInt() << " Error during select: " << sel.lastError().text().toStdString() << std::endl;
             return;
         }
         if (sel.first()) {
@@ -130,8 +135,9 @@ void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
             else {
                 this->push((ShoppingCartItem){ .rental = rental, .id = (unsigned int)qid, .quantity = quant, .price = sel.value(2).toDouble(), .title = sel.value(0).toString(), .director = sel.value(1).toString() });
 
-                ui->shoppingCartSubTotalField->setValue(ui->shoppingCartSubTotalField->text().toDouble() + sel.value(2).toDouble());
-                ui->shoppingCartTotalField->setValue(ui->shoppingCartSubTotalField->text().toDouble());
+                double itemPrice = sel.value(2).toDouble();
+                setTotal(getTotal() + (itemPrice * quant));
+                ui->shoppingCartTotalField->setValue(getTotal());
                 ui->shoppingCartEmptyCart->setEnabled(true);
                 ui->shoppingCartRemoveLast->setEnabled(true);
                 ui->shoppingCartConfirm->setEnabled(true);
@@ -146,12 +152,16 @@ void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
 void ShoppingCart::on_shoppingCartIdField_valueChanged(int arg1) {
     id = (unsigned int)arg1;
     ui->shoppingCartAddToCart->setEnabled(true);
+    if (debugMode)
+        std::cout << "ID field changed: " << arg1 << std::endl;
 }
 
 /* the value of the "Quantity" field was changed */
 void ShoppingCart::on_shoppingCartQuantityField_valueChanged(int arg1) {
     quantity = (unsigned int)arg1;
     ui->shoppingCartAddToCart->setEnabled(true);
+    if (debugMode)
+        std::cout << "Quantity field changed: " << arg1 << std::endl;
 }
 
 /* user clicked the "Remove Last Item from Cart" button */
@@ -165,6 +175,9 @@ void ShoppingCart::on_shoppingCartEmptyCart_clicked(void) {
     ui->shoppingCartTable->setRowCount(0);
     cart->clear();
     ui->shoppingCartConfirm->setEnabled(false);
+    ui->shoppingCartTotalField->setValue(0.0);
+    if (debugMode)
+        std::cout << "Cart emptied" << std::endl;
 }
 
 /* the text of the "Customer Name" field was changed */
@@ -186,6 +199,51 @@ void ShoppingCart::on_shoppingCartDueField_dateTimeChanged(const QDateTime &date
 
 /* user clicked the "Confirm Order" button */
 void ShoppingCart::on_shoppingCartConfirm_clicked(void) {
+    if (debugMode)
+        std::cout << "Order is being confirmed..." << std::endl;
 
+    double total = getTotal();
+    std:: cout << "Total: $" << total << std::endl;
+    cashRegister += total;
+    profits += total;
+
+    QSqlQuery ins;
+    ins.prepare("INSERT INTO `transactions` VALUES (NULL, ?, ?, ?)");
+    ins.addBindValue(cashRegister);
+    ins.addBindValue(profits);
+    ins.addBindValue(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    if (!(ins.exec()))
+        std::cerr << ins.lastError().nativeErrorCode().toStdString() << " Error during transaction insert: " << ins.lastError().text().toStdString() << std::endl;
+    double realTotal = 0.0;
+    for (auto item : *cart) {
+        bool r = item.rental;
+        std::cout << ((r) ? "Renting" : "Buying");
+        std::cout << " Cart ID: " << (int)item.id << ": " << item.title.toStdString() << ", $" << item.price << std::endl;
+        realTotal += item.price * item.quantity;
+
+        QSqlQuery update;
+        update.prepare(((r) ? "UPDATE `filmrent` SET `lastRented`=?, `lastRentedTo`=?, `available`=available - ? WHERE `id`=?" : "UPDATE `filmsale` SET `lastSold`=?, `lastSoldTo`=?, `quantity`=quantity - ? WHERE `id`=?"));
+        update.addBindValue(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        update.addBindValue(customerName);
+        update.addBindValue(item.quantity);
+        update.addBindValue(item.id);
+        if (!(update.exec())) {
+            std::cerr << "Updating film " << ((r) ? "rent" : "purchase") << " #" << item.id << " failed: " << update.lastError().nativeErrorCode().toInt() << update.lastError().text().toStdString() << std::endl;
+            break;
+        }
+    }
+
+    emit closing();
+    close();
+}
+
+/* user clicked the "Rental" radio button */
+void ShoppingCart::on_shoppingCartRentalRadio_clicked(void) {
+    rental = true;
+}
+
+/* user clicked the "Purchase" radio button */
+void ShoppingCart::on_shoppingCartPurchaseRadio_clicked(void) {
+    rental = false;
 }
 
