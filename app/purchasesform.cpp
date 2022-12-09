@@ -260,52 +260,57 @@ void PurchasesForm::setEditExisting(bool e) {
 /* user clicked on the "Save Changes to Film" button on Purchases */
 void PurchasesForm::on_purchasesSaveChanges_clicked(void) {
     if (editExisting) {
-        QSqlQuery update;
-        update.prepare("UPDATE `filmsale` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `lastSoldTo`=? WHERE `id`=? LIMIT 1");
-        update.addBindValue(film->getTitle());
-        update.addBindValue(film->getDirector());
-        update.addBindValue(film->getYear());
-        update.addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
-        update.addBindValue(film->getPrice());
-        update.addBindValue(film->getQuantity());
-        update.addBindValue(film->getLastSoldTo());
-        update.addBindValue(film->getId());
-        if (!(update.exec())) {
-            std::cerr << update.lastError().nativeErrorCode().toStdString() << " Error during update: " << update.lastError().text().toStdString() << std::endl;
+        QSqlQuery *update = new QSqlQuery();
+        update->prepare("UPDATE `filmsale` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `lastSoldTo`=? WHERE `id`=? LIMIT 1");
+        update->addBindValue(film->getTitle());
+        update->addBindValue(film->getDirector());
+        update->addBindValue(film->getYear());
+        update->addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        update->addBindValue(film->getPrice());
+        update->addBindValue(film->getQuantity());
+        update->addBindValue(film->getLastSoldTo());
+        update->addBindValue(film->getId());
+        if (!(update->exec())) {
+            std::cerr << "Error during update: " << update->lastError().text().toStdString() << std::endl;
         } else {
             if (debugMode)
                 std::cout << "Successfully updated filmsale #" << film->getId() << std::endl;
             else
                 std::cout << "Successfully updated film '" << film->getTitle().toStdString() << "'" << std::endl;
         }
+        delete update;
+
         db.commit();
         emit closing();
         hide();
     } else {
-        QSqlQuery c;
-        int newid = c.prepare("SELECT COUNT(*) FROM `filmsale`");
-        c.exec();
+        QSqlQuery *c = new QSqlQuery();
+        int newid = c->prepare("SELECT COUNT(*) FROM `filmsale`");
+        c->exec();
         newid++;
         film->setId(newid);
 
-        QSqlQuery insert;
-        insert.prepare("INSERT INTO `filmsale` (`id`, `title`, `director`, `year`, `price`, `added`, `quantity`, `lastSoldTo`, `lastSold`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
-        insert.addBindValue(film->getTitle());
-        insert.addBindValue(film->getDirector());
-        insert.addBindValue(film->getYear());
-        insert.addBindValue(film->getPrice());
-        insert.addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
-        insert.addBindValue(film->getQuantity());
-        insert.addBindValue(film->getLastSoldTo());
-        insert.addBindValue(film->getLastSold());
-        if (!(insert.exec())) {
-            std::cerr << insert.lastError().nativeErrorCode().toStdString() << " Error during insert: " << insert.lastError().text().toStdString() << std::endl;
+        QSqlQuery *insert = new QSqlQuery();
+        insert->prepare("INSERT INTO `filmsale` (`id`, `title`, `director`, `year`, `price`, `added`, `quantity`, `lastSoldTo`, `lastSold`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
+        insert->addBindValue(film->getTitle());
+        insert->addBindValue(film->getDirector());
+        insert->addBindValue(film->getYear());
+        insert->addBindValue(film->getPrice());
+        insert->addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        insert->addBindValue(film->getQuantity());
+        insert->addBindValue(film->getLastSoldTo());
+        insert->addBindValue(film->getLastSold());
+        if (!(insert->exec())) {
+            std::cerr << "Error during insert: " << insert->lastError().text().toStdString() << std::endl;
         } else {
             if (debugMode)
                 std::cout << "Successfully inserted filmsale #" << film->getId() << std::endl;
             else
                 std::cout << "Successfully added film '" << film->getTitle().toStdString() << "'" << std::endl;
         }
+        delete c;
+        delete insert;
+
         db.commit();
         emit closing();
         hide();

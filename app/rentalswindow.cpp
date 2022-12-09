@@ -77,20 +77,20 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
     /* do nothing if the text box is empty */
     QString qtitle = ui->rentalTitleField->text();
     int qid = ui->rentalIdField->text().toInt();
-    QSqlQuery i, t;
+    QSqlQuery *i = new QSqlQuery(), *t = new QSqlQuery();
 
     if ((qtitle.length() == 0) && (qid == 0))
         return;
     /* else, query the database */
     else if (qid != 0) {
-        i.prepare("SELECT * FROM `filmrent` WHERE `id`=?");
-        i.addBindValue(qid);
-        if (!(i.exec())) {
-            std::cerr << i.lastError().number() << " Error during ID select: " << i.lastError().text().toStdString() << std::endl;
+        i->prepare("SELECT * FROM `filmrent` WHERE `id`=?");
+        i->addBindValue(qid);
+        if (!(i->exec())) {
+            std::cerr << "Error during ID select: " << i->lastError().text().toStdString() << std::endl;
             return;
         }
-        if (i.first()) {
-            form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+        if (i->first()) {
+            form = new RentalsForm((unsigned int)i->value(0).toInt(), i->value(1).toString(), i->value(2).toString(), (unsigned int)i->value(3).toInt(), i->value(4).toDouble());
             form->show();
         } else {
             std::cerr << "Film with ID " << qid << " not found" << std::endl;
@@ -98,20 +98,22 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
         }
     }
     else if (qtitle.length() != 0) {
-        t.prepare("SELECT * FROM `filmrent` WHERE `title` LIKE ? LIMIT 1");
-        t.addBindValue("%" + qtitle + "%");
-        if (!(t.exec())) {
-            std::cerr << t.lastError().number() << " Error during Title select: " << t.lastError().text().toStdString() << std::endl;
+        t->prepare("SELECT * FROM `filmrent` WHERE `title` LIKE ? LIMIT 1");
+        t->addBindValue("%" + qtitle + "%");
+        if (!(t->exec())) {
+            std::cerr << "Error during Title select: " << t->lastError().text().toStdString() << std::endl;
             return;
         }
-        if (t.first()) {
-            form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+        if (t->first()) {
+            form = new RentalsForm((unsigned int)t->value(0).toInt(), t->value(1).toString(), t->value(2).toString(), (unsigned int)t->value(3).toInt(), t->value(4).toDouble());
             form->show();
         } else {
             std::cerr << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
             return;
         }
     }
+    delete i;
+    delete t;
 }
 
 /* user clicked "Find Film to Edit" button from Rentals window
@@ -119,38 +121,40 @@ void RentalsWindow::on_rentalTitleField_returnPressed(void) {
 void RentalsWindow::on_rentalEdit_clicked(void) {
     QString qtitle = ui->rentalTitleField->text();
     int qid = ui->rentalIdField->text().toInt();
-    QSqlQuery i, t;
+    QSqlQuery *i = new QSqlQuery(), *t = new QSqlQuery();
 
     if ((qtitle.length() == 0) && (qid == 0))
         return;
     else if (qid != 0) {
-        i.prepare("SELECT * FROM `filmrent` WHERE `id`=?");
-        i.addBindValue(qid);
-        if (!(i.exec())) {
-            std::cerr << i.lastError().number() << " Error during ID select: " << i.lastError().text().toStdString() << std::endl;
+        i->prepare("SELECT * FROM `filmrent` WHERE `id`=?");
+        i->addBindValue(qid);
+        if (!(i->exec())) {
+            std::cerr << "Error during ID select: " << i->lastError().text().toStdString() << std::endl;
             return;
         }
-        if (i.first()) {
-            form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+        if (i->first()) {
+            form = new RentalsForm((unsigned int)i->value(0).toInt(), i->value(1).toString(), i->value(2).toString(), (unsigned int)i->value(3).toInt(), i->value(4).toDouble());
             form->show();
         } else {
             std::cerr << "Film with ID " << qid << " not found" << std::endl;
         }
     }
     else if (qtitle.length() != 0) {
-        t.prepare("SELECT * FROM `filmrent` WHERE `title` LIKE ?");
-        t.addBindValue("%" + qtitle + "%");
-        if (!(t.exec())) {
-            std::cerr << t.lastError().number() << " Error during Title select: " << t.lastError().text().toStdString() << std::endl;
+        t->prepare("SELECT * FROM `filmrent` WHERE `title` LIKE ?");
+        t->addBindValue("%" + qtitle + "%");
+        if (!(t->exec())) {
+            std::cerr << "Error during Title select: " << t->lastError().text().toStdString() << std::endl;
             return;
         }
-        if (t.first()) {
-            form = new RentalsForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+        if (t->first()) {
+            form = new RentalsForm((unsigned int)t->value(0).toInt(), t->value(1).toString(), t->value(2).toString(), (unsigned int)t->value(3).toInt(), t->value(4).toDouble());
             form->show();
         } else {
             std::cerr << "Film with title '" << qtitle.toStdString() << "' not found" << std::endl;
         }
     }
+    delete i;
+    delete t;
 }
 
 /* user clicked "Return" button from Rentals window */

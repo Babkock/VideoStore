@@ -74,16 +74,40 @@ void PurchasesWindow::on_purchaseTitleField_textChanged(const QString &arg1) {
 void PurchasesWindow::on_purchaseTitleField_returnPressed(void) {
     QString qtitle = ui->purchaseTitleField->text();
     int qid = ui->purchaseIdField->text().toInt();
-    QSqlQuery i, t;
+    QSqlQuery *i = new QSqlQuery(), *t = new QSqlQuery();
 
     if ((qtitle.length() == 0) && (qid == 0))
         return;
     else if (qid != 0) {
-
+        i->prepare("SELECT * FROM `filmsale` WHERE `id`=?");
+        i->addBindValue(qid);
+        if (!(i->exec())) {
+            std::cerr << "Error during ID select: " << i->lastError().text().toStdString() << std::endl;
+            return;
+        }
+        if (i->first()) {
+            form = new PurchasesForm((unsigned int)i->value(0).toInt(), i->value(1).toString(), i->value(2).toString(), (unsigned int)i->value(3).toInt(), i->value(4).toDouble());
+            form->show();
+        } else {
+            std::cerr << "Film with ID " << qid << " not found" << std::endl;
+        }
     }
     else if (qtitle.length() != 0) {
-
+        t->prepare("SELECT * FROM `filmsale` WHERE `title` LIKE ?");
+        t->addBindValue("%" + qtitle + "%");
+        if (!(t->exec())) {
+            std::cerr << "Error during Title select: " << t->lastError().text().toStdString() << std::endl;
+            return;
+        }
+        if (t->first()) {
+            form = new PurchasesForm((unsigned int)t->value(0).toInt(), t->value(1).toString(), t->value(2).toString(), (unsigned int)t->value(3).toInt(), t->value(4).toDouble());
+            form->show();
+        } else {
+            std::cerr << "Film with Title '" << qtitle.toStdString() << "' not found" << std::endl;
+        }
     }
+    delete i;
+    delete t;
 }
 
 /* user clicked "Find Film to Edit" button from Purchases
@@ -91,38 +115,40 @@ void PurchasesWindow::on_purchaseTitleField_returnPressed(void) {
 void PurchasesWindow::on_purchaseEdit_clicked(void) {
     QString qtitle = ui->purchaseTitleField->text();
     int qid = ui->purchaseIdField->text().toInt();
-    QSqlQuery i, t;
+    QSqlQuery *i = new QSqlQuery(), *t = new QSqlQuery();
 
     if ((qtitle.length() == 0) && (qid == 0))
         return;
     else if (qid != 0) {
-        i.prepare("SELECT * FROM `filmsale` WHERE `id`=?");
-        i.addBindValue(qid);
-        if (!(i.exec())) {
-            std::cerr << i.lastError().nativeErrorCode().toStdString() << " Error during ID select: " << i.lastError().text().toStdString() << std::endl;
+        i->prepare("SELECT * FROM `filmsale` WHERE `id`=?");
+        i->addBindValue(qid);
+        if (!(i->exec())) {
+            std::cerr << "Error during ID select: " << i->lastError().text().toStdString() << std::endl;
             return;
         }
-        if (i.first()) {
-            form = new PurchasesForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+        if (i->first()) {
+            form = new PurchasesForm((unsigned int)i->value(0).toInt(), i->value(1).toString(), i->value(2).toString(), (unsigned int)i->value(3).toInt(), i->value(4).toDouble());
             form->show();
         } else {
             std::cerr << "Film with ID " << qid << " not found" << std::endl;
         }
     }
     else if (qtitle.length() != 0) {
-        t.prepare("SELECT * FROM `filmsale` WHERE `title` LIKE ?");
-        t.addBindValue("%" + qtitle + "%");
-        if (!(t.exec())) {
-            std::cerr << t.lastError().nativeErrorCode().toStdString() << " Error during Title select: " << t.lastError().text().toStdString() << std::endl;
+        t->prepare("SELECT * FROM `filmsale` WHERE `title` LIKE ?");
+        t->addBindValue("%" + qtitle + "%");
+        if (!(t->exec())) {
+            std::cerr << "Error during Title select: " << t->lastError().text().toStdString() << std::endl;
             return;
         }
-        if (t.first()) {
-            form = new PurchasesForm((unsigned int)i.value(0).toInt(), i.value(1).toString(), i.value(2).toString(), (unsigned int)i.value(3).toInt(), i.value(4).toDouble());
+        if (t->first()) {
+            form = new PurchasesForm((unsigned int)t->value(0).toInt(), t->value(1).toString(), t->value(2).toString(), (unsigned int)t->value(3).toInt(), t->value(4).toDouble());
             form->show();
         } else {
             std::cerr << "Film with Title '" << qtitle.toStdString() << "' not found" << std::endl;
         }
     }
+    delete i;
+    delete t;
 }
 
 /* user clicked "Return" button from Purchases */

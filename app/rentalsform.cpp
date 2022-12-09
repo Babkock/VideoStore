@@ -389,19 +389,19 @@ void RentalsForm::on_rentalsLastRentedTo_textChanged(const QString &arg1) {
 /* user clicked on "Save Changes to Film" button */
 void RentalsForm::on_rentalsSaveChanges_clicked(void) {
     if (editExisting) {
-        QSqlQuery update;
-        update.prepare("UPDATE `filmrent` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `available`=?, `lastRentedTo`=? WHERE `id`=?");
-        update.addBindValue(film->getTitle());
-        update.addBindValue(film->getDirector());
-        update.addBindValue(film->getYear());
-        update.addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
-        update.addBindValue(film->getPrice());
-        update.addBindValue(film->getQuantity());
-        update.addBindValue(film->getAvailable());
-        update.addBindValue(film->getLastRentedTo());
-        update.addBindValue(film->getId());
-        if (!(update.exec())) {
-            std::cerr << update.lastError().nativeErrorCode().toStdString() << " Error during update: " << update.lastError().text().toStdString() << std::endl;
+        QSqlQuery *update = new QSqlQuery();
+        update->prepare("UPDATE `filmrent` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `available`=?, `lastRentedTo`=? WHERE `id`=?");
+        update->addBindValue(film->getTitle());
+        update->addBindValue(film->getDirector());
+        update->addBindValue(film->getYear());
+        update->addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        update->addBindValue(film->getPrice());
+        update->addBindValue(film->getQuantity());
+        update->addBindValue(film->getAvailable());
+        update->addBindValue(film->getLastRentedTo());
+        update->addBindValue(film->getId());
+        if (!(update->exec())) {
+            std::cerr << "Error during update: " << update->lastError().text().toStdString() << std::endl;
         }
         else {
             if (debugMode)
@@ -409,29 +409,31 @@ void RentalsForm::on_rentalsSaveChanges_clicked(void) {
             else
                 std::cout << "Successfully updated film rental '" << film->getTitle().toStdString() << "'" << std::endl;
         }
+        delete update;
+
         db.commit();
         emit closing();
         hide();
     } else {
-        QSqlQuery c;
-        int newid = c.prepare("SELECT COUNT(*) FROM `filmrent`");
-        c.exec();
+        QSqlQuery *c = new QSqlQuery();
+        int newid = c->prepare("SELECT COUNT(*) FROM `filmrent`");
+        c->exec();
         newid++;
         film->setId(newid);
 
-        QSqlQuery ins;
-        ins.prepare("INSERT INTO `filmrent` (`id`, `title`, `director`, `year`, `price`, `added`, `quantity`, `available`, `lastRentedTo`, `lastRented`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        ins.addBindValue(film->getTitle());
-        ins.addBindValue(film->getDirector());
-        ins.addBindValue(film->getYear());
-        ins.addBindValue(film->getPrice());
-        ins.addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
-        ins.addBindValue(film->getQuantity());
-        ins.addBindValue(film->getAvailable());
-        ins.addBindValue(film->getLastRentedTo());
-        ins.addBindValue(film->getLastRented());
-        if (!(ins.exec())) {
-            std::cerr << ins.lastError().nativeErrorCode().toStdString() << " Error during insert: " << ins.lastError().text().toStdString() << std::endl;
+        QSqlQuery *ins = new QSqlQuery();
+        ins->prepare("INSERT INTO `filmrent` (`id`, `title`, `director`, `year`, `price`, `added`, `quantity`, `available`, `lastRentedTo`, `lastRented`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        ins->addBindValue(film->getTitle());
+        ins->addBindValue(film->getDirector());
+        ins->addBindValue(film->getYear());
+        ins->addBindValue(film->getPrice());
+        ins->addBindValue(film->getAdded().toString("yyyy-MM-dd hh:mm:ss"));
+        ins->addBindValue(film->getQuantity());
+        ins->addBindValue(film->getAvailable());
+        ins->addBindValue(film->getLastRentedTo());
+        ins->addBindValue(film->getLastRented());
+        if (!(ins->exec())) {
+            std::cerr << "Error during insert: " << ins->lastError().text().toStdString() << std::endl;
         }
         else {
             if (debugMode)
@@ -439,6 +441,9 @@ void RentalsForm::on_rentalsSaveChanges_clicked(void) {
             else
                 std::cout << "Successfully added film rental '" << film->getTitle().toStdString() << "'" << std::endl;
         }
+        delete c;
+        delete ins;
+
         db.commit();
         emit closing();
         hide();
@@ -468,4 +473,3 @@ void RentalsForm::on_rentalsLastRentedTo_returnPressed(void) {
     if (debugMode)
         std::cout << "Pressed Return on Last Rented to" << std::endl;
 }
-

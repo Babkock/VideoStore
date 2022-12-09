@@ -35,51 +35,55 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    rentals = new RentalsWindow(/* new RentalsForm(Film("Title", "Director", 1950, 4.99)) */);
-    purchases = new PurchasesWindow(/* new PurchasesForm(Film("Title", "Director", 1950, 4.99)) */);
+    rentals = new RentalsWindow();
+    purchases = new PurchasesWindow();
     sc = new ShoppingCart((ShoppingCartItem){ .rental = true, .id = 0, .quantity = 0, .price = 0.99, .title = "Test", .director = "Director" });
     connect(rentals, SIGNAL(closing()), this, SLOT(show()));
     connect(purchases, SIGNAL(closing()), this, SLOT(show()));
     connect(sc, SIGNAL(closing()), this, SLOT(show()));
 
-    QSqlQuery sel1, sel2, sel3, sel4;
-    sel1.prepare("SELECT COUNT(*) FROM `filmrent`");
-    if (!(sel1.exec()))
-        std::cerr << "Error while counting filmrent: " << sel1.lastError().text().toStdString() << std::endl;
+    QSqlQuery *sel1 = new QSqlQuery(), *sel2 = new QSqlQuery(), *sel3 = new QSqlQuery(), *sel4 = new QSqlQuery();
+    sel1->prepare("SELECT COUNT(*) FROM `filmrent`");
+    if (!(sel1->exec()))
+        std::cerr << "Error while counting filmrent: " << sel1->lastError().text().toStdString() << std::endl;
     else {
-        sel1.next();
-        std::cout << "Rows in filmrent: " << sel1.value(0).toInt() << std::endl;
+        sel1->next();
+        std::cout << "Rows in filmrent: " << sel1->value(0).toInt() << std::endl;
     }
 
-    sel2.prepare("SELECT COUNT(*) FROM `filmsale`");
-    if (!(sel2.exec()))
-        std::cerr << "Error while counting filmsale: " << sel2.lastError().text().toStdString() << std::endl;
+    sel2->prepare("SELECT COUNT(*) FROM `filmsale`");
+    if (!(sel2->exec()))
+        std::cerr << "Error while counting filmsale: " << sel2->lastError().text().toStdString() << std::endl;
     else {
-        sel2.next();
-        std::cout << "Rows in filmsale: " << sel2.value(0).toInt() << std::endl;
-        ui->totalFilmsField->setValue(sel1.value(0).toInt() + sel2.value(0).toInt());
+        sel2->next();
+        std::cout << "Rows in filmsale: " << sel2->value(0).toInt() << std::endl;
+        ui->totalFilmsField->setValue(sel1->value(0).toInt() + sel2->value(0).toInt());
     }
 
-    sel3.prepare("SELECT COUNT(*) FROM `transactions`");
-    if (!(sel3.exec())) {
+    sel3->prepare("SELECT COUNT(*) FROM `transactions`");
+    if (!(sel3->exec())) {
         std::cerr << "Could not count transactions" << std::endl;
     } else {
-        sel3.next();
-        int trans = sel3.value(0).toInt();
-        sel4.prepare("SELECT `cashRegister`, `profits` FROM `transactions` WHERE `id`=?");
-        sel4.addBindValue(trans);
-        if (!(sel4.exec())) {
+        sel3->next();
+        int trans = sel3->value(0).toInt();
+        sel4->prepare("SELECT `cashRegister`, `profits` FROM `transactions` WHERE `id`=?");
+        sel4->addBindValue(trans);
+        if (!(sel4->exec())) {
             std::cerr << "Could not select transaction #" << trans << std::endl;
             cashRegister = 50.0;
             profits = 0.0;
         } else {
-            sel4.next();
-            cashRegister = sel4.value(0).toDouble();
-            profits = sel4.value(1).toDouble();
+            sel4->next();
+            cashRegister = sel4->value(0).toDouble();
+            profits = sel4->value(1).toDouble();
         }
         ui->cashRegisterField->setValue(cashRegister);
         ui->profitsField->setValue(profits);
     }
+    delete sel1;
+    delete sel2;
+    delete sel3;
+    delete sel4;
 }
 
 MainWindow::~MainWindow(void) {
