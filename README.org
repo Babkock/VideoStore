@@ -3,4 +3,171 @@
 #+EMAIL: babkock@protonmail.com
 #+DESCRIPTION: My final project for my data structures class.
 
-This is a graphical application that simulates the point-of-sale of old-time video stores. It is my final project for [[https://gitlab.com/tbhomework/cis152][Data Structures]].
+* Table of Contents :toc:
+- [[#introduction][Introduction]]
+- [[#code-including-comments][Code Including Comments]]
+- [[#users-manual][User's Manual]]
+
+* Introduction
+
+Hello, my name is Tanner Babcock. My final project for my [[https://gitlab.com/tbhomework/cis152][Data Structures class]] is a working point-of-sale for a fictional video store. It is a graphical application
+that uses a SQLite Database file, so its changes are preserved between sessions. Its two primary
+data structures are the =Film= class, from which the =FilmSale= and =FilmRent= classes are derived,
+and the =ShoppingCartItem= structure, which is a traditional C structure. The =ShoppingCart= window has a
+Stack (or vector) of these =ShoppingCartItem= s, which the user can manipulate, add to (push), remove from (pop), and empty.
+The user (or employee, or customer) can then "Check Out" their Shopping Cart of movies - some are rentals which have to be returned.
+When that happens, the total amount due gets added to the cash register, and the total profits for the day.
+The customer's name is added to the film rental's (if they bought one) database row. If they purchase all of the remaining copies of a film,
+it will be removed from the inventory. The application relies solely on prepared statements to make queries to the database.
+All of these objects, the films and the Shopping Cart, are allocated dynamically on the heap of the program, rather than the stack.
+
+There are two primary database tables which house the films: =filmrent= and =filmsale=. The user can use the windows =RentalsWindow= and =PurchasesWindow= to either add new films to,
+or edit existing films in, these two tables. These windows contain, and bring up
+their own respective forms for the films - =RentalsForm= and =PurchasesForm= - which serve not only as their own objects, but as their own windows.
+These two forms can be constructed with pointers to the previously-described =Film= objects. There are a variety of unit tests that use the =Film= classes,
+that simulate these actions by preparing *SELECT*, *INSERT*, and *UPDATE* statements. The unit tests use a separate database file from the driver of the application.
+There are 10 unit tests, and all of them are passing.
+
+* Code Including Comments
+
+Here is the header file for the main database source file, =database.h=.
+
+#+begin_src cpp
+extern bool debugMode;
+extern QSqlDatabase db;
+extern double cashRegister;
+extern double profits;
+
+void dbConnect(const char *out);
+bool dbReload(void);
+void dbRepopulate(void);
+void dbReset(void);
+#+end_src
+
+And here is the source code for the database source file, =database.cpp=.
+
+This function connects to the database with the given string as the file name. If none is given, it uses the name "=videostore.sql=". It prints an error if it cannot connect.
+
+#+begin_src cpp
+void dbConnect(const char *out) {
+    const QString DRIVER("QSQLITE");
+    QString dbName;
+    if (!QSqlDatabase::isDriverAvailable(DRIVER)) {
+        std::cerr << "Driver is not available" << std::endl;
+        abort();
+    }
+    if (strlen(out) == 0) {
+        dbName = (QString)"videostore.sql";
+    } else if (strcmp(out, "-") == 0) {
+        dbName = (QString)":memory:";
+    } else {
+        dbName = (QString)out;
+    }
+    db = QSqlDatabase::addDatabase(DRIVER);
+    db.setHostName("videostore");
+    db.setDatabaseName(out);
+    db.setUserName("user");
+    db.setPassword("password");
+    if (!db.open()) {
+        std::cerr << "Could not open database" << std::endl;
+        abort();
+    }
+}
+#+end_src
+
+This function checks if the initial tables =filmrent=, =filmsale=, and =transactions= are there. If they are not, it creates them. It returns whether it found the tables or not.
+
+#+begin_src cpp
+bool dbReload(void) {
+    cashRegister = 50.0;
+    profits = 0.0;
+    bool exists = false;
+    QSqlQuery create1, create2, create3;
+    if (!(create1.exec((QString)"CREATE TABLE `filmrent` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE, `added` DATETIME, `quantity` INT(11), `available` INT(11), `lastRentedTo` VARCHAR(80), `lastRented` DATETIME)"))) {
+        if (create1.lastError().nativeErrorCode().toInt() != 1)
+            std::cerr << create1.lastError().nativeErrorCode().toStdString() << " Error from filmrent create: " << create1.lastError().text().toStdString() << std::endl;
+        else {
+            std::cout << "Reading filmrent table" << std::endl;
+            exists = true;
+        }
+    }
+    if (!(create2.exec((QString)"CREATE TABLE `filmsale` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` VARCHAR(110), `director` VARCHAR(80), `year` INTEGER, `price` DOUBLE, `added` DATETIME, `quantity` INT(11), `lastSoldTo` VARCHAR(80), `lastSold` DATETIME)"))) {
+        if (create2.lastError().nativeErrorCode().toInt() != 1)
+            std::cerr << create2.lastError().nativeErrorCode().toStdString() << " Error from filmsale create: " << create2.lastError().text().toStdString() << std::endl;
+        else {
+            std::cout << "Reading filmsale table" << std::endl;
+            exists = true;
+        }
+    }
+    if (!(create3.exec((QString)"CREATE TABLE `transactions` (`id` INTEGER PRIMARY KEY, `cashRegister` DOUBLE, `profits` DOUBLE, `receipt` DATETIME)"))) {
+        if (create3.lastError().nativeErrorCode().toInt() != 1)
+           std::cerr << create3.lastError().nativeErrorCode().toStdString() << "Error from transactions create: " << create3.lastError().text().toStdString() << std::endl;
+        else {
+            std::cout << "Reading transactions table" << std::endl;
+            exists = true;
+        }
+    }
+    if (!exists)
+        dbRepopulate();
+    else
+        db.commit();
+    return exists;
+}
+#+end_src
+
+This function seeds the database with sample data. It inserts two rows each into =filmrent= and =filmsale=, and one row into =transactions=.
+
+#+begin_src cpp
+void dbRepopulate(void) {
+    QSqlQuery ins1, ins2, ins3, ins4, ins5;
+    /* it is possible to use NULL for the ID fields here, but that
+     * might overpopulate the DB */
+    if (!(ins1.exec((QString)"INSERT INTO `filmrent` VALUES(1, 'Persona', 'Ingmar Bergman', 1966, 6.99, NULL, 2, 2, '', NULL)"))) {
+        if (ins1.lastError().nativeErrorCode().toInt() != 19)
+            std::cerr << ins1.lastError().nativeErrorCode().toStdString() << " Error from first insert: " << ins1.lastError().text().toStdString() << std::endl;
+    }
+    if (!(ins2.exec((QString)"INSERT INTO `filmrent` VALUES(2, 'Faces', 'John Cassavetes', 1968, 7.99, NULL, 3, 2, '', NULL)"))) {
+        if (ins2.lastError().nativeErrorCode().toInt() != 19)
+            std::cerr << ins2.lastError().nativeErrorCode().toStdString() << " Error from second insert: " << ins2.lastError().text().toStdString() << std::endl;
+    }
+    if (!(ins3.exec((QString)"INSERT INTO `filmsale` VALUES(1, 'The Seventh Seal', 'Ingmar Bergman', 1957, 9.99, NULL, 1, '', NULL)"))) {
+        if (ins3.lastError().nativeErrorCode().toInt() != 19)
+            std::cerr << ins3.lastError().nativeErrorCode().toStdString() << " Error from third insert: " << ins3.lastError().text().toStdString() << std::endl;
+    }
+    if (!(ins4.exec((QString)"INSERT INTO `filmsale` VALUES(2, 'Opening Night', 'John Cassavetes', 1977, 8.99, NULL, 2, '', NULL)"))) {
+        if (ins4.lastError().nativeErrorCode().toInt() != 19)
+            std::cerr << ins4.lastError().nativeErrorCode().toStdString() << " Error from fourth insert: " << ins4.lastError().text().toStdString() << std::endl;
+    }
+    if (!(ins5.exec((QString)"INSERT INTO `transactions` VALUES(1, 50.0, 0.0, NULL)"))) {
+        if (ins5.lastError().nativeErrorCode().toInt() != 19)
+            std::cerr << ins5.lastError().nativeErrorCode().toStdString() << " Error from fifth insert: " << ins5.lastError().text().toStdString() << std::endl;
+    }
+    db.commit();
+}
+#+end_src
+
+This function drops the tables from the database, then re-creates them and re-seeds them.
+
+#+begin_src cpp
+void dbReset(void) {
+    cashRegister = 50.0;
+    profits = 0.0;
+    QSqlQuery drop, drop2, drop3;
+    if (!(drop.exec((QString)"DROP TABLE `filmrent`"))) {
+        std::cerr << drop.lastError().nativeErrorCode().toStdString() << " Error from first drop: " << drop.lastError().text().toStdString() << std::endl;
+    } else if (!(drop2.exec((QString)"DROP TABLE `filmsale`"))) {
+        std::cerr << drop2.lastError().nativeErrorCode().toStdString() << " Error from second drop: " << drop2.lastError().text().toStdString() << std::endl;
+    } else if (!(drop3.exec((QString)"DROP TABLE `transactions`"))) {
+        std::cerr << drop3.lastError().nativeErrorCode().toStdString() << " Error from third drop: " << drop3.lastError().text().toStdString() << std::endl;
+    } else {
+        db.commit();
+        dbReload();
+    }
+}
+#+end_src
+
+* User's Manual
+
+Hello and welcome to the user manual for Tanner Babcock's Video Store. This guided sequence of screenshots aims to help you use this program.
+
+[![https://github.com/Babkock/VideoStore/blob/main/img/menu.png?raw=true][https://github.com/Babkock/VideoStore]]
