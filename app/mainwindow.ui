@@ -148,7 +148,7 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>90</y>
+      <y>80</y>
       <width>151</width>
       <height>31</height>
      </rect>
@@ -179,7 +179,7 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>190</y>
+      <y>180</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -196,9 +196,9 @@
    <widget class="QDoubleSpinBox" name="cashRegisterField">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>130</y>
-      <width>211</width>
+      <x>310</x>
+      <y>110</y>
+      <width>231</width>
       <height>61</height>
      </rect>
     </property>
@@ -219,13 +219,16 @@
     <property name="prefix">
      <string>$</string>
     </property>
+    <property name="maximum">
+     <double>9999.989999999999782</double>
+    </property>
    </widget>
    <widget class="QDoubleSpinBox" name="profitsField">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>220</y>
-      <width>211</width>
+      <x>310</x>
+      <y>210</y>
+      <width>231</width>
       <height>61</height>
      </rect>
     </property>
@@ -249,13 +252,16 @@
     <property name="prefix">
      <string>$</string>
     </property>
+    <property name="maximum">
+     <double>9999.989999999999782</double>
+    </property>
    </widget>
    <widget class="QSpinBox" name="totalFilmsField">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>310</x>
       <y>330</y>
-      <width>211</width>
+      <width>231</width>
       <height>61</height>
      </rect>
     </property>
@@ -281,7 +287,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>290</y>
+      <y>300</y>
       <width>231</width>
       <height>31</height>
      </rect>

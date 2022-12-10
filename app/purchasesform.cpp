@@ -261,7 +261,7 @@ void PurchasesForm::setEditExisting(bool e) {
 void PurchasesForm::on_purchasesSaveChanges_clicked(void) {
     if (editExisting) {
         QSqlQuery *update = new QSqlQuery();
-        update->prepare("UPDATE `filmsale` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `lastSoldTo`=? WHERE `id`=? LIMIT 1");
+        update->prepare("UPDATE `filmsale` SET `title`=?, `director`=?, `year`=?, `added`=?, `price`=?, `quantity`=?, `lastSoldTo`=? WHERE `id`=?");
         update->addBindValue(film->getTitle());
         update->addBindValue(film->getDirector());
         update->addBindValue(film->getYear());

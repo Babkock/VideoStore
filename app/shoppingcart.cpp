@@ -23,6 +23,7 @@
 #include "shoppingcart.h"
 #include "ui_shoppingcart.h"
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <vector>
 #include <QSqlQuery>
@@ -158,6 +159,10 @@ void ShoppingCart::on_shoppingCartAddToCart_clicked(void) {
                 subtotal = (getSubTotal() + (itemPrice * quant));
                 tax = (getSubTotal() * 0.06);
                 total = getSubTotal() + getTax();
+                if (debugMode) {
+                    std::cout << std::setprecision(2) << std::fixed;
+                    std::cout << "Adding to cart: " << sel->value(0).toString().toStdString() << " $" << sel->value(2).toDouble() << " x " << quant << std::endl;
+                }
                 ui->shoppingCartSubTotalField->setValue(getSubTotal());
                 ui->shoppingCartTaxField->setValue(getTax());
                 ui->shoppingCartTotalField->setValue(getTotal());
@@ -239,12 +244,13 @@ void ShoppingCart::on_shoppingCartConfirm_clicked(void) {
         std::cout << "Order is being confirmed..." << std::endl;
 
     double tot = getTotal();
+    std::cout << std::setprecision(2) << std::fixed;
     std::cout << "Total: $" << tot << std::endl;
     cashRegister += tot;
     profits += tot;
 
     QSqlQuery *ins = new QSqlQuery();
-    ins->prepare("INSERT INTO `transactions` VALUES (NULL, ?, ?, ?)");
+    ins->prepare("INSERT INTO `transactions` (`id`, `cashRegister`, `profits`, `receipt`) VALUES (NULL, ?, ?, ?)");
     ins->addBindValue(cashRegister);
     ins->addBindValue(profits);
     ins->addBindValue(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
@@ -267,6 +273,8 @@ void ShoppingCart::on_shoppingCartConfirm_clicked(void) {
             break;
         }
     }
+    if (debugMode)
+        std::cout << "Order has been confirmed" << std::endl;
 
     delete ins;
     emit closing();
