@@ -7,6 +7,7 @@
 - [[#introduction][Introduction]]
 - [[#code-including-comments][Code Including Comments]]
 - [[#users-manual][User's Manual]]
+- [[#conclusion][Conclusion]]
 
 * Introduction
 
@@ -170,4 +171,59 @@ void dbReset(void) {
 
 Hello and welcome to the user manual for Tanner Babcock's Video Store. This guided sequence of screenshots aims to help you use this program.
 
-[![https://github.com/Babkock/VideoStore/blob/main/img/menu.png?raw=true][https://github.com/Babkock/VideoStore]]
+[[https://github.com/Babkock/VideoStore/blob/main/img/menu.png?raw=true]]
+
+This is the menu you see when you first launch Video Store. There is a series of buttons to your left, and some statistics about the database to your right.
+You can click on the "Print Debug Messages" check to tell Video Store to print everything to the standard output.
+When "Print Debug Messages" has been checked, every part of the application prints debug information to the standard output. It will print every time an input field is changed, or a button is clicked.
+
+The bottom button, highlighted in yellow, "Reset Database", when clicked, will reset the SQLite database of films and transactions. It will reset the "Total Films in Database" to 4, the cash register to $50.00, and the profits to $0.00.
+
+The second button from the top, highlighted in green, "Rentals", when clicked, will bring up the Rentals window. We will look at the Rentals window shortly. On the Rentals window, you can insert a new film rental into the database, or edit an existing film rental. You can select a film to edit by inputting its ID, or a part of its Title.
+The second button from the bottom, highlighted in blue, immediately below "Rentals", is "Purchases", which brings up the Purchases window when clicked.
+The Purchases window looks and behaves just like the Rentals window, except it is for films to buy, instead of rent.
+
+[[https://github.com/Babkock/VideoStore/blob/main/img/rentals.png?raw=true]]
+
+This is the Rentals window. The Purchases window looks just like this, so I will only be showing this one screenshot.
+The button on the very top, "Add Film for Rent", highlighted in red, is one you can just click directly.
+It will bring up an empty Rentals Form for you to input your new film rental into. The new film rental will be given an ID automatically.
+But the middle button, "Find Film to Edit", highlighted in blue, can only be clicked after giving either the Title of the film in the "Title of Film Here" text box, or the ID of the film in the spin box.
+If a film is found, this will bring up a Rentals Form populated with information from the found film, for editing. If you click the "Find Film to Edit" button before giving it a title or ID, it will either produce an error that says "Film with title 'Title of Film Here' not found", or do nothing.
+
+To return to the main menu, click the bottom button "Return", highlighted in green. The Purchases window is exactly like this Rentals window, except the top button says "Add Film for Purchase", and it brings up the Purchases Form instead of the Rentals Form, which is slightly different. Remember, the films for sale and the films for rent have their own classes, and are segregated in their own database tables. If you bring up a Rentals or Purchases Form, you will see this window.
+
+[[https://github.com/Babkock/VideoStore/blob/main/img/purchases%20form.png?raw=true]]
+
+This is the Purchases Form, and the Rentals Form looks just like this. The two fields at the top, “ID:” and “Date Added:” are not editable. The “ID” field will say “0” if you are adding a new film to the database, or it will be populated with the film’s ID if you are editing an existing film.
+
+The "Title of Film" text box, highlighted in yellow, is where you input the name of the film. You input the director of the film immediately below that text box, in the one in green. The two fields highlighted in orange, "Price" and "Quantity" are important - they are directly read and modified by the Shopping Cart window.
+People can only rent and buy so many copies of a film before you, the store, run out, so be sure to give the films a high enough quantity.
+
+The fields below those, highlighted in purple, "Last Sold:"" and "Last Sold to:" (these say "Last Rented" and "Last Rented to" on the Rentals Form), are optional.
+These are also read and modified by the Shopping Cart window, but they do not need to have initial values.
+The Rentals Form also has another field below the "Quantity" field, which is for "Available" - how many copies of the film rental are currently in the store.
+
+The button at the bottom left of the window, highlighted in red, "Save Changes to Film", is greyed out when you first open the Rentals or Purchases Form, because it cannot run an *INSERT* or *UPDATE* statement when all of the fields are empty, or the same as they were when they were initially read.
+This button will become clickable when you start editing the form’s fields, and the form has enough information to act on the database.
+The button at the bottom right of the window, highlighted in blue, "Discard Changes", will discard all of the changes and leave the film unsaved, closing the window and taking you back to either the main Rentals or main Purchases window.
+Be careful, this does not prompt you about unsaved changes, it just closes.
+
+Now go back and take a look at the first screenshot in this section. The very top menu of the Video Store, with the four buttons "Check Out Films", "Rentals", "Purchases", and "Reset Database". Now I’m going to be talking about what happens when you click on the very top button, highlighted in red in that screenshot, "Check Out Films". This will bring up the Shopping Cart window.
+
+[[https://github.com/Babkock/VideoStore/blob/main/img/shoppingcart.png?raw=true]]
+
+The top section of this window is a table of Shopping Cart items. It will be empty when you first open the window.
+The widgets immediately below this table, are for adding films to the Shopping Cart, which will appear in the table. If you wish to add a film to your Shopping Cart, you must first change the "ID:" field, highlighted here in red, to an actual ID of a film in the database. Then, you must change the "Quantity" field, highlighted in purple, since you can not order 0 copies of a film. You then must select one of the "Rental" or the "Sale" radio buttons, highlighted in orange, which tells the Shopping Cart which table to look up the ID in. If you neglect to select an option with a radio button, the Shopping Cart will assume you are looking up rentals. Now you can click the green "Add to Cart" button, which is below the table to the right.
+
+When you click this button, you might get one of two possible errors. The Shopping Cart might not find the film with the given ID, producing an error. Or, it might find the film you want, but there might not be enough copies of it available in the inventory, for the customer to be able to buy or rent one. But if the Shopping Cart window does find the film, and there are enough copies of it, it will add the found film to the cart, and it will appear in the table above. It will also update the "Subtotal" field, with the price of your found film times (*) the requested quantity. It will update the "Tax" field, with the 6% sales tax, and it will add the subtotal and the tax together and put that in the "Total" field.
+
+You can add as many films as you want to your Shopping Cart, providing they are in stock. You can use the two buttons in the middle of the window, "Remove Last Item from Cart", and "Empty the Cart", to remove the most recently-added film from the Shopping Cart (and subtract its final price from the subtotal and total), and to completely clear out the cart of films and reset the totals to $0.00, respectively.
+
+Before clicking the "Confirm Order" button, found at the bottom left of the window, highlighted in blue in the screenshot, you must first give a customer’s name in the "Customer Name" text field above it, highlighted in yellow. When this "Confirm Order" button is clicked, and the Shopping Cart has more than 0 items in it, a number of things happen. First, it takes the calculated total and adds it to the cash register, and the profits, and inserts the transaction into the database. Next, it goes through each film in the Shopping Cart, and subtracts the requested quantity provided for it on the form, from the quantity of it in the database. And finally, for each film in the Shopping Cart, it puts the given customer name in either the "Last Rented to" or "Last Sold to" field of the film, and puts today’s date in the "Last Rented" or "Last Sold" field. After these three things happen, the order has been confirmed, and the Shopping Cart window closes, returning you, the user, to the main menu of the Video Store. The values that appear in the "Cash Register" and "Profits" fields of the main menu, are now out-of-date - they will be updated with their actual values when the program starts again, and it can re-read them from the transactions table.
+
+Remember, the database is saved to an actual file (=videostore.sql= by default), but it can be saved in memory, or it can be saved under another name, given by the user in the form of a command-line argument. If the database is in a file, and not in memory, the changes made in the Video Store program will be preserved between sessions.
+
+* Conclusion
+
+I had a lot of fun designing, conceptualizing, developing, and testing this Video Store application. I was able to think clearly about my goals, and how to achieve them with code. In my project, I’ve used the principles of inheritance, encapsulation, abstraction, collections, polymorphism, and dynamic memory allocation. I have implemented a binary search for the database. I have learned a lot in this course, and everything I have learned has helped me achieve a working, functional final project. I may continue to develop my Video Store application. I plan to license this application under the GNU General Public License, so other people can make pull requests. Thank you very much for your time, for reading this, and for using my application. I had fun making it.
