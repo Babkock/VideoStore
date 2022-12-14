@@ -3,6 +3,8 @@
 #+EMAIL: babkock@protonmail.com
 #+DESCRIPTION: My final project for my data structures class.
 
+[[https://img.shields.io/badge/License-GPL_v3-blue.svg]]
+
 * Table of Contents :toc:
 - [[#introduction][Introduction]]
 - [[#code-including-comments][Code Including Comments]]
